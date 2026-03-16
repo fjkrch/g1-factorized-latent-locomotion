@@ -1,0 +1,5 @@
+# Ablation: Deeper transformer (4 layers)
+model:
+  name: dynamite_depth4
+  transformer:
+    num_layers: 4

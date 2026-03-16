@@ -1,0 +1,73 @@
+# =============================================================================
+# Model: DynaMITE (proposed method)
+# Dynamic Mismatch Inference via Transformer Encoder
+#
+# Key differences from vanilla transformer:
+# 1. Explicit latent dynamics inference head
+# 2. Factorized latent: z = [z_fric, z_mass, z_motor, z_contact, z_delay]
+# 3. Auxiliary dynamics identification losses
+# 4. Latent-conditioned policy and value heads
+# =============================================================================
+model:
+  name: dynamite
+  type: dynamite
+  use_history: true
+
+  history_len: 8
+
+  obs_embed:
+    hidden_dim: 64
+    activation: elu
+
+  act_embed:
+    hidden_dim: 32
+    activation: elu
+
+  cmd_embed:
+    hidden_dim: 16
+    activation: elu
+
+  transformer:
+    d_model: 128
+    nhead: 4
+    num_layers: 2
+    dim_feedforward: 256
+    dropout: 0.0
+    positional_encoding: sinusoidal
+
+  latent:
+    total_dim: 24               # total latent dimension
+    factorized: true
+    factors:
+      friction: 4
+      mass: 6
+      motor: 6
+      contact: 4
+      delay: 4
+    # sum of factor dims must equal total_dim
+    bottleneck_activation: tanh # constrains latent range
+    aggregation: mean           # mean | last | attention
+
+  auxiliary:
+    enabled: true
+    loss_weight: 0.5
+    targets:
+      # each maps factor name -> GT dimension from domain randomization
+      friction: 2               # friction_x, friction_y or single scalar
+      mass: 2                   # added_mass, com_displacement_x
+      motor: 2                  # motor_strength_scale, kp_scale
+      contact: 1                # restitution
+      delay: 1                  # action_delay_steps
+    head_hidden_dim: 32
+
+  policy_head:
+    hidden_dims: [128]
+    activation: elu
+    condition_on_latent: true   # concatenate latent z to policy input
+
+  value_head:
+    hidden_dims: [128]
+    activation: elu
+    condition_on_latent: true
+
+  # Approximate parameter count: ~450k

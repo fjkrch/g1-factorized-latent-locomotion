@@ -1,0 +1,10 @@
+# Sweep: Motor strength multiplier
+sweep:
+  name: motor_strength
+  variable: task.domain_randomization.motor_strength_range
+  values:
+    - [1.0, 1.0]     # nominal
+    - [0.9, 0.9]
+    - [0.8, 0.8]
+    - [0.7, 0.7]
+    - [0.6, 0.6]

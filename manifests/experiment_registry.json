@@ -1,0 +1,80 @@
+{
+  "experiment_registry_version": "1.0",
+  "project": "dynamite",
+  "description": "Master registry of all planned experiments",
+  "experiments": {
+    "main_comparison": {
+      "description": "Main method comparison across all tasks",
+      "methods": ["mlp", "lstm", "transformer", "dynamite"],
+      "tasks": ["flat", "push", "randomized", "terrain"],
+      "seeds": [42, 43, 44],
+      "total_runs": 48,
+      "priority": "critical",
+      "estimated_time_hours": 120,
+      "outputs": {
+        "per_run": ["config.yaml", "manifest.json", "metrics.csv", "checkpoints/best.pt", "eval_metrics.json"],
+        "aggregated": ["results/aggregated/main_comparison.json"]
+      },
+      "figures": ["training_curves.png", "eval_bars.png"],
+      "tables": ["main_table.md", "main_table.tex"]
+    },
+    "ablations": {
+      "description": "Ablation study on DynaMITE design choices",
+      "base_method": "dynamite",
+      "task": "randomized",
+      "variants": [
+        {"name": "seq_len_4", "config": "configs/ablations/seq_len_4.yaml"},
+        {"name": "seq_len_16", "config": "configs/ablations/seq_len_16.yaml"},
+        {"name": "no_latent", "config": "configs/ablations/no_latent.yaml"},
+        {"name": "single_latent", "config": "configs/ablations/single_latent.yaml"},
+        {"name": "no_aux_loss", "config": "configs/ablations/no_aux_loss.yaml"},
+        {"name": "depth_1", "config": "configs/ablations/depth_1.yaml"},
+        {"name": "depth_4", "config": "configs/ablations/depth_4.yaml"}
+      ],
+      "seeds": [42, 43, 44],
+      "total_runs": 21,
+      "priority": "high",
+      "estimated_time_hours": 52,
+      "outputs": {
+        "aggregated": ["results/aggregated/ablation_results.json"]
+      },
+      "figures": ["ablation.png"],
+      "tables": ["ablation_table.md"]
+    },
+    "robustness_sweeps": {
+      "description": "Robustness evaluation under varying perturbations",
+      "methods": ["mlp", "lstm", "transformer", "dynamite"],
+      "sweeps": ["push_magnitude", "friction", "action_delay"],
+      "task": "randomized",
+      "seed": 42,
+      "priority": "high",
+      "estimated_time_hours": 4,
+      "outputs": {
+        "per_sweep": ["results/sweeps/{method}/{sweep}/sweep_{sweep}.json"]
+      },
+      "figures": ["sweep_push_magnitude.png", "sweep_friction.png", "sweep_action_delay.png"]
+    },
+    "latent_analysis": {
+      "description": "Analysis of learned latent dynamics representations",
+      "method": "dynamite",
+      "task": "randomized",
+      "seed": 42,
+      "priority": "medium",
+      "estimated_time_hours": 1,
+      "outputs": {
+        "analysis": ["results/aggregated/latent_analysis.json"]
+      },
+      "figures": ["latent_tsne_params_friction.png", "latent_tsne_params_mass.png"]
+    }
+  },
+  "minimal_submission_set": {
+    "description": "Minimum experiments for first paper submission",
+    "experiments": ["main_comparison"],
+    "estimated_time_hours": 120
+  },
+  "full_submission_set": {
+    "description": "Full experiment set for strong submission",
+    "experiments": ["main_comparison", "ablations", "robustness_sweeps", "latent_analysis"],
+    "estimated_time_hours": 177
+  }
+}

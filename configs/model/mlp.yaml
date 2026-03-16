@@ -1,0 +1,18 @@
+# Model: PPO + MLP baseline
+# No history. Processes single-step observation only.
+model:
+  name: mlp
+  type: mlp
+  use_history: false
+
+  mlp:
+    hidden_dims: [256, 256, 128]
+    activation: elu
+    init_type: orthogonal       # orthogonal | xavier | kaiming
+    init_gain: 1.414
+
+  value:
+    hidden_dims: [256, 256, 128]
+    activation: elu
+
+  # Approximate parameter count: ~200k

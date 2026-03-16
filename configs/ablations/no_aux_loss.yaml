@@ -1,0 +1,5 @@
+# Ablation: Factorized latent but no auxiliary identification loss
+model:
+  name: dynamite_no_aux
+  auxiliary:
+    enabled: false

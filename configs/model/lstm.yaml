@@ -1,0 +1,22 @@
+# Model: PPO + LSTM baseline
+# Processes observation history via recurrent hidden state.
+model:
+  name: lstm
+  type: lstm
+  use_history: true
+
+  lstm:
+    input_dim: null           # auto-computed from obs+action dims
+    hidden_dim: 128
+    num_layers: 1
+    dropout: 0.0
+
+  policy_head:
+    hidden_dims: [128]
+    activation: elu
+
+  value_head:
+    hidden_dims: [128]
+    activation: elu
+
+  # Approximate parameter count: ~300k

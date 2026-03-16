@@ -1,0 +1,39 @@
+# Model: PPO + vanilla Transformer baseline
+# Processes observation-action history via transformer, but NO explicit latent
+# dynamics inference. The transformer output is directly fed to policy/value heads.
+model:
+  name: transformer
+  type: transformer
+  use_history: true
+
+  history_len: 8
+
+  obs_embed:
+    hidden_dim: 64
+    activation: elu
+
+  act_embed:
+    hidden_dim: 32
+    activation: elu
+
+  cmd_embed:
+    hidden_dim: 16
+    activation: elu
+
+  transformer:
+    d_model: 128
+    nhead: 4
+    num_layers: 2
+    dim_feedforward: 256
+    dropout: 0.0
+    positional_encoding: sinusoidal   # sinusoidal | learned
+
+  policy_head:
+    hidden_dims: [128]
+    activation: elu
+
+  value_head:
+    hidden_dims: [128]
+    activation: elu
+
+  # Approximate parameter count: ~400k

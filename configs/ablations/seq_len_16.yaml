@@ -1,0 +1,3 @@
+# Ablation: Longer history window (16 steps)
+model:
+  history_len: 16

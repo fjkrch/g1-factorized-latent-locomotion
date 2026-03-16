@@ -1,0 +1,25 @@
+# Training configuration (default)
+train:
+  algo: ppo
+  num_steps: 24
+  num_minibatches: 4
+  num_epochs: 5
+  learning_rate: 3.0e-4
+  lr_schedule: adaptive
+  target_kl: 0.01
+  clip_range: 0.2
+  gamma: 0.99
+  lam: 0.95
+  entropy_coef: 0.01
+  value_coef: 0.5
+  max_grad_norm: 1.0
+  normalize_obs: true
+  normalize_value: true
+  normalize_advantage: true
+  total_timesteps: 50_000_000
+  log_interval: 10
+  save_interval: 500
+  eval_interval: 100
+  eval_episodes: 50
+  use_amp: false                # automatic mixed precision (for 4060)
+  compile_model: false          # torch.compile (experimental)

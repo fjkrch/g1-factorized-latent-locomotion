@@ -1,0 +1,10 @@
+# Sweep: Friction coefficient
+sweep:
+  name: friction
+  variable: task.domain_randomization.friction_range
+  values:
+    - [1.0, 1.0]     # nominal
+    - [0.7, 0.7]
+    - [0.5, 0.5]
+    - [0.3, 0.3]
+    - [0.1, 0.1]     # ice-like

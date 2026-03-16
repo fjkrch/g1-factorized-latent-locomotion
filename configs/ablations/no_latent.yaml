@@ -1,0 +1,12 @@
+# Ablation: DynaMITE without latent head (reduces to vanilla transformer)
+model:
+  name: dynamite_no_latent
+  latent:
+    total_dim: 0
+    factorized: false
+  auxiliary:
+    enabled: false
+  policy_head:
+    condition_on_latent: false
+  value_head:
+    condition_on_latent: false

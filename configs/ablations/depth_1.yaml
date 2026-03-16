@@ -1,0 +1,5 @@
+# Ablation: Shallower transformer (1 layer)
+model:
+  name: dynamite_depth1
+  transformer:
+    num_layers: 1

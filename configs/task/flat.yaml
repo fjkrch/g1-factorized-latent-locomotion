@@ -1,0 +1,9 @@
+# Task: Flat terrain locomotion (base)
+# Inherits from base.yaml — only overrides listed here
+task:
+  name: flat
+  domain_randomization:
+    enabled: false
+  terrain:
+    type: flat
+    curriculum: false

@@ -1,0 +1,62 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outputs (tracked via .gitkeep only)
+outputs/*/
+checkpoints/*/
+logs/*/
+results/**/
+!results/.gitkeep
+!outputs/.gitkeep
+!checkpoints/.gitkeep
+!logs/.gitkeep
+
+# Large files
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.npy
+*.h5
+*.hdf5
+
+# TensorBoard
+tb/
+events.out.*
+
+# Figures (regenerable)
+figures/*.png
+figures/*.pdf
+figures/*.svg
+!figures/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env

@@ -1,0 +1,10 @@
+# Evaluation configuration
+eval:
+  num_envs: 64
+  num_episodes: 100
+  deterministic: true
+  record_video: false
+  video_length: 200
+  metrics_file: "eval_metrics.json"
+  save_trajectories: false
+  trajectory_file: "trajectories.npz"

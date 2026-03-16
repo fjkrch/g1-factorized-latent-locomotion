@@ -1,0 +1,15 @@
+# Task: Push disturbance locomotion
+task:
+  name: push
+  domain_randomization:
+    enabled: true
+    friction_range: [0.5, 1.5]
+    restitution_range: [0.0, 0.5]
+    added_mass_range: [-1.0, 3.0]
+    motor_strength_range: [0.9, 1.1]
+    action_delay_range: [0, 0]
+    push_interval: 100            # apply push every N steps
+    push_vel_range: [0.5, 3.0]   # m/s impulse magnitude
+  terrain:
+    type: flat
+    curriculum: false

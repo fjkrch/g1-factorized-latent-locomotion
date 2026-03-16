@@ -1,0 +1,10 @@
+# Sweep: Action delay (steps)
+sweep:
+  name: action_delay
+  variable: task.domain_randomization.action_delay_range
+  values:
+    - [0, 0]
+    - [1, 1]
+    - [2, 2]
+    - [3, 3]
+    - [5, 5]

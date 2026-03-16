@@ -1,0 +1,14 @@
+# Ablation: Single (non-factorized) latent vector
+model:
+  name: dynamite_single_latent
+  latent:
+    total_dim: 24
+    factorized: false
+    bottleneck_activation: tanh
+    aggregation: mean
+  auxiliary:
+    enabled: true
+    loss_weight: 0.5
+    targets:
+      combined: 8          # predict all dynamics params from single latent
+    head_hidden_dim: 32

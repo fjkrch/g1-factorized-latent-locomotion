@@ -1,0 +1,110 @@
+# =============================================================================
+# DynaMITE — Base Configuration
+# All other configs inherit/override from this file.
+# =============================================================================
+
+project:
+  name: dynamite
+  version: "0.1.0"
+
+seed: 42
+
+task:
+  name: flat                    # flat | push | randomized | terrain
+  num_envs: 2048
+  episode_length: 1000          # steps
+  control_dt: 0.02              # 50 Hz control
+  sim_dt: 0.005                 # 200 Hz physics
+  decimation: 4                 # sim_dt * decimation = control_dt
+  gravity: [0.0, 0.0, -9.81]
+
+  observation:
+    proprioception_dim: 45      # joint pos(19) + joint vel(19) + base ang vel(3) + projected gravity(3) + base height(1)
+    command_dim: 3              # vx, vy, yaw_rate
+    action_dim: 19              # joint position targets (lower body focus for G1)
+    history_len: 8              # number of past steps in history window
+    include_previous_action: true
+
+  reward:
+    tracking_lin_vel: 1.5
+    tracking_ang_vel: 0.8
+    lin_vel_z: -2.0
+    ang_vel_xy: -0.05
+    orientation: -1.0
+    base_height: -5.0
+    torques: -0.00002
+    joint_acc: -2.5e-7
+    action_rate: -0.01
+    feet_air_time: 1.0
+    collision: -1.0
+    stumble: -0.5
+    stand_still: -0.5
+    feet_contact_forces: -0.01
+    termination: -200.0
+
+  termination:
+    max_episode_length: true
+    base_contact: true
+    base_height_min: 0.25       # meters
+    roll_max: 1.5               # radians
+    pitch_max: 1.5              # radians
+
+  domain_randomization:
+    enabled: false
+    friction_range: [0.5, 1.5]
+    restitution_range: [0.0, 0.5]
+    added_mass_range: [-1.0, 3.0]           # kg, added to torso
+    com_displacement_range: [-0.05, 0.05]   # meters
+    motor_strength_range: [0.9, 1.1]        # multiplier
+    kp_range: [0.9, 1.1]
+    kd_range: [0.9, 1.1]
+    action_delay_range: [0, 2]              # steps of delay
+    push_interval: 0                        # 0 = no pushes
+    push_vel_range: [0.0, 0.0]
+
+  terrain:
+    type: flat                   # flat | rough | stairs | mixed
+    curriculum: false
+    difficulty_range: [0.0, 1.0]
+
+model:
+  name: mlp                     # mlp | lstm | transformer | dynamite
+  # Overridden per model config
+
+train:
+  algo: ppo
+  num_steps: 24                 # rollout length per update
+  num_minibatches: 4
+  num_epochs: 5
+  learning_rate: 3.0e-4
+  lr_schedule: adaptive         # adaptive | fixed | cosine
+  target_kl: 0.01
+  clip_range: 0.2
+  gamma: 0.99
+  lam: 0.95
+  entropy_coef: 0.01
+  value_coef: 0.5
+  max_grad_norm: 1.0
+  normalize_obs: true
+  normalize_value: true
+  normalize_advantage: true
+  total_timesteps: 50_000_000
+  log_interval: 10              # iterations
+  save_interval: 500            # iterations
+  eval_interval: 100            # iterations
+  eval_episodes: 50
+
+eval:
+  num_envs: 64
+  num_episodes: 100
+  deterministic: true
+  record_video: false
+  video_length: 200             # steps
+  metrics_file: "eval_metrics.json"
+
+output:
+  base_dir: "outputs"
+  # Full path: outputs/{task.name}/{model.name}/seed_{seed}/{timestamp}
+  save_config: true
+  save_manifest: true
+  save_git_hash: true

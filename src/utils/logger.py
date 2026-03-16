@@ -51,8 +51,8 @@ class Logger:
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.console = setup_console_logger()
 
-        # CSV logger
-        self.csv_path = self.run_dir / "metrics.csv"
+        # CSV logger (separate from standardized metrics.csv written by metrics_io)
+        self.csv_path = self.run_dir / "tb_metrics.csv"
         self._csv_file = None
         self._csv_writer = None
         self._csv_fields: list[str] = []

@@ -88,13 +88,23 @@ done
 echo ""
 echo "── Step 4: Aggregating ablations ──"
 
-ABLATIONS=(seq_len_4 seq_len_16 no_latent single_latent no_aux_loss depth_1 depth_4)
+# Ablation name → actual directory name (model_name + variant)
+# The directory is {ablation_model_name}_{variant}, e.g. dynamite_depth1_depth_1
+declare -A ABL_DIRS=(
+    [depth_1]="dynamite_depth1_depth_1"
+    [depth_4]="dynamite_depth4_depth_4"
+    [no_aux_loss]="dynamite_no_aux_no_aux_loss"
+    [no_latent]="dynamite_no_latent_no_latent"
+    [single_latent]="dynamite_single_latent_single_latent"
+    [seq_len_4]="dynamite_seq_len_4"
+    [seq_len_16]="dynamite_seq_len_16"
+)
 TASK="randomized"
-MODEL="dynamite"
 
-for abl in "${ABLATIONS[@]}"; do
+for abl in "${!ABL_DIRS[@]}"; do
+    dir_name="${ABL_DIRS[$abl]}"
     SEED_DIRS=""
-    for seed_dir in outputs/${TASK}/${MODEL}_${abl}/seed_*/; do
+    for seed_dir in outputs/${TASK}/${dir_name}/seed_*/; do
         if [[ -d "$seed_dir" ]]; then
             LATEST_RUN=$(find "$seed_dir" -maxdepth 1 -type d | sort | tail -1)
             if [[ -n "$LATEST_RUN" && "$LATEST_RUN" != "$seed_dir" ]]; then

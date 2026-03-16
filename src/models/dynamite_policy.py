@@ -88,9 +88,13 @@ class DynaMITEPolicy(nn.Module):
         # ─── Embeddings ───
         self.obs_embed = ObsEmbedding(obs_dim, obs_embed_dim)
         self.act_embed = ActEmbedding(act_dim, act_embed_dim)
-        self.cmd_embed = CmdEmbedding(cmd_dim, cmd_embed_dim)
-
-        token_dim = obs_embed_dim + act_embed_dim + cmd_embed_dim
+        self._cmd_dim = cmd_dim
+        if cmd_dim > 0:
+            self.cmd_embed = CmdEmbedding(cmd_dim, cmd_embed_dim)
+            token_dim = obs_embed_dim + act_embed_dim + cmd_embed_dim
+        else:
+            self.cmd_embed = None
+            token_dim = obs_embed_dim + act_embed_dim
         self.token_proj = nn.Linear(token_dim, d_model)
 
         # ─── Positional Encoding ───
@@ -108,7 +112,9 @@ class DynaMITEPolicy(nn.Module):
             batch_first=True,
             activation="gelu",
         )
-        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
+        self.transformer = nn.TransformerEncoder(
+            encoder_layer, num_layers=num_layers, enable_nested_tensor=False
+        )
 
         # ─── Attention Aggregation (optional) ───
         if self.aggregation == "attention":
@@ -191,11 +197,14 @@ class DynaMITEPolicy(nn.Module):
         act_emb = self.act_embed(act_hist.reshape(-1, act_hist.shape[-1]))
         act_emb = act_emb.reshape(batch_size, seq_len, -1)
 
-        cmd_expanded = cmd.unsqueeze(1).expand(-1, seq_len, -1)
-        cmd_emb = self.cmd_embed(cmd_expanded.reshape(-1, cmd.shape[-1]))
-        cmd_emb = cmd_emb.reshape(batch_size, seq_len, -1)
+        parts = [obs_emb, act_emb]
+        if self.cmd_embed is not None and cmd.shape[-1] > 0:
+            cmd_expanded = cmd.unsqueeze(1).expand(-1, seq_len, -1)
+            cmd_emb = self.cmd_embed(cmd_expanded.reshape(-1, cmd.shape[-1]))
+            cmd_emb = cmd_emb.reshape(batch_size, seq_len, -1)
+            parts.append(cmd_emb)
 
-        tokens = torch.cat([obs_emb, act_emb, cmd_emb], dim=-1)
+        tokens = torch.cat(parts, dim=-1)
         tokens = self.token_proj(tokens)
         return tokens
 

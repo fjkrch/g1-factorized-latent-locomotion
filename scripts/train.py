@@ -153,15 +153,15 @@ def main():
         gpu_mem = torch.cuda.get_device_properties(0).total_memory // 1024**2
         print(f"[Train] GPU Memory: {gpu_mem} MB")
 
-    # Build model
-    model = build_model(cfg)
-    model.to(device)
-
     # Initialise Isaac Sim (headless) — must happen before env creation
     init_sim(headless=args.headless)
 
-    # Build environment
+    # Build environment (auto-detects obs/act dims & updates cfg)
     env = make_env(cfg, device=device, headless=args.headless)
+
+    # Build model (AFTER env so auto-detected dims are in cfg)
+    model = build_model(cfg)
+    model.to(device)
 
     # Build trainer — pass variant and metrics CSV path
     trainer = PPOTrainer(cfg, model, env, logger, str(run_dir),

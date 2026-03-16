@@ -1,0 +1,458 @@
+nohup: ignoring input
+══════════════════════════════════════════════════════════════
+  AGGREGATION PIPELINE
+  Start: 2026-03-16T22:38:18+07:00
+══════════════════════════════════════════════════════════════
+
+── Step 1: Validating all runs ──
+
+======================================================================
+  RUN VALIDATION REPORT
+======================================================================
+  Total runs found:     23
+  Valid:                 22
+  Valid w/ warnings:     1
+  Interrupted:           0
+  Failed:                0
+  Incomplete:            0
+  Missing eval:          0
+======================================================================
+
+  PROBLEM RUNS (1):
+
+  [VALID_WITH_WARNINGS] outputs/flat/transformer_full/seed_42/20260316_203605
+    - NaN or Inf detected in metrics.csv
+
+
+── Step 3: Aggregating main comparison ──
+  Aggregating: flat/mlp_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/flat/mlp_full/seed_42/20260316_203110 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 22.0000 ± 0.0000 (n=1)
+  episode_length/mean: 18.0943 ± 0.0000 (n=1)
+  episode_length/min: 16.0000 ± 0.0000 (n=1)
+  episode_length/std: 1.4700 ± 0.0000 (n=1)
+  episode_reward/max: -8.0900 ± 0.0000 (n=1)
+  episode_reward/mean: -9.1541 ± 0.0000 (n=1)
+  episode_reward/min: -10.8182 ± 0.0000 (n=1)
+  episode_reward/std: 0.6487 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 8.5300 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/flat_mlp_full.json
+  Aggregating: flat/lstm_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/flat/lstm_full/seed_42/20260316_203335 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 71.0000 ± 0.0000 (n=1)
+  episode_length/mean: 67.9600 ± 0.0000 (n=1)
+  episode_length/min: 65.0000 ± 0.0000 (n=1)
+  episode_length/std: 1.4136 ± 0.0000 (n=1)
+  episode_reward/max: -3.2378 ± 0.0000 (n=1)
+  episode_reward/mean: -3.9642 ± 0.0000 (n=1)
+  episode_reward/min: -4.5423 ± 0.0000 (n=1)
+  episode_reward/std: 0.3335 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 10.3500 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/flat_lstm_full.json
+  Aggregating: flat/transformer_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/flat/transformer_full/seed_42/20260316_203605 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 19.0000 ± 0.0000 (n=1)
+  episode_length/mean: 18.0000 ± 0.0000 (n=1)
+  episode_length/min: 17.0000 ± 0.0000 (n=1)
+  episode_length/std: 0.1796 ± 0.0000 (n=1)
+  episode_reward/max: -4.5921 ± 0.0000 (n=1)
+  episode_reward/mean: -4.7419 ± 0.0000 (n=1)
+  episode_reward/min: -4.9015 ± 0.0000 (n=1)
+  episode_reward/std: 0.0712 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 8.2400 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/flat_transformer_full.json
+  Aggregating: flat/dynamite_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/flat/dynamite_full/seed_42/20260316_203841 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 71.0000 ± 0.0000 (n=1)
+  episode_length/mean: 37.7800 ± 0.0000 (n=1)
+  episode_length/min: 31.0000 ± 0.0000 (n=1)
+  episode_length/std: 8.3816 ± 0.0000 (n=1)
+  episode_reward/max: -4.9039 ± 0.0000 (n=1)
+  episode_reward/mean: -5.8150 ± 0.0000 (n=1)
+  episode_reward/min: -8.5402 ± 0.0000 (n=1)
+  episode_reward/std: 0.6468 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 12.5600 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/flat_dynamite_full.json
+  Aggregating: push/mlp_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/push/mlp_full/seed_42/20260316_215446 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 47.0000 ± 0.0000 (n=1)
+  episode_length/mean: 25.0392 ± 0.0000 (n=1)
+  episode_length/min: 16.0000 ± 0.0000 (n=1)
+  episode_length/std: 8.2128 ± 0.0000 (n=1)
+  episode_reward/max: -7.0462 ± 0.0000 (n=1)
+  episode_reward/mean: -9.4248 ± 0.0000 (n=1)
+  episode_reward/min: -15.0387 ± 0.0000 (n=1)
+  episode_reward/std: 1.9870 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 10.4800 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/push_mlp_full.json
+  Aggregating: push/lstm_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/push/lstm_full/seed_42/20260316_215737 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 66.0000 ± 0.0000 (n=1)
+  episode_length/mean: 61.2593 ± 0.0000 (n=1)
+  episode_length/min: 50.0000 ± 0.0000 (n=1)
+  episode_length/std: 2.4205 ± 0.0000 (n=1)
+  episode_reward/max: -2.2977 ± 0.0000 (n=1)
+  episode_reward/mean: -3.6136 ± 0.0000 (n=1)
+  episode_reward/min: -4.4431 ± 0.0000 (n=1)
+  episode_reward/std: 0.5809 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 12.9400 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/push_lstm_full.json
+  Aggregating: push/transformer_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/push/transformer_full/seed_42/20260316_220028 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 25.0000 ± 0.0000 (n=1)
+  episode_length/mean: 21.2143 ± 0.0000 (n=1)
+  episode_length/min: 19.0000 ± 0.0000 (n=1)
+  episode_length/std: 1.3190 ± 0.0000 (n=1)
+  episode_reward/max: -3.9305 ± 0.0000 (n=1)
+  episode_reward/mean: -4.3441 ± 0.0000 (n=1)
+  episode_reward/min: -5.0872 ± 0.0000 (n=1)
+  episode_reward/std: 0.1783 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.6200 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/push_transformer_full.json
+  Aggregating: push/dynamite_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/push/dynamite_full/seed_42/20260316_220325 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 23.0000 ± 0.0000 (n=1)
+  episode_length/mean: 19.7885 ± 0.0000 (n=1)
+  episode_length/min: 19.0000 ± 0.0000 (n=1)
+  episode_length/std: 0.8844 ± 0.0000 (n=1)
+  episode_reward/max: -4.1454 ± 0.0000 (n=1)
+  episode_reward/mean: -4.3865 ± 0.0000 (n=1)
+  episode_reward/min: -4.5692 ± 0.0000 (n=1)
+  episode_reward/std: 0.0988 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 12.5500 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/push_dynamite_full.json
+  Aggregating: randomized/mlp_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/mlp_full/seed_42/20260316_204510 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 47.0000 ± 0.0000 (n=1)
+  episode_length/mean: 24.8868 ± 0.0000 (n=1)
+  episode_length/min: 16.0000 ± 0.0000 (n=1)
+  episode_length/std: 7.3911 ± 0.0000 (n=1)
+  episode_reward/max: -6.9784 ± 0.0000 (n=1)
+  episode_reward/mean: -9.5280 ± 0.0000 (n=1)
+  episode_reward/min: -14.0775 ± 0.0000 (n=1)
+  episode_reward/std: 1.9424 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 10.2400 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/randomized_mlp_full.json
+  Aggregating: randomized/lstm_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/lstm_full/seed_42/20260316_204743 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 66.0000 ± 0.0000 (n=1)
+  episode_length/mean: 60.8627 ± 0.0000 (n=1)
+  episode_length/min: 47.0000 ± 0.0000 (n=1)
+  episode_length/std: 3.0871 ± 0.0000 (n=1)
+  episode_reward/max: -2.3012 ± 0.0000 (n=1)
+  episode_reward/mean: -3.6168 ± 0.0000 (n=1)
+  episode_reward/min: -4.5321 ± 0.0000 (n=1)
+  episode_reward/std: 0.5362 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.8200 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/randomized_lstm_full.json
+  Aggregating: randomized/transformer_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/transformer_full/seed_42/20260316_205020 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 34.0000 ± 0.0000 (n=1)
+  episode_length/mean: 23.0189 ± 0.0000 (n=1)
+  episode_length/min: 20.0000 ± 0.0000 (n=1)
+  episode_length/std: 2.5215 ± 0.0000 (n=1)
+  episode_reward/max: -4.1177 ± 0.0000 (n=1)
+  episode_reward/mean: -4.4859 ± 0.0000 (n=1)
+  episode_reward/min: -5.9260 ± 0.0000 (n=1)
+  episode_reward/std: 0.2689 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.1900 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/randomized_transformer_full.json
+  Aggregating: randomized/dynamite_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_full/seed_42/20260316_205319 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 35.0000 ± 0.0000 (n=1)
+  episode_length/mean: 23.0566 ± 0.0000 (n=1)
+  episode_length/min: 20.0000 ± 0.0000 (n=1)
+  episode_length/std: 2.6451 ± 0.0000 (n=1)
+  episode_reward/max: -4.0769 ± 0.0000 (n=1)
+  episode_reward/mean: -4.3510 ± 0.0000 (n=1)
+  episode_reward/min: -4.8520 ± 0.0000 (n=1)
+  episode_reward/std: 0.1267 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.3800 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/randomized_dynamite_full.json
+  Aggregating: terrain/mlp_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/terrain/mlp_full/seed_42/20260316_205634 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 47.0000 ± 0.0000 (n=1)
+  episode_length/mean: 24.8868 ± 0.0000 (n=1)
+  episode_length/min: 16.0000 ± 0.0000 (n=1)
+  episode_length/std: 7.3911 ± 0.0000 (n=1)
+  episode_reward/max: -6.9784 ± 0.0000 (n=1)
+  episode_reward/mean: -9.5280 ± 0.0000 (n=1)
+  episode_reward/min: -14.0775 ± 0.0000 (n=1)
+  episode_reward/std: 1.9424 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 10.2000 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/terrain_mlp_full.json
+  Aggregating: terrain/lstm_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/terrain/lstm_full/seed_42/20260316_205928 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 66.0000 ± 0.0000 (n=1)
+  episode_length/mean: 60.8627 ± 0.0000 (n=1)
+  episode_length/min: 47.0000 ± 0.0000 (n=1)
+  episode_length/std: 3.0871 ± 0.0000 (n=1)
+  episode_reward/max: -2.3012 ± 0.0000 (n=1)
+  episode_reward/mean: -3.6168 ± 0.0000 (n=1)
+  episode_reward/min: -4.5321 ± 0.0000 (n=1)
+  episode_reward/std: 0.5362 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 12.1100 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/terrain_lstm_full.json
+  Aggregating: terrain/transformer_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/terrain/transformer_full/seed_42/20260316_210230 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 34.0000 ± 0.0000 (n=1)
+  episode_length/mean: 23.0189 ± 0.0000 (n=1)
+  episode_length/min: 20.0000 ± 0.0000 (n=1)
+  episode_length/std: 2.5215 ± 0.0000 (n=1)
+  episode_reward/max: -4.1177 ± 0.0000 (n=1)
+  episode_reward/mean: -4.4859 ± 0.0000 (n=1)
+  episode_reward/min: -5.9260 ± 0.0000 (n=1)
+  episode_reward/std: 0.2689 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 12.5100 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/terrain_transformer_full.json
+  Aggregating: terrain/dynamite_full (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/terrain/dynamite_full/seed_42/20260316_210549 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 21.0000 ± 0.0000 (n=1)
+  episode_length/mean: 19.2000 ± 0.0000 (n=1)
+  episode_length/min: 18.0000 ± 0.0000 (n=1)
+  episode_length/std: 0.9381 ± 0.0000 (n=1)
+  episode_reward/max: -4.0059 ± 0.0000 (n=1)
+  episode_reward/mean: -4.2482 ± 0.0000 (n=1)
+  episode_reward/min: -4.4542 ± 0.0000 (n=1)
+  episode_reward/std: 0.1047 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 9.7300 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/terrain_dynamite_full.json
+
+── Step 4: Aggregating ablations ──
+  Aggregating ablation: no_latent (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_no_latent_no_latent/seed_42/20260316_211626 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 34.0000 ± 0.0000 (n=1)
+  episode_length/mean: 23.0189 ± 0.0000 (n=1)
+  episode_length/min: 20.0000 ± 0.0000 (n=1)
+  episode_length/std: 2.5215 ± 0.0000 (n=1)
+  episode_reward/max: -4.1177 ± 0.0000 (n=1)
+  episode_reward/mean: -4.4859 ± 0.0000 (n=1)
+  episode_reward/min: -5.9260 ± 0.0000 (n=1)
+  episode_reward/std: 0.2689 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.1600 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/ablation_no_latent.json
+  Aggregating ablation: seq_len_16 (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_seq_len_16/seed_42/20260316_211256 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 35.0000 ± 0.0000 (n=1)
+  episode_length/mean: 23.0566 ± 0.0000 (n=1)
+  episode_length/min: 20.0000 ± 0.0000 (n=1)
+  episode_length/std: 2.6451 ± 0.0000 (n=1)
+  episode_reward/max: -4.0769 ± 0.0000 (n=1)
+  episode_reward/mean: -4.3510 ± 0.0000 (n=1)
+  episode_reward/min: -4.8520 ± 0.0000 (n=1)
+  episode_reward/std: 0.1267 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 10.6900 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/ablation_seq_len_16.json
+  Aggregating ablation: single_latent (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_single_latent_single_latent/seed_42/20260316_211953 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 51.0000 ± 0.0000 (n=1)
+  episode_length/mean: 39.3200 ± 0.0000 (n=1)
+  episode_length/min: 30.0000 ± 0.0000 (n=1)
+  episode_length/std: 4.1542 ± 0.0000 (n=1)
+  episode_reward/max: -4.6404 ± 0.0000 (n=1)
+  episode_reward/mean: -5.0278 ± 0.0000 (n=1)
+  episode_reward/min: -5.6607 ± 0.0000 (n=1)
+  episode_reward/std: 0.2199 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.8700 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/ablation_single_latent.json
+  Aggregating ablation: seq_len_4 (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_seq_len_4/seed_42/20260316_210920 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 35.0000 ± 0.0000 (n=1)
+  episode_length/mean: 23.0566 ± 0.0000 (n=1)
+  episode_length/min: 20.0000 ± 0.0000 (n=1)
+  episode_length/std: 2.6451 ± 0.0000 (n=1)
+  episode_reward/max: -4.0769 ± 0.0000 (n=1)
+  episode_reward/mean: -4.3510 ± 0.0000 (n=1)
+  episode_reward/min: -4.8520 ± 0.0000 (n=1)
+  episode_reward/std: 0.1267 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 9.9800 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/ablation_seq_len_4.json
+  Aggregating ablation: no_aux_loss (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_no_aux_no_aux_loss/seed_42/20260316_212323 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 47.0000 ± 0.0000 (n=1)
+  episode_length/mean: 29.1200 ± 0.0000 (n=1)
+  episode_length/min: 24.0000 ± 0.0000 (n=1)
+  episode_length/std: 4.5897 ± 0.0000 (n=1)
+  episode_reward/max: -4.5971 ± 0.0000 (n=1)
+  episode_reward/mean: -5.0850 ± 0.0000 (n=1)
+  episode_reward/min: -6.2768 ± 0.0000 (n=1)
+  episode_reward/std: 0.3567 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.0500 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/ablation_no_aux_loss.json
+  Aggregating ablation: depth_4 (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_depth4_depth_4/seed_42/20260316_213007 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 22.0000 ± 0.0000 (n=1)
+  episode_length/mean: 18.9123 ± 0.0000 (n=1)
+  episode_length/min: 18.0000 ± 0.0000 (n=1)
+  episode_length/std: 0.7079 ± 0.0000 (n=1)
+  episode_reward/max: -4.4737 ± 0.0000 (n=1)
+  episode_reward/mean: -4.7636 ± 0.0000 (n=1)
+  episode_reward/min: -5.1164 ± 0.0000 (n=1)
+  episode_reward/std: 0.1479 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 11.4400 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/ablation_depth_4.json
+  Aggregating ablation: depth_1 (1 seeds)
+[Aggregate] Found 1 runs:
+  outputs/randomized/dynamite_depth1_depth_1/seed_42/20260316_212654 ✓
+
+[Aggregate] Results (11 metrics):
+  episode_length/max: 20.0000 ± 0.0000 (n=1)
+  episode_length/mean: 19.3962 ± 0.0000 (n=1)
+  episode_length/min: 19.0000 ± 0.0000 (n=1)
+  episode_length/std: 0.4891 ± 0.0000 (n=1)
+  episode_reward/max: -4.0103 ± 0.0000 (n=1)
+  episode_reward/mean: -4.3246 ± 0.0000 (n=1)
+  episode_reward/min: -4.5630 ± 0.0000 (n=1)
+  episode_reward/std: 0.1098 ± 0.0000 (n=1)
+  num_episodes: 50.0000 ± 0.0000 (n=1)
+  seed: 42.0000 ± 0.0000 (n=1)
+  wall_time_s: 10.8200 ± 0.0000 (n=1)
+
+[Aggregate] Saved to: results/aggregated/ablation_depth_1.json
+
+── Step 5: Generating tables ──
+Saved table: results/tables/main_table.md
+Saved table: results/tables/main_table.tex
+Saved table: results/tables/ablation_table.md
+Saved table: results/tables/ablation_table.tex
+Skipping efficiency table: results/aggregated/efficiency.json not found
+[Tables] Done. Output: results/tables
+
+══════════════════════════════════════════════════════════════
+  AGGREGATION COMPLETE
+  Results:  results/aggregated/
+  Tables:   results/tables/
+  End: 2026-03-16T22:38:21+07:00
+══════════════════════════════════════════════════════════════

@@ -245,6 +245,10 @@ class PPOTrainer:
         cmd = reset_data["cmd"]
         prev_action = torch.zeros(self.cfg["task"]["num_envs"], self.env.act_dim, device=self.device)
 
+        # Seed history buffer with the initial observation so the mask is not all-false
+        if self.uses_history:
+            self.history_buffer.insert(obs, prev_action)
+
         for iteration in range(1, num_iterations + 1):
             # ─── Collect Rollout ───
             self.model.eval()
@@ -273,6 +277,19 @@ class PPOTrainer:
                     # Sample action
                     action_mean = output["action_mean"]
                     action_log_std = output["action_log_std"]
+
+                    # Guard against NaN from model output
+                    if action_mean.isnan().any():
+                        print(f"[WARN] NaN in action_mean at iter {iteration} step {step}")
+                        print(f"  obs nan: {obs.isnan().any()}, inf: {obs.isinf().any()}")
+                        print(f"  cmd nan: {cmd.isnan().any()}")
+                        if obs_hist is not None:
+                            print(f"  obs_hist nan: {obs_hist.isnan().any()}")
+                            print(f"  hist_mask valid: {hist_mask.any(dim=-1).all()}")
+                        action_mean = torch.nan_to_num(action_mean, nan=0.0)
+                    if action_log_std.isnan().any():
+                        action_log_std = torch.nan_to_num(action_log_std, nan=-1.0)
+
                     dist = Normal(action_mean, action_log_std.exp())
                     action = dist.sample()
                     log_prob = dist.log_prob(action).sum(dim=-1)
@@ -304,6 +321,9 @@ class PPOTrainer:
                         reset_ids = step_data.get("reset_ids", torch.tensor([], device=self.device))
                         if len(reset_ids) > 0:
                             self.history_buffer.reset_envs(reset_ids)
+                            # Re-seed reset envs with fresh obs so mask isn't all-false
+                            self.history_buffer.obs_buf[reset_ids, -1] = next_obs[reset_ids]
+                            self.history_buffer.lengths[reset_ids] = 1
 
                     # Reset LSTM hidden for done envs
                     if self.model.model_type == "lstm" and done.any():
@@ -451,7 +471,7 @@ class PPOTrainer:
 
         # Flatten rollout data
         obs_flat = buf.obs.reshape(-1, buf.obs.shape[-1])
-        cmd_flat = buf.cmd.reshape(-1, buf.cmd.shape[-1])
+        cmd_flat = buf.cmd.reshape(batch_size, buf.cmd.shape[-1])  # explicit size for cmd_dim=0
         actions_flat = buf.actions.reshape(-1, buf.actions.shape[-1])
         old_log_probs = buf.log_probs.reshape(-1)
         advantages = buf.advantages.reshape(-1)
@@ -594,6 +614,8 @@ class PPOTrainer:
 
             if self.uses_history:
                 self.history_buffer.reset_all()
+                # Seed history buffer with initial obs so mask isn't all-false
+                self.history_buffer.insert(obs, prev_action)
 
             while completed < num_episodes:
                 model_input = {"obs": obs, "cmd": cmd, "prev_action": prev_action}
@@ -616,6 +638,9 @@ class PPOTrainer:
                     reset_ids = step_data.get("reset_ids", torch.tensor([], device=self.device))
                     if len(reset_ids) > 0:
                         self.history_buffer.reset_envs(reset_ids)
+                        # Re-seed reset envs so mask isn't all-false on next forward pass
+                        self.history_buffer.obs_buf[reset_ids, -1] = obs[reset_ids]
+                        self.history_buffer.lengths[reset_ids] = 1
 
                 done_ids = done.nonzero(as_tuple=False).squeeze(-1)
                 for idx in done_ids:

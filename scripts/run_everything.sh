@@ -170,6 +170,70 @@ run bash scripts/aggregate_all.sh --skip-eval || {
 # ══════════════════════════════════════════════════════════════════════════════
 section "6/6  PLOTS & TABLES"
 mkdir -p figures/
+
+# Generate summary files for plotting from per-experiment aggregated JSONs
+python3 << 'PYEOF'
+import json, csv
+from pathlib import Path
+import numpy as np
+
+tasks = ["flat", "push", "randomized", "terrain"]
+models = ["mlp", "lstm", "transformer", "dynamite"]
+agg_dir = Path("results/aggregated")
+agg_dir.mkdir(parents=True, exist_ok=True)
+
+# 1. main_comparison.json: {task -> {method -> {mean, std}}}
+mc = {}
+for task in tasks:
+    mc[task] = {}
+    for model in models:
+        jpath = agg_dir / f"{task}_{model}_full.json"
+        if jpath.exists():
+            d = json.load(open(jpath))
+            rm = d.get("episode_reward/mean", d.get("reward_mean", {}))
+            mc[task][model] = {
+                "mean": rm.get("mean", 0) if isinstance(rm, dict) else (rm if isinstance(rm, (int,float)) else 0),
+                "std": rm.get("std", 0) if isinstance(rm, dict) else 0,
+            }
+json.dump(mc, open(agg_dir / "main_comparison.json", "w"), indent=2)
+
+# 2. training_curves.json: {method -> {steps, values}}
+tc = {}
+for model in models:
+    runs = sorted([d for d in Path(f"outputs/flat/{model}_full/seed_42").iterdir() if d.is_dir()]) if Path(f"outputs/flat/{model}_full/seed_42").exists() else []
+    if not runs: continue
+    csv_path = runs[-1] / "metrics.csv"
+    if not csv_path.exists(): continue
+    steps, vals = [], []
+    with open(csv_path) as f:
+        for row in csv.DictReader(f):
+            gs = row.get("global_step","") or row.get("step","")
+            rm = row.get("reward/mean","") or row.get("reward_mean","")
+            if gs and rm:
+                try:
+                    s, v = int(float(gs)), float(rm)
+                    if not np.isnan(v): steps.append(s); vals.append(v)
+                except: pass
+    if steps: tc[model] = {"steps": steps, "values": vals}
+json.dump(tc, open(agg_dir / "training_curves.json", "w"), indent=2)
+
+# 3. ablation_results.json: {name -> {mean, std}}
+ablations = {"seq_len_4":"Seq Len 4","seq_len_16":"Seq Len 16","no_latent":"No Latent",
+             "single_latent":"Single Latent","no_aux_loss":"No Aux Loss","depth_1":"Depth 1","depth_4":"Depth 4"}
+ar = {}
+full = agg_dir / "randomized_dynamite_full.json"
+if full.exists():
+    d = json.load(open(full)); rm = d.get("episode_reward/mean", d.get("reward_mean", {}))
+    ar["DynaMITE (Full)"] = {"mean": rm.get("mean",0) if isinstance(rm,dict) else rm, "std": rm.get("std",0) if isinstance(rm,dict) else 0}
+for k, label in ablations.items():
+    p = agg_dir / f"ablation_{k}.json"
+    if p.exists():
+        d = json.load(open(p)); rm = d.get("episode_reward/mean", d.get("reward_mean", {}))
+        ar[label] = {"mean": rm.get("mean",0) if isinstance(rm,dict) else rm, "std": rm.get("std",0) if isinstance(rm,dict) else 0}
+json.dump(ar, open(agg_dir / "ablation_results.json", "w"), indent=2)
+print(f"Summary files created: main_comparison ({len(mc)} tasks), training_curves ({len(tc)} methods), ablation ({len(ar)} variants)")
+PYEOF
+
 run python scripts/plot_results.py --results_dir results/aggregated --output_dir figures/ || {
     echo "  ⚠ Plotting failed (non-fatal)"
 }

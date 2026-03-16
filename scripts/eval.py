@@ -103,6 +103,10 @@ def evaluate_checkpoint(
     cmd = reset_data["cmd"]
     prev_action = torch.zeros(env.num_envs, env.act_dim, device=device)
 
+    # Seed history buffer with initial obs so mask isn't all-false
+    if uses_history and history_buf is not None:
+        history_buf.insert(obs, prev_action)
+
     with torch.no_grad():
         while completed < num_episodes:
             model_input = {"obs": obs, "cmd": cmd, "prev_action": prev_action}
@@ -126,6 +130,9 @@ def evaluate_checkpoint(
                 reset_ids = step_data.get("reset_ids", torch.tensor([], device=device))
                 if len(reset_ids) > 0:
                     history_buf.reset_envs(reset_ids)
+                    # Re-seed reset envs so mask isn't all-false
+                    history_buf.obs_buf[reset_ids, -1] = obs[reset_ids]
+                    history_buf.lengths[reset_ids] = 1
 
             done_ids = done.nonzero(as_tuple=False).squeeze(-1)
             for idx in done_ids:
@@ -139,8 +146,10 @@ def evaluate_checkpoint(
 
             prev_action = action
 
-    env.close()
-    return tracker.summarize()
+    # Collect results BEFORE closing (SimulationApp.close() may terminate the process)
+    results = tracker.summarize()
+    # Don't close env here — caller saves results first, then closes
+    return results, env
 
 
 def main():
@@ -181,7 +190,7 @@ def main():
     # Initialise Isaac Sim headless
     init_sim(headless=args.headless)
 
-    # Build model and load weights
+    # Build model and load weights (checkpoint cfg already has correct dims from training)
     model = build_model(cfg)
     model.load_state_dict(ckpt["model_state_dict"])
     model.to(device)
@@ -219,14 +228,17 @@ def main():
                 d = d[k]
             d[keys[-1]] = val
 
-            metrics = evaluate_checkpoint(cfg, model, device, args.num_episodes)
+            metrics, env = evaluate_checkpoint(cfg, model, device, args.num_episodes)
             entry = {"value": val, **metrics}
             sweep_results["results"].append(entry)
             print(f"  {variable}={val}: reward={metrics.get('episode_reward/mean', 0):.1f}")
 
+        # Save results BEFORE closing env (SimulationApp.close may exit)
         with open(output_dir / f"sweep_{sweep_name}.json", "w") as f:
             json.dump(sweep_results, f, indent=2)
         print(f"[Eval] Sweep results saved to: {output_dir / f'sweep_{sweep_name}.json'}")
+        if env is not None:
+            env.close()
 
     else:
         # Standard evaluation
@@ -234,7 +246,7 @@ def main():
         print(f"[Eval] Task: {cfg['task']['name']}, Episodes: {args.num_episodes}")
 
         start_time = time.time()
-        metrics = evaluate_checkpoint(cfg, model, device, args.num_episodes)
+        metrics, env = evaluate_checkpoint(cfg, model, device, args.num_episodes)
         wall_time = time.time() - start_time
 
         # Enrich output with metadata
@@ -249,7 +261,7 @@ def main():
             **metrics,
         }
 
-        # Save results
+        # Save results BEFORE closing env (SimulationApp.close may exit)
         with open(output_dir / "eval_metrics.json", "w") as f:
             json.dump(result, f, indent=2)
 
@@ -258,6 +270,9 @@ def main():
             print(f"  {k}: {v:.4f}")
         print(f"\n[Eval] Wall time: {wall_time:.1f}s")
         print(f"[Eval] Saved to: {output_dir / 'eval_metrics.json'}")
+
+        if env is not None:
+            env.close()
 
 
 if __name__ == "__main__":

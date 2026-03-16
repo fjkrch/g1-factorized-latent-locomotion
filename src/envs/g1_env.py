@@ -43,6 +43,18 @@ def init_sim(headless: bool = True) -> None:
         from isaacsim import SimulationApp
         _SIM_APP = SimulationApp({"headless": headless, "width": 1280, "height": 720})
         print(f"[Sim] SimulationApp created (headless={headless})")
+        # Ensure nucleus cloud asset root is set (needed for USD downloads)
+        try:
+            import carb
+            settings = carb.settings.get_settings()
+            cloud = settings.get("/persistent/isaac/asset_root/cloud")
+            if cloud is None:
+                default_root = settings.get("/persistent/isaac/asset_root/default")
+                if default_root:
+                    settings.set("/persistent/isaac/asset_root/cloud", default_root)
+                    print(f"[Sim] Set nucleus cloud root to: {default_root}")
+        except Exception:
+            pass
     except Exception as exc:
         print(f"[WARNING] Could not create SimulationApp: {exc}")
         print("          Falling back to mock environment.")
@@ -54,7 +66,9 @@ def init_sim(headless: bool = True) -> None:
 # These IDs are registered by ``isaaclab_tasks`` upon import.
 _GYM_ID_MAP: dict[str, str] = {
     "flat":       "Isaac-Velocity-Flat-G1-v0",
-    "push":       "Isaac-Velocity-Rough-G1-PushCurriculum-v0",
+    # Use the standard rough env — our _apply_push() handles push disturbances.
+    # The PushCurriculum variant has a tensor-dimension bug in modify_push_force.
+    "push":       "Isaac-Velocity-Rough-G1-v0",
     "randomized": "Isaac-Velocity-Rough-G1-v0",
     "terrain":    "Isaac-Velocity-Rough-G1-v0",
 }
@@ -105,6 +119,7 @@ class G1EnvWrapper:
             import gymnasium as gym
             # Importing isaaclab_tasks triggers gym.register(...) for all envs
             import isaaclab_tasks  # noqa: F401
+            from isaaclab_tasks.utils import parse_env_cfg
 
             task_name = self.task_cfg["name"]
             gym_id = _GYM_ID_MAP.get(task_name)
@@ -114,14 +129,44 @@ class G1EnvWrapper:
                     f"Available: {list(_GYM_ID_MAP.keys())}"
                 )
 
-            self._env = gym.make(
+            # Isaac Lab v0.53+ requires the env cfg object
+            env_cfg = parse_env_cfg(
                 gym_id,
-                env_cfg_entry_point=None,   # use default from registration
+                device=self.device,
                 num_envs=self.num_envs,
             )
+            self._env = gym.make(gym_id, cfg=env_cfg)
             # Unwrap to ManagerBasedRLEnv for direct tensor access
             self._rl_env = self._env.unwrapped
             print(f"[Env] Created {gym_id}  (num_envs={self.num_envs})")
+
+            # ── Auto-detect actual obs/action dims from Isaac Lab ──
+            # Isaac Lab's policy observation already bundles
+            #   base_lin_vel, base_ang_vel, projected_gravity,
+            #   velocity_commands, joint_pos, joint_vel, prev_actions
+            # so we must NOT re-concatenate cmd / prev_action in the model.
+            obs_space = self._env.observation_space
+            act_space = self._env.action_space
+            if hasattr(obs_space, "spaces"):          # gymnasium.spaces.Dict
+                inner = obs_space.spaces.get("policy", None)
+                actual_obs_dim = inner.shape[-1] if inner is not None else obs_space.shape[-1]
+            elif hasattr(obs_space, "shape"):
+                actual_obs_dim = obs_space.shape[-1]
+            else:
+                actual_obs_dim = self.obs_dim
+            actual_act_dim = act_space.shape[-1] if hasattr(act_space, "shape") else self.act_dim
+
+            self.obs_dim = actual_obs_dim
+            self.act_dim = actual_act_dim
+            self.cmd_dim = 0   # already inside Isaac Lab obs
+
+            # Propagate to config so model is built with correct dims
+            self.cfg["task"]["observation"]["proprioception_dim"] = actual_obs_dim
+            self.cfg["task"]["observation"]["action_dim"] = actual_act_dim
+            self.cfg["task"]["observation"]["command_dim"] = 0
+            self.cfg["task"]["observation"]["include_previous_action"] = False
+            print(f"[Env] Auto-detected dims: obs={actual_obs_dim}, act={actual_act_dim}"
+                  f" (cmd & prev_action already in obs)")
 
         except Exception as exc:
             print(f"[WARNING] Could not create Isaac Lab env: {exc}")
@@ -218,6 +263,8 @@ class G1EnvWrapper:
     # ------------------------------------------------------------------
     def _sample_commands(self) -> torch.Tensor:
         """Sample random velocity commands: [vx, vy, yaw_rate]."""
+        if self.cmd_dim == 0:
+            return torch.zeros(self.num_envs, 0, device=self.device)
         cmd = torch.zeros(self.num_envs, self.cmd_dim, device=self.device)
         cmd[:, 0] = torch.empty(self.num_envs, device=self.device).uniform_(-1.0, 2.0)
         cmd[:, 1] = torch.empty(self.num_envs, device=self.device).uniform_(-0.5, 0.5)

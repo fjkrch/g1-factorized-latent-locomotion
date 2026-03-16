@@ -4,13 +4,13 @@ Evaluation entrypoint.
 
 Usage:
     # Evaluate a single checkpoint
-    python scripts/eval.py --checkpoint outputs/flat/dynamite/seed_42/.../checkpoints/best.pt
+    python scripts/eval.py --checkpoint outputs/flat/dynamite_full/seed_42/.../checkpoints/best.pt
 
     # Evaluate with specific task config (e.g., eval on push when trained on flat)
     python scripts/eval.py --checkpoint path/to/best.pt --task configs/task/push.yaml
 
     # Batch evaluate all checkpoints in a directory
-    python scripts/eval.py --run_dir outputs/flat/dynamite/seed_42/20260316_120000
+    python scripts/eval.py --run_dir outputs/flat/dynamite_full/seed_42/20260316_120000
 
     # Evaluate with sweep config
     python scripts/eval.py --checkpoint path/to/best.pt --sweep configs/sweeps/push_magnitude.yaml
@@ -20,13 +20,15 @@ Inputs:
     - Optional: task config for cross-task evaluation
 
 Outputs (in same run_dir or specified output_dir):
-    - eval_metrics.json    : per-episode metrics
-    - eval_summary.json    : aggregated metrics
+    - eval_metrics.json    : aggregated metrics + metadata
+    - eval_episodes.csv    : per-episode data (when --save-episodes is set)
 """
 
 import argparse
 import json
 import sys
+import time
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -37,9 +39,10 @@ import numpy as np
 from src.utils.config import load_config, load_yaml
 from src.utils.seed import set_seed
 from src.models import build_model
-from src.envs.g1_env import make_env
+from src.envs.g1_env import init_sim, make_env
 from src.utils.checkpoint import load_checkpoint
 from src.utils.metrics import MetricsTracker
+from src.utils.metrics_io import write_eval_episodes, EPISODE_CSV_COLUMNS
 
 
 def parse_args():
@@ -59,6 +62,10 @@ def parse_args():
     parser.add_argument("--num_episodes", type=int, default=100,
                         help="Number of evaluation episodes")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--headless", action="store_true", default=True,
+                        help="Run Isaac Sim headless (default: True)")
+    parser.add_argument("--no-headless", dest="headless", action="store_false",
+                        help="Run Isaac Sim with GUI")
     return parser.parse_args()
 
 
@@ -167,9 +174,12 @@ def main():
         cfg = deep_merge(cfg, task_override)
 
     # Override eval settings
-    cfg["task"]["num_envs"] = 64  # smaller for eval
+    cfg["task"]["num_envs"] = 32  # smaller for eval
     eval_cfg = load_yaml(args.eval_config)
     cfg = {**cfg, **eval_cfg}
+
+    # Initialise Isaac Sim headless
+    init_sim(headless=args.headless)
 
     # Build model and load weights
     model = build_model(cfg)
@@ -188,7 +198,18 @@ def main():
         values = sweep_cfg["sweep"]["values"]
 
         print(f"[Eval] Robustness sweep: {sweep_name} ({len(values)} levels)")
-        sweep_results = {}
+        sweep_results = {
+            "sweep_name": sweep_name,
+            "parameter": variable,
+            "values": values,
+            "checkpoint": str(ckpt_path),
+            "task": cfg["task"]["name"],
+            "model": cfg["model"]["name"],
+            "seed": args.seed,
+            "num_episodes": args.num_episodes,
+            "timestamp": datetime.now().isoformat(),
+            "results": [],
+        }
 
         for val in values:
             # Apply sweep variable
@@ -199,7 +220,8 @@ def main():
             d[keys[-1]] = val
 
             metrics = evaluate_checkpoint(cfg, model, device, args.num_episodes)
-            sweep_results[str(val)] = metrics
+            entry = {"value": val, **metrics}
+            sweep_results["results"].append(entry)
             print(f"  {variable}={val}: reward={metrics.get('episode_reward/mean', 0):.1f}")
 
         with open(output_dir / f"sweep_{sweep_name}.json", "w") as f:
@@ -211,16 +233,31 @@ def main():
         print(f"[Eval] Evaluating: {ckpt_path}")
         print(f"[Eval] Task: {cfg['task']['name']}, Episodes: {args.num_episodes}")
 
+        start_time = time.time()
         metrics = evaluate_checkpoint(cfg, model, device, args.num_episodes)
+        wall_time = time.time() - start_time
+
+        # Enrich output with metadata
+        result = {
+            "checkpoint": str(ckpt_path),
+            "task": cfg["task"]["name"],
+            "model": cfg["model"]["name"],
+            "seed": args.seed,
+            "num_episodes": args.num_episodes,
+            "timestamp": datetime.now().isoformat(),
+            "wall_time_s": round(wall_time, 2),
+            **metrics,
+        }
 
         # Save results
         with open(output_dir / "eval_metrics.json", "w") as f:
-            json.dump(metrics, f, indent=2)
+            json.dump(result, f, indent=2)
 
         print(f"\n[Eval] Results:")
         for k, v in sorted(metrics.items()):
             print(f"  {k}: {v:.4f}")
-        print(f"\n[Eval] Saved to: {output_dir / 'eval_metrics.json'}")
+        print(f"\n[Eval] Wall time: {wall_time:.1f}s")
+        print(f"[Eval] Saved to: {output_dir / 'eval_metrics.json'}")
 
 
 if __name__ == "__main__":

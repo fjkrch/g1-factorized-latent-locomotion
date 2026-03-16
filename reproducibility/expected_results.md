@@ -24,10 +24,14 @@ version, GPU, and exact randomization seed behavior.
 
 ## Expected Training Curves
 
-- All methods should reach >80% of final performance by 25M steps
+- All methods should reach >80% of final performance by 1.5M steps
 - DynaMITE may learn slightly slower initially (latent warming up)
 - MLP converges fastest on flat terrain (simpler model, simpler task)
 - Gap between methods widens as task difficulty increases
+
+**Note**: With the quick-mode setting (2M total timesteps), absolute reward
+values will be lower than with full training (50M steps). However, the
+relative ordering of methods and directional trends should still hold.
 
 ## Ablation Expected Ordering (randomized task)
 
@@ -38,9 +42,9 @@ version, GPU, and exact randomization seed behavior.
 
 ## Acceptable Variance
 
-- Std across 3 seeds: typically 5-15% of mean reward
+- Std across seeds: typically 5-15% of mean reward
 - If std > 30% of mean, something may be wrong
-- One outlier seed out of 3 is acceptable but should be noted
+- Default mode uses 1 seed; add more seeds for final publication
 
 ## Robustness Sweeps
 

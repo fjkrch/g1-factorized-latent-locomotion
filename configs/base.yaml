@@ -11,7 +11,7 @@ seed: 42
 
 task:
   name: flat                    # flat | push | randomized | terrain
-  num_envs: 2048
+  num_envs: 512                 # reduced from 2048 for RTX 4060 (8 GB)
   episode_length: 1000          # steps
   control_dt: 0.02              # 50 Hz control
   sim_dt: 0.005                 # 200 Hz physics
@@ -88,15 +88,15 @@ train:
   normalize_obs: true
   normalize_value: true
   normalize_advantage: true
-  total_timesteps: 50_000_000
+  total_timesteps: 2_000_000
   log_interval: 10              # iterations
-  save_interval: 500            # iterations
-  eval_interval: 100            # iterations
-  eval_episodes: 50
+  save_interval: 50             # iterations
+  eval_interval: 50             # iterations
+  eval_episodes: 20
 
 eval:
-  num_envs: 64
-  num_episodes: 100
+  num_envs: 32
+  num_episodes: 50
   deterministic: true
   record_video: false
   video_length: 200             # steps

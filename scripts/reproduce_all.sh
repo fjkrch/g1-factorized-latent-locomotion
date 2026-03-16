@@ -4,10 +4,10 @@
 # Reproduces ALL experiments from scratch.
 #
 # Tiers:
-#   1. Quick sanity: 1 method, 1 task, short run (10 min)
-#   2. Single full: 1 method, 1 task, full training (2.5 hours)
-#   3. Main comparison: 4 methods, 4 tasks, 3 seeds (120 hours)
-#   4. Full project: main + ablations + sweeps (~155 hours)
+#   1. Quick sanity: 1 method, 1 task, short run (~3 min)
+#   2. Single full: 1 method, 1 task, full training (~6 min)
+#   3. Main comparison: 4 methods, 4 tasks, 1 seed (~1.5 hours)
+#   4. Full project: main + ablations + sweeps (~3 hours)
 #
 # Usage:
 #   bash scripts/reproduce_all.sh --tier 1   # Quick sanity
@@ -26,7 +26,7 @@ echo "=================================================="
 
 case $TIER in
     1)
-        echo "[Tier 1] Quick sanity check (~10 min)"
+        echo "[Tier 1] Quick sanity check (~3 min)"
         echo "Training DynaMITE on flat for 500k steps..."
         python scripts/train.py \
             --task configs/task/flat.yaml \
@@ -43,7 +43,7 @@ case $TIER in
         ;;
 
     2)
-        echo "[Tier 2] Single full experiment (~2.5 hours)"
+        echo "[Tier 2] Single full experiment (~6 min)"
         python scripts/train.py \
             --task configs/task/randomized.yaml \
             --model configs/model/dynamite.yaml \
@@ -55,13 +55,13 @@ case $TIER in
         ;;
 
     3)
-        echo "[Tier 3] Main comparison (~120 hours)"
+        echo "[Tier 3] Main comparison (~1.5 hours)"
         bash scripts/run_all_baselines.sh
         echo "[Tier 3] Done."
         ;;
 
     4)
-        echo "[Tier 4] Full project (~155 hours)"
+        echo "[Tier 4] Full project (~3 hours)"
         bash scripts/run_all_baselines.sh
         bash scripts/run_ablations.sh
         bash scripts/run_sweeps.sh

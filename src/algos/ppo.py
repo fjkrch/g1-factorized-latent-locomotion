@@ -15,6 +15,8 @@ Usage:
 
 from __future__ import annotations
 
+import time
+from pathlib import Path
 from typing import Any
 
 import torch
@@ -26,6 +28,7 @@ from src.utils.history_buffer import HistoryBuffer
 from src.utils.checkpoint import save_checkpoint, find_latest_checkpoint
 from src.utils.manifest import create_manifest, save_manifest, update_manifest
 from src.utils.metrics import MetricsTracker
+from src.utils.metrics_io import append_step_row, STEP_CSV_COLUMNS
 
 
 class RolloutBuffer:
@@ -133,12 +136,15 @@ class PPOTrainer:
     - Logging, checkpointing, evaluation
     """
 
-    def __init__(self, cfg: dict, model: nn.Module, env, logger, run_dir: str):
+    def __init__(self, cfg: dict, model: nn.Module, env, logger, run_dir: str,
+                 variant: str = "full", metrics_csv_path: str | None = None):
         self.cfg = cfg
         self.model = model
         self.env = env
         self.logger = logger
         self.run_dir = run_dir
+        self.variant = variant
+        self.metrics_csv_path = metrics_csv_path or str(Path(run_dir) / "metrics.csv")
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
         train_cfg = cfg["train"]
@@ -205,6 +211,17 @@ class PPOTrainer:
         self.best_eval_reward = -float("inf")
         self.global_step = 0
 
+        # Per-episode reward tracking (across envs)
+        self._episode_rewards = torch.zeros(cfg["task"]["num_envs"], device=self.device)
+        self._episode_lengths = torch.zeros(cfg["task"]["num_envs"], device=self.device)
+        self._recent_episode_rewards: list[float] = []
+        self._recent_episode_lengths: list[float] = []
+
+        # Timing
+        self._train_start_time: float = 0.0
+        self._last_log_step: int = 0
+        self._last_log_time: float = 0.0
+
         # Manifest
         self.manifest = create_manifest(cfg, run_dir)
         save_manifest(self.manifest, run_dir)
@@ -217,6 +234,10 @@ class PPOTrainer:
         num_iterations = self.total_timesteps // (self.num_steps * self.cfg["task"]["num_envs"])
         print(f"[Train] Starting training: {num_iterations} iterations, "
               f"{self.total_timesteps:,} total timesteps")
+
+        self._train_start_time = time.time()
+        self._last_log_time = self._train_start_time
+        self._last_log_step = self.global_step
 
         # Initial reset
         reset_data = self.env.reset()
@@ -267,6 +288,16 @@ class PPOTrainer:
                     done = step_data["done"]
                     dynamics_targets = step_data.get("dynamics_params", None)
 
+                    # Track per-episode rewards
+                    self._episode_rewards += reward
+                    self._episode_lengths += 1
+                    done_ids = done.nonzero(as_tuple=False).squeeze(-1)
+                    for idx in done_ids:
+                        self._recent_episode_rewards.append(self._episode_rewards[idx].item())
+                        self._recent_episode_lengths.append(self._episode_lengths[idx].item())
+                        self._episode_rewards[idx] = 0
+                        self._episode_lengths[idx] = 0
+
                     # Update history buffer
                     if self.uses_history:
                         self.history_buffer.insert(obs, action)
@@ -315,21 +346,71 @@ class PPOTrainer:
 
             # ─── Logging ───
             if iteration % self.log_interval == 0:
-                avg_reward = self.rollout_buffer.rewards.mean().item()
+                now = time.time()
+                wall_time_s = now - self._train_start_time
+                steps_since_last = self.global_step - self._last_log_step
+                time_since_last = now - self._last_log_time
+                fps = steps_since_last / max(time_since_last, 1e-6)
+
+                # GPU memory
+                gpu_mem_mb = 0
+                if torch.cuda.is_available():
+                    gpu_mem_mb = torch.cuda.memory_allocated() // (1024 * 1024)
+
+                # Episode-level reward (from tracked completions)
+                if self._recent_episode_rewards:
+                    import numpy as _np
+                    reward_mean = float(_np.mean(self._recent_episode_rewards))
+                    reward_std = float(_np.std(self._recent_episode_rewards))
+                    ep_len_mean = float(_np.mean(self._recent_episode_lengths))
+                else:
+                    reward_mean = self.rollout_buffer.rewards.sum(dim=0).mean().item()
+                    reward_std = 0.0
+                    ep_len_mean = 0.0
+
+                # Write standardized step-level CSV row
+                step_row = {
+                    "iteration": iteration,
+                    "global_step": self.global_step,
+                    "wall_time_s": round(wall_time_s, 1),
+                    "reward_mean": round(reward_mean, 4),
+                    "reward_std": round(reward_std, 4),
+                    "episode_length_mean": round(ep_len_mean, 1),
+                    "policy_loss": round(update_stats["loss/policy"], 6),
+                    "value_loss": round(update_stats["loss/value"], 6),
+                    "entropy": round(update_stats["loss/entropy"], 6),
+                    "approx_kl": round(update_stats["loss/approx_kl"], 6),
+                    "aux_loss": round(update_stats["loss/aux"], 6),
+                    "learning_rate": update_stats["train/lr"],
+                    "fps": round(fps, 0),
+                    "gpu_mem_mb": gpu_mem_mb,
+                }
+                append_step_row(self.metrics_csv_path, step_row)
+
+                # Also log to TensorBoard + console via Logger
                 log_data = {
                     "iteration": iteration,
                     "global_step": self.global_step,
-                    "reward/mean": avg_reward,
+                    "reward/mean": reward_mean,
+                    "reward/std": reward_std,
+                    "perf/fps": fps,
+                    "perf/gpu_mem_mb": gpu_mem_mb,
                     **update_stats,
                 }
                 self.logger.log_dict(log_data, step=self.global_step)
+
+                # Reset trackers
+                self._recent_episode_rewards.clear()
+                self._recent_episode_lengths.clear()
+                self._last_log_step = self.global_step
+                self._last_log_time = now
 
             # ─── Checkpointing ───
             if iteration % self.save_interval == 0:
                 save_checkpoint(
                     self.run_dir, self.model, self.optimizer,
                     self.global_step, self.cfg,
-                    stats={"iteration": iteration, "reward": avg_reward if iteration % self.log_interval == 0 else 0},
+                    stats={"iteration": iteration},
                 )
 
             # ─── Evaluation ───
@@ -350,8 +431,17 @@ class PPOTrainer:
             self.global_step, self.cfg,
             stats={"status": "completed"},
         )
-        update_manifest(self.run_dir, {"status": "completed", "final_step": self.global_step})
-        print(f"[Train] Training completed. {self.global_step:,} timesteps.")
+        wall_time = time.time() - self._train_start_time
+        update_manifest(self.run_dir, {
+            "status": "completed",
+            "training": {
+                "final_step": self.global_step,
+                "total_iterations": num_iterations,
+                "wall_time_s": round(wall_time, 1),
+                "best_eval_reward": self.best_eval_reward,
+            },
+        })
+        print(f"[Train] Training completed. {self.global_step:,} timesteps in {wall_time:.0f}s.")
 
     def _ppo_update(self) -> dict[str, float]:
         """Perform PPO update using collected rollout data."""

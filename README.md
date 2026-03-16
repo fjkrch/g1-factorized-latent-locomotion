@@ -325,9 +325,10 @@ robotpaper/
 │   ├── plot_results.py                #   Generate all figures
 │   ├── aggregate_seeds.py             #   Aggregate metrics across seeds
 │   ├── generate_tables.py             #   Generate results tables
-│   ├── run_all_baselines.sh           #   Run all 48 main experiments
-│   ├── run_ablations.sh               #   Run all 21 ablation experiments
+│   ├── run_all_baselines.sh           #   Run all 16 main experiments
+│   ├── run_ablations.sh               #   Run all 7 ablation experiments
 │   ├── run_sweeps.sh                  #   Run robustness sweeps
+│   ├── run_everything.sh              #   Run full pipeline (~3 hours)
 │   └── reproduce_all.sh              #    Full 4-tier reproduction script
 │
 ├── tests/                             # Unit tests
@@ -555,7 +556,7 @@ python scripts/train.py --task terrain --model dynamite --seed 42
 
 ### Multi-Seed Training
 
-Each method-task combination should be run with 3 seeds (42, 43, 44):
+By default, all experiments use seed 42 for fast iteration (~3 hours total). To run with multiple seeds for final results, override the seed:
 
 ```bash
 for seed in 42 43 44; do
@@ -563,13 +564,13 @@ for seed in 42 43 44; do
 done
 ```
 
-### Run All Baselines (48 Runs)
+### Run All Baselines (16 Runs)
 
 ```bash
 bash scripts/run_all_baselines.sh
 ```
 
-This runs 4 models × 4 tasks × 3 seeds = 48 training runs sequentially. Estimated time: ~120 hours on RTX 4060.
+This runs 4 models × 4 tasks × 1 seed = 16 training runs sequentially. Estimated time: ~1.5 hours on RTX 4060.
 
 ### CLI Overrides
 
@@ -609,7 +610,7 @@ The trainer will load the latest checkpoint and continue training from that iter
 python scripts/eval.py \
   --checkpoint outputs/randomized/dynamite/seed_42/*/checkpoints/best.pt \
   --task randomized \
-  --num-episodes 100
+  --num-episodes 50
 ```
 
 ### Evaluate with Specific Config
@@ -630,7 +631,7 @@ Evaluate a model trained on one task against a different task:
 python scripts/eval.py \
   --checkpoint outputs/randomized/dynamite/seed_42/*/checkpoints/best.pt \
   --task terrain \
-  --num-episodes 100
+  --num-episodes 50
 ```
 
 ### Batch Evaluation
@@ -640,12 +641,10 @@ After training completes, evaluate all models:
 ```bash
 for model in mlp lstm transformer dynamite; do
   for task in flat push randomized terrain; do
-    for seed in 42 43 44; do
-      python scripts/eval.py \
-        --checkpoint outputs/$task/$model/seed_$seed/*/checkpoints/best.pt \
-        --task $task \
-        --num-episodes 100
-    done
+    python scripts/eval.py \
+      --checkpoint outputs/$task/${model}_full/seed_42/*/checkpoints/best.pt \
+      --task $task \
+      --num-episodes 50
   done
 done
 ```
@@ -681,13 +680,13 @@ python scripts/train.py --task randomized --model dynamite --ablation depth_1 --
 python scripts/train.py --task randomized --model dynamite --ablation depth_4 --seed 42
 ```
 
-### Run All Ablations (21 Runs)
+### Run All Ablations (7 Runs)
 
 ```bash
 bash scripts/run_ablations.sh
 ```
 
-This runs 7 ablation variants × 3 seeds = 21 runs. Estimated time: ~52 hours.
+This runs 7 ablation variants × 1 seed = 7 runs. Estimated time: ~42 minutes.
 
 ### Ablation Hypotheses
 
@@ -786,24 +785,34 @@ This generates:
 The `reproduce_all.sh` script provides 4 tiers of reproduction:
 
 ```bash
-# Tier 1: Sanity check (~10 minutes)
+# Tier 1: Sanity check (~3 minutes)
 # Runs unit tests + smoke test with 5 iterations
 bash scripts/reproduce_all.sh sanity
 
-# Tier 2: Single run (~2.5 hours)
+# Tier 2: Single run (~6 minutes)
 # One full training run: DynaMITE on randomized, seed 42
 bash scripts/reproduce_all.sh single
 
-# Tier 3: Main experiments (~120 hours)
-# All 48 baseline runs (4 models × 4 tasks × 3 seeds)
+# Tier 3: Main experiments (~1.5 hours)
+# All 16 baseline runs (4 models × 4 tasks × 1 seed)
 bash scripts/reproduce_all.sh main
 
-# Tier 4: Full reproduction (~155 hours)
+# Tier 4: Full reproduction (~3 hours)
 # Main + ablations + sweeps + analysis + plots + tables
 bash scripts/reproduce_all.sh full
 ```
 
 **Recommendation**: Run `sanity` first. If it passes, run `single` to verify a complete training run produces expected reward ranges. Then proceed to `main` or `full`.
+
+### Run Everything (One Command)
+
+To run the entire pipeline (training, evaluation, ablations, sweeps, aggregation, plots) in a single command:
+
+```bash
+bash scripts/run_everything.sh
+```
+
+Estimated total time: **~3 hours** on RTX 4060 (2M timesteps per run, 512 envs, 1 seed). Use `--dry-run` to preview what will be executed without running anything.
 
 ---
 
@@ -915,16 +924,17 @@ These are approximate expected results based on the method design and typical RL
 
 ## Runtime Estimates
 
-All estimates are for an RTX 4060 Laptop GPU (8 GB VRAM), 4096 parallel environments, 3000 iterations per run.
+All estimates are for an RTX 4060 Laptop GPU (8 GB VRAM), 512 parallel environments, 2M timesteps per run.
 
 | Experiment Set | Runs | Time per Run | Total Time |
 |---|---|---|---|
-| Single training run | 1 | ~2.5 hours | 2.5 hours |
-| All baselines (4×4×3) | 48 | ~2.5 hours | ~120 hours |
-| All ablations (7×3) | 21 | ~2.5 hours | ~52 hours |
-| Robustness sweeps | 4 methods × 3 sweeps | ~20 min each | ~4 hours |
-| Analysis & plotting | — | — | ~30 min |
-| **Full reproduction** | **—** | **—** | **~177 hours** |
+| Single training run | 1 | ~6 min | 6 min |
+| All baselines (4×4×1) | 16 | ~6 min | ~1.5 hours |
+| All ablations (7×1) | 7 | ~6 min | ~42 min |
+| Robustness sweeps | 4 methods × 4 sweeps | ~1 min each | ~16 min |
+| Evaluation | 23 runs | ~1 min each | ~23 min |
+| Analysis & plotting | — | — | ~2 min |
+| **Full reproduction** | **—** | **—** | **~3 hours** |
 
 ### Memory Usage
 
@@ -976,11 +986,11 @@ After each run:
 
 ### Multi-Seed Consistency
 
-After running 3 seeds for a method-task:
+When running with multiple seeds (optional, for final publication):
 
-- [ ] All 3 runs completed successfully
+- [ ] All seeds completed successfully
 - [ ] Cross-seed standard deviation < 15% of mean
-- [ ] Method ordering is consistent across seeds (e.g., DynaMITE > Transformer in all 3)
+- [ ] Method ordering is consistent across seeds (e.g., DynaMITE > Transformer in all seeds)
 
 See `reproducibility/checklist.md` for the full reproducibility checklist and `reproducibility/expected_results.md` for detailed expected result ranges.
 

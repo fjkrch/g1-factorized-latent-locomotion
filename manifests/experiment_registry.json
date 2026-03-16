@@ -7,10 +7,10 @@
       "description": "Main method comparison across all tasks",
       "methods": ["mlp", "lstm", "transformer", "dynamite"],
       "tasks": ["flat", "push", "randomized", "terrain"],
-      "seeds": [42, 43, 44],
-      "total_runs": 48,
+      "seeds": [42],
+      "total_runs": 16,
       "priority": "critical",
-      "estimated_time_hours": 120,
+      "estimated_time_hours": 1.5,
       "outputs": {
         "per_run": ["config.yaml", "manifest.json", "metrics.csv", "checkpoints/best.pt", "eval_metrics.json"],
         "aggregated": ["results/aggregated/main_comparison.json"]
@@ -31,10 +31,10 @@
         {"name": "depth_1", "config": "configs/ablations/depth_1.yaml"},
         {"name": "depth_4", "config": "configs/ablations/depth_4.yaml"}
       ],
-      "seeds": [42, 43, 44],
-      "total_runs": 21,
+      "seeds": [42],
+      "total_runs": 7,
       "priority": "high",
-      "estimated_time_hours": 52,
+      "estimated_time_hours": 0.7,
       "outputs": {
         "aggregated": ["results/aggregated/ablation_results.json"]
       },
@@ -48,7 +48,7 @@
       "task": "randomized",
       "seed": 42,
       "priority": "high",
-      "estimated_time_hours": 4,
+      "estimated_time_hours": 0.3,
       "outputs": {
         "per_sweep": ["results/sweeps/{method}/{sweep}/sweep_{sweep}.json"]
       },
@@ -70,11 +70,11 @@
   "minimal_submission_set": {
     "description": "Minimum experiments for first paper submission",
     "experiments": ["main_comparison"],
-    "estimated_time_hours": 120
+    "estimated_time_hours": 1.5
   },
   "full_submission_set": {
     "description": "Full experiment set for strong submission",
     "experiments": ["main_comparison", "ablations", "robustness_sweeps", "latent_analysis"],
-    "estimated_time_hours": 177
+    "estimated_time_hours": 3
   }
 }

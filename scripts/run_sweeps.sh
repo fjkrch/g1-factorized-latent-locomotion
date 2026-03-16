@@ -5,7 +5,7 @@
 #
 # Prerequisites: trained checkpoints must exist for all methods on 'randomized' task.
 #
-# Expected runtime: ~4 hours total (evaluation only)
+# Expected runtime: ~20 min total (evaluation only)
 # =============================================================================
 
 set -e
@@ -54,7 +54,7 @@ for model in "${MODELS[@]}"; do
             --checkpoint ${CKPT} \
             --sweep configs/sweeps/${sweep}.yaml \
             --output_dir results/sweeps/${model}/${sweep} \
-            --num_episodes 50"
+            --num_episodes 20"
     done
 done
 

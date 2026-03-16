@@ -3,9 +3,9 @@
 # Run all baseline and proposed method experiments.
 # Each method is trained on all 4 tasks with 3 seeds.
 #
-# Expected runtime: ~120 hours total on RTX 4060
-# Per run: ~2.5 hours (50M steps, 2048 envs)
-# Total runs: 4 methods x 4 tasks x 3 seeds = 48 runs
+# Expected runtime: ~1.5 hours total on RTX 4060
+# Per run: ~6 min (2M steps, 512 envs)
+# Total runs: 4 methods x 4 tasks x 1 seed = 16 runs
 #
 # Usage:
 #   bash scripts/run_all_baselines.sh
@@ -19,7 +19,7 @@ if [[ "$1" == "--dry-run" ]]; then
     DRY_RUN=true
 fi
 
-SEEDS=(42 43 44)
+SEEDS=(42)
 TASKS=("flat" "push" "randomized" "terrain")
 MODELS=("mlp" "lstm" "transformer" "dynamite")
 

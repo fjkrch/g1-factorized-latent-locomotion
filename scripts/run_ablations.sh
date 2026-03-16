@@ -3,9 +3,9 @@
 # Run ablation experiments on the 'randomized' task.
 # Tests each design choice of DynaMITE.
 #
-# Expected runtime: ~30 hours total on RTX 4060
-# Per run: ~2.5 hours
-# Total runs: 7 ablations x 3 seeds = 21 runs (but only on 1 task)
+# Expected runtime: ~42 min total on RTX 4060
+# Per run: ~6 min
+# Total runs: 7 ablations x 1 seed = 7 runs (on 'randomized' task)
 # =============================================================================
 
 set -e
@@ -15,7 +15,7 @@ if [[ "$1" == "--dry-run" ]]; then
     DRY_RUN=true
 fi
 
-SEEDS=(42 43 44)
+SEEDS=(42)
 TASK="randomized"
 
 ABLATIONS=(

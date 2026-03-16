@@ -1,7 +1,7 @@
 # Evaluation configuration
 eval:
   num_envs: 64
-  num_episodes: 100
+  num_episodes: 50
   deterministic: true
   record_video: false
   video_length: 200

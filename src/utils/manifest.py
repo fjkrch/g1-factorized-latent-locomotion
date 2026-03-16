@@ -65,7 +65,7 @@ def get_hardware_info() -> dict[str, Any]:
     if torch.cuda.is_available():
         info["cuda_version"] = torch.version.cuda
         info["gpu_name"] = torch.cuda.get_device_name(0)
-        info["gpu_memory_mb"] = torch.cuda.get_device_properties(0).total_mem // (1024 * 1024)
+        info["gpu_memory_mb"] = torch.cuda.get_device_properties(0).total_memory // (1024 * 1024)
         info["num_gpus"] = torch.cuda.device_count()
     return info
 
@@ -76,7 +76,7 @@ def create_manifest(
     extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """
-    Create a full experiment manifest.
+    Create a full experiment manifest with rich system/git metadata.
 
     Args:
         cfg: Merged config dict.
@@ -86,20 +86,26 @@ def create_manifest(
     Returns:
         Manifest dict.
     """
+    from src.utils.system_info import collect_system_info
+    from src.utils.git_info import collect_git_info
+
+    system_info = collect_system_info()
+    git_info = collect_git_info()
+
     manifest = {
         "timestamp": datetime.now().isoformat(),
         "run_dir": str(run_dir),
         "config": cfg,
-        "git": {
-            "commit": get_git_hash(),
-            "dirty": bool(get_git_diff_stat()),
-            "diff_stat": get_git_diff_stat(),
-        },
+        "git": git_info,
+        "system": system_info,
         "hardware": get_hardware_info(),
         "environment": {
             "CUDA_VISIBLE_DEVICES": os.environ.get("CUDA_VISIBLE_DEVICES", "not_set"),
+            "CUBLAS_WORKSPACE_CONFIG": os.environ.get("CUBLAS_WORKSPACE_CONFIG", "not_set"),
+            "PYTHONHASHSEED": os.environ.get("PYTHONHASHSEED", "not_set"),
         },
         "status": "started",
+        "training": {},
         "final_metrics": {},
     }
     if extra:

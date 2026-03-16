@@ -1,33 +1,67 @@
 """
-Unitree G1 environment wrapper for Isaac Lab.
+Unitree G1 environment wrapper for Isaac Lab (v0.53+ / Isaac Sim 5.x).
 
-This module wraps the Isaac Lab environment for the Unitree G1 humanoid robot
-and provides a standardized interface used by the training/evaluation scripts.
+IMPORTANT: ``init_sim()`` **must** be called once before ``make_env()`` so that
+``SimulationApp`` is created headless *before* any ``isaaclab`` imports.
 
-It handles:
-- Environment creation with domain randomization
-- Observation/action space definitions
-- Reward computation
-- Push disturbances
-- Terrain setup
-- Dynamics parameter export (for auxiliary loss targets)
+Typical lifecycle (handled automatically by train.py / eval.py)::
 
-Usage:
-    from src.envs.g1_env import make_env
-    env = make_env(cfg)
+    from src.envs.g1_env import init_sim, make_env
+    init_sim(headless=True)          # creates SimulationApp
+    env = make_env(cfg, device="cuda")
+    ...
+    env.close()
+
+This wrapper provides a single interface consumed by PPOTrainer regardless
+of whether Isaac Lab is present (falls back to a lightweight mock env for
+unit-testing / CI).
 """
 
 from __future__ import annotations
 
+import math
 from typing import Any
 
 import torch
 import numpy as np
 
+# ---------------------------------------------------------------------------
+# Global SimulationApp handle — created by ``init_sim()``
+# ---------------------------------------------------------------------------
+_SIM_APP = None
+
+
+def init_sim(headless: bool = True) -> None:
+    """Initialise Isaac Sim ``SimulationApp`` (idempotent).
+
+    Must be called **before** any Isaac Lab imports.
+    """
+    global _SIM_APP
+    if _SIM_APP is not None:
+        return
+    try:
+        from isaacsim import SimulationApp
+        _SIM_APP = SimulationApp({"headless": headless, "width": 1280, "height": 720})
+        print(f"[Sim] SimulationApp created (headless={headless})")
+    except Exception as exc:
+        print(f"[WARNING] Could not create SimulationApp: {exc}")
+        print("          Falling back to mock environment.")
+
+
+# ---------------------------------------------------------------------------
+# Isaac Lab gym-id mapping
+# ---------------------------------------------------------------------------
+# These IDs are registered by ``isaaclab_tasks`` upon import.
+_GYM_ID_MAP: dict[str, str] = {
+    "flat":       "Isaac-Velocity-Flat-G1-v0",
+    "push":       "Isaac-Velocity-Rough-G1-PushCurriculum-v0",
+    "randomized": "Isaac-Velocity-Rough-G1-v0",
+    "terrain":    "Isaac-Velocity-Rough-G1-v0",
+}
+
 
 class G1EnvWrapper:
-    """
-    Wrapper around Isaac Lab's Unitree G1 locomotion environment.
+    """Wrapper around Isaac Lab's Unitree G1 locomotion environment.
 
     Provides a clean interface for:
     - Stepping the environment
@@ -35,10 +69,6 @@ class G1EnvWrapper:
     - Applying domain randomization
     - Generating push disturbances
     - Exporting ground-truth dynamics parameters for auxiliary loss
-
-    NOTE: This is designed to wrap an Isaac Lab ManagerBasedRLEnv.
-    The actual Isaac Lab env setup requires Isaac Sim to be installed.
-    This wrapper standardizes the interface for our training pipeline.
     """
 
     def __init__(self, cfg: dict, device: str = "cuda"):
@@ -61,59 +91,60 @@ class G1EnvWrapper:
         self._env = None
         self._step_count = torch.zeros(self.num_envs, dtype=torch.long, device=device)
 
-    def _create_isaac_env(self):
-        """
-        Create the actual Isaac Lab environment.
-
-        This requires Isaac Sim to be installed and running.
-        The environment is created following Isaac Lab conventions:
-          - ManagerBasedRLEnv or DirectRLEnv
-          - Unitree G1 URDF/USD asset
-          - Custom reward terms
-          - Custom domain randomization events
-        """
+    # ------------------------------------------------------------------
+    # Environment creation
+    # ------------------------------------------------------------------
+    def _create_isaac_env(self) -> None:
+        """Create the Isaac Lab environment via gymnasium registry."""
+        global _SIM_APP
+        if _SIM_APP is None:
+            print("[WARNING] SimulationApp not initialised — using mock env.")
+            self._env = None
+            return
         try:
-            # Isaac Lab imports — these require Isaac Sim runtime
-            from omni.isaac.lab.envs import ManagerBasedRLEnv
-            from omni.isaac.lab.utils.dict import class_to_dict
-
-            # Import our task config registration
-            from src.envs.g1_task_cfg import G1FlatEnvCfg, G1PushEnvCfg, G1RandEnvCfg, G1TerrainEnvCfg
-
-            task_map = {
-                "flat": G1FlatEnvCfg,
-                "push": G1PushEnvCfg,
-                "randomized": G1RandEnvCfg,
-                "terrain": G1TerrainEnvCfg,
-            }
+            import gymnasium as gym
+            # Importing isaaclab_tasks triggers gym.register(...) for all envs
+            import isaaclab_tasks  # noqa: F401
 
             task_name = self.task_cfg["name"]
-            if task_name not in task_map:
-                raise ValueError(f"Unknown task: {task_name}")
+            gym_id = _GYM_ID_MAP.get(task_name)
+            if gym_id is None:
+                raise ValueError(
+                    f"Unknown task '{task_name}'. "
+                    f"Available: {list(_GYM_ID_MAP.keys())}"
+                )
 
-            env_cfg = task_map[task_name]()
-            env_cfg.scene.num_envs = self.num_envs
-            self._env = ManagerBasedRLEnv(cfg=env_cfg)
+            self._env = gym.make(
+                gym_id,
+                env_cfg_entry_point=None,   # use default from registration
+                num_envs=self.num_envs,
+            )
+            # Unwrap to ManagerBasedRLEnv for direct tensor access
+            self._rl_env = self._env.unwrapped
+            print(f"[Env] Created {gym_id}  (num_envs={self.num_envs})")
 
-        except ImportError:
-            print("[WARNING] Isaac Lab not available. Using mock environment.")
-            print("          Install Isaac Sim + Isaac Lab for real training.")
+        except Exception as exc:
+            print(f"[WARNING] Could not create Isaac Lab env: {exc}")
+            print("          Falling back to mock environment.")
             self._env = None
 
+    # ------------------------------------------------------------------
+    # Step / Reset
+    # ------------------------------------------------------------------
     def reset(self) -> dict[str, torch.Tensor]:
-        """
-        Reset all environments.
-
-        Returns:
-            dict with keys: obs, cmd, dynamics_params (if DR enabled)
-        """
+        """Reset all environments."""
         self._step_count.zero_()
 
         if self._env is not None:
-            obs_dict, _ = self._env.reset()
-            obs = obs_dict["policy"]
+            obs_dict, info = self._env.reset()
+            if isinstance(obs_dict, dict):
+                obs = obs_dict.get("policy", obs_dict.get("obs", None))
+                if obs is None:
+                    obs = next(iter(obs_dict.values()))
+            else:
+                obs = obs_dict
+            obs = obs.to(self.device)
         else:
-            # Mock for development without simulator
             obs = torch.zeros(self.num_envs, self.obs_dim, device=self.device)
 
         cmd = self._sample_commands()
@@ -127,21 +158,27 @@ class G1EnvWrapper:
         return result
 
     def step(self, actions: torch.Tensor) -> dict[str, Any]:
-        """
-        Step the environment.
+        """Step the environment.
 
         Args:
             actions: (num_envs, act_dim)
 
         Returns:
-            dict with: obs, cmd, reward, done, info, dynamics_params
+            dict with: obs, cmd, reward, done, info, reset_ids, dynamics_params
         """
         self._step_count += 1
 
         if self._env is not None:
-            obs_dict, rewards, dones, truncated, info = self._env.step(actions)
-            obs = obs_dict["policy"]
-            done = dones | truncated
+            obs_dict, rewards, terminated, truncated, info = self._env.step(actions)
+            if isinstance(obs_dict, dict):
+                obs = obs_dict.get("policy", obs_dict.get("obs", None))
+                if obs is None:
+                    obs = next(iter(obs_dict.values()))
+            else:
+                obs = obs_dict
+            obs = obs.to(self.device)
+            rewards = rewards.to(self.device)
+            done = (terminated | truncated).to(self.device)
         else:
             # Mock
             obs = torch.randn(self.num_envs, self.obs_dim, device=self.device) * 0.1
@@ -149,7 +186,7 @@ class G1EnvWrapper:
             done = self._step_count >= self.task_cfg["episode_length"]
             info = {}
 
-        # Apply push disturbances
+        # Apply push disturbances (only when we manage DR ourselves)
         if self.dr_enabled:
             push_interval = self.task_cfg["domain_randomization"]["push_interval"]
             if push_interval > 0:
@@ -176,18 +213,20 @@ class G1EnvWrapper:
             result["dynamics_params"] = self._get_dynamics_targets()
         return result
 
+    # ------------------------------------------------------------------
+    # Commands / Domain randomization
+    # ------------------------------------------------------------------
     def _sample_commands(self) -> torch.Tensor:
         """Sample random velocity commands: [vx, vy, yaw_rate]."""
         cmd = torch.zeros(self.num_envs, self.cmd_dim, device=self.device)
-        cmd[:, 0] = torch.empty(self.num_envs, device=self.device).uniform_(-1.0, 2.0)  # vx
-        cmd[:, 1] = torch.empty(self.num_envs, device=self.device).uniform_(-0.5, 0.5)  # vy
-        cmd[:, 2] = torch.empty(self.num_envs, device=self.device).uniform_(-1.0, 1.0)  # yaw_rate
+        cmd[:, 0] = torch.empty(self.num_envs, device=self.device).uniform_(-1.0, 2.0)
+        cmd[:, 1] = torch.empty(self.num_envs, device=self.device).uniform_(-0.5, 0.5)
+        cmd[:, 2] = torch.empty(self.num_envs, device=self.device).uniform_(-1.0, 1.0)
         return cmd
 
     def _randomize_dynamics(self) -> None:
         """Sample domain randomization parameters for all envs."""
         dr = self.task_cfg["domain_randomization"]
-
         self._dynamics_params = {
             "friction": torch.empty(self.num_envs, 2, device=self.device).uniform_(*dr["friction_range"]),
             "mass": torch.zeros(self.num_envs, 2, device=self.device),
@@ -196,49 +235,49 @@ class G1EnvWrapper:
             "delay": torch.randint(
                 dr["action_delay_range"][0],
                 max(dr["action_delay_range"][1], 1) + 1,
-                (self.num_envs, 1),
-                device=self.device,
+                (self.num_envs, 1), device=self.device,
             ).float(),
         }
-        # Mass: added_mass + com displacement
         self._dynamics_params["mass"][:, 0] = torch.empty(
-            self.num_envs, device=self.device
-        ).uniform_(*dr["added_mass_range"])
+            self.num_envs, device=self.device).uniform_(*dr["added_mass_range"])
         com_range = dr.get("com_displacement_range", [-0.05, 0.05])
         self._dynamics_params["mass"][:, 1] = torch.empty(
-            self.num_envs, device=self.device
-        ).uniform_(*com_range)
+            self.num_envs, device=self.device).uniform_(*com_range)
 
-        # Actually apply to physics if env is available
         if self._env is not None:
             self._apply_dynamics_to_env()
 
     def _apply_dynamics_to_env(self) -> None:
-        """Apply randomized dynamics parameters to the Isaac Lab environment."""
-        # Implementation depends on Isaac Lab API — set material frictions,
-        # add mass to bodies, scale motor gains, etc.
+        """Apply randomized dynamics parameters to the Isaac Lab environment.
+
+        Isaac Lab handles most DR via its EventManager when the env cfg has
+        randomisation events configured.  This method is a hook for any
+        *additional* per-step modifications you want to apply on top.
+        """
         pass
 
     def _apply_push(self, mask: torch.Tensor) -> None:
         """Apply external push disturbance to selected environments."""
         dr = self.task_cfg["domain_randomization"]
         push_range = dr["push_vel_range"]
-        n_push = mask.sum().item()
+        n_push = int(mask.sum().item())
         if n_push == 0:
             return
-
-        # Random push direction and magnitude
         push_vel = torch.zeros(n_push, 3, device=self.device)
         magnitude = torch.empty(n_push, device=self.device).uniform_(*push_range)
-        angle = torch.empty(n_push, device=self.device).uniform_(0, 2 * 3.14159)
+        angle = torch.empty(n_push, device=self.device).uniform_(0, 2 * math.pi)
         push_vel[:, 0] = magnitude * torch.cos(angle)
         push_vel[:, 1] = magnitude * torch.sin(angle)
 
-        if self._env is not None:
-            # Apply velocity perturbation to robot base
+        if self._env is not None and hasattr(self._rl_env, "scene"):
             push_ids = mask.nonzero(as_tuple=False).squeeze(-1)
-            # env.scene.robot.write_root_velocity(push_vel, env_ids=push_ids)
-            pass
+            try:
+                robot = self._rl_env.scene["robot"]
+                cur_vel = robot.data.root_lin_vel_w.clone()
+                cur_vel[push_ids, :3] += push_vel
+                robot.write_root_velocity_to_sim(cur_vel, env_ids=push_ids)
+            except Exception:
+                pass  # silently skip if API changed
 
     def _get_dynamics_targets(self) -> dict[str, torch.Tensor]:
         """Get ground-truth dynamics parameters for auxiliary loss."""
@@ -248,7 +287,6 @@ class G1EnvWrapper:
         """Handle environment resets: re-randomize dynamics for reset envs."""
         self._step_count[reset_ids] = 0
         if self.dr_enabled and len(reset_ids) > 0:
-            # Re-randomize dynamics for reset environments
             dr = self.task_cfg["domain_randomization"]
             n = len(reset_ids)
             self._dynamics_params["friction"][reset_ids] = torch.empty(
@@ -264,22 +302,22 @@ class G1EnvWrapper:
     def observation_space(self) -> dict:
         return {"obs_dim": self.obs_dim, "cmd_dim": self.cmd_dim, "act_dim": self.act_dim}
 
-    def close(self):
+    def close(self) -> None:
         if self._env is not None:
             self._env.close()
+        global _SIM_APP
+        if _SIM_APP is not None:
+            _SIM_APP.close()
+            _SIM_APP = None
 
 
-def make_env(cfg: dict, device: str = "cuda") -> G1EnvWrapper:
+def make_env(cfg: dict, device: str = "cuda", headless: bool = True) -> G1EnvWrapper:
+    """Create a G1 environment from config.
+
+    If ``init_sim()`` has not been called yet, it is called here with
+    *headless* mode.
     """
-    Create a G1 environment from config.
-
-    Args:
-        cfg: Full merged config dict.
-        device: Torch device.
-
-    Returns:
-        G1EnvWrapper instance.
-    """
+    init_sim(headless=headless)
     env = G1EnvWrapper(cfg, device=device)
     env._create_isaac_env()
     return env

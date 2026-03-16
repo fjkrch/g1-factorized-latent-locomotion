@@ -80,7 +80,7 @@ def load_config(
     cfg = load_yaml(base_path)
 
     for path in [task_path, model_path, train_path, eval_path, ablation_path]:
-        if path is not None:
+        if path is not None and Path(path).exists():
             layer = load_yaml(path)
             cfg = deep_merge(cfg, layer)
 
@@ -112,10 +112,10 @@ def config_to_flat(cfg: dict, prefix: str = "") -> dict[str, Any]:
     return flat
 
 
-def make_run_dir(cfg: dict) -> Path:
+def make_run_dir(cfg: dict, variant: str = "full") -> Path:
     """
     Create and return run output directory.
-    Pattern: outputs/{task}/{model}/seed_{seed}/{timestamp}
+    Pattern: outputs/{task}/{model}_{variant}/seed_{seed}/{timestamp}
     """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     task_name = cfg["task"]["name"]
@@ -123,7 +123,7 @@ def make_run_dir(cfg: dict) -> Path:
     seed = cfg["seed"]
     base = cfg.get("output", {}).get("base_dir", "outputs")
 
-    run_dir = Path(base) / task_name / model_name / f"seed_{seed}" / timestamp
+    run_dir = Path(base) / task_name / f"{model_name}_{variant}" / f"seed_{seed}" / timestamp
     run_dir.mkdir(parents=True, exist_ok=True)
 
     # Save config snapshot

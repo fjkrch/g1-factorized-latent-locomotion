@@ -33,9 +33,9 @@
 - [ ] Training curves plotted
 - [ ] Results consistent with expectations (within variance)
 
-## Multi-Seed Checks
+## Multi-Seed Checks (optional — for final publication)
 
-- [ ] All 3 seeds completed successfully
+- [ ] Multiple seeds completed successfully
 - [ ] Aggregated results generated
 - [ ] Std across seeds < 20% of mean (reasonable variance)
 - [ ] No outlier seeds (single seed much worse than others)
@@ -51,8 +51,8 @@
 
 ## Full Reproduction Checks
 
-- [ ] All main experiments (4 methods x 4 tasks x 3 seeds = 48 runs)
-- [ ] All ablations (7 ablations x 3 seeds = 21 runs)
+- [ ] All main experiments (4 methods x 4 tasks x 1 seed = 16 runs)
+- [ ] All ablations (7 ablations x 1 seed = 7 runs)
 - [ ] Robustness sweeps completed
 - [ ] Tables match expected format
 - [ ] Figures generated and saved

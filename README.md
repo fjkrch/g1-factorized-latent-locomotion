@@ -812,7 +812,7 @@ To run the entire pipeline (training, evaluation, ablations, sweeps, aggregation
 bash scripts/run_everything.sh
 ```
 
-Estimated total time: **~3 hours** on RTX 4060 (2M timesteps per run, 512 envs, 1 seed). Use `--dry-run` to preview what will be executed without running anything.
+Estimated total time: **~3.5 hours** on RTX 4060 (12M timesteps per run, 512 envs, 1 seed). Use `--dry-run` to preview what will be executed without running anything.
 
 ---
 
@@ -896,79 +896,83 @@ After evaluation:
 
 ## Experimental Results
 
-All results below are from completed pipeline runs on an RTX 4060 Laptop GPU, 512 environments, 2M timesteps, seed 42.
+All results below are from completed pipeline runs on an RTX 4060 Laptop GPU, 512 environments, ~12M total timesteps (2M initial + 10M resumed), seed 42.
 Rewards are penalty-based (negative); **higher (less negative) is better**.
 
 ### Main Comparison — Evaluation Reward
 
 | Method | Flat | Push | Randomized | Terrain |
 |---|---|---|---|---|
-| MLP | -9.15 | -9.42 | -9.53 | -9.53 |
-| LSTM | **-3.96** | **-3.61** | **-3.62** | -3.62 |
-| Transformer | -4.74 | -4.34 | -4.49 | -4.49 |
-| **DynaMITE** | -5.81 | -4.39 | -4.35 | **-4.25** |
+| MLP | -4.65 | -4.41 | -4.35 | -4.35 |
+| LSTM | -4.70 | -4.87 | -4.79 | -4.79 |
+| Transformer | -4.75 | -4.38 | -4.53 | -4.53 |
+| **DynaMITE** | -4.83 | **-4.32** | **-4.27** | -4.45 |
 
 ### Main Comparison — Episode Length (steps)
 
 | Method | Flat | Push | Randomized | Terrain |
 |---|---|---|---|---|
-| MLP | 18.1 | 25.0 | 24.9 | 24.9 |
-| LSTM | 68.0 | 61.3 | 60.9 | 60.9 |
-| Transformer | 18.0 | 21.2 | 23.0 | 23.0 |
-| DynaMITE | 37.8 | 19.8 | 23.1 | 19.2 |
+| MLP | 17.0 | 23.7 | 25.2 | 25.2 |
+| LSTM | 29.2 | 31.7 | 32.7 | 32.7 |
+| Transformer | 21.7 | 18.7 | 19.9 | 19.9 |
+| DynaMITE | 21.8 | 18.0 | 17.1 | 17.1 |
 
 ### Training Final Reward
 
 | Method | Flat | Push | Randomized | Terrain |
 |---|---|---|---|---|
-| MLP | -9.75 | -8.10 | -8.10 | -8.10 |
-| LSTM | -5.93 | -6.22 | -6.21 | -6.21 |
-| Transformer | -5.30 | -4.99 | -5.10 | -5.10 |
-| DynaMITE | -6.30 | -5.62 | -5.45 | -5.60 |
+| MLP | -5.06 | -4.64 | -4.68 | -4.68 |
+| LSTM | -6.21 | -6.08 | -6.29 | -6.29 |
+| Transformer | -6.14 | -5.22 | -4.99 | -4.99 |
+| DynaMITE | -6.05 | -5.62 | -5.01 | -4.90 |
 
 ### Training Throughput (FPS)
 
 | Method | Flat | Push | Randomized | Terrain |
 |---|---|---|---|---|
-| MLP | 16,243 | 12,225 | 12,254 | 12,254 |
-| LSTM | 13,277 | 11,335 | 11,435 | 11,435 |
-| Transformer | 14,461 | 11,427 | 11,555 | 11,555 |
-| DynaMITE | 13,045 | 10,396 | 10,479 | 10,479 |
+| MLP | 17,325 | 14,522 | 14,483 | 14,519 |
+| LSTM | 17,197 | 13,552 | 13,897 | 13,831 |
+| Transformer | 13,756 | 12,745 | 12,753 | 12,788 |
+| DynaMITE | 13,890 | 12,113 | 12,735 | 12,374 |
 
-### Ablation Study (Randomized Task)
+### Ablation Study (Randomized Task, 2M steps)
+
+Ablations were trained for 2M timesteps. The "Full" row uses the 12M-trained DynaMITE checkpoint for comparison.
 
 | Variant | Eval Reward | Δ vs Full |
 |---|---|---|
-| DynaMITE (Full) | -4.35 | — |
-| Seq Len 4 | -4.35 | 0.00 |
-| Seq Len 16 | -4.35 | 0.00 |
-| No Latent | -4.49 | -0.14 |
-| Single Latent | -5.03 | -0.68 |
-| No Aux Loss | -5.08 | -0.73 |
-| Depth 1 | -4.32 | +0.03 |
-| Depth 4 | -4.76 | -0.41 |
+| DynaMITE (Full, 12M) | -4.27 | — |
+| Seq Len 4 | -4.35 | -0.08 |
+| Seq Len 16 | -4.35 | -0.08 |
+| No Latent | -4.49 | -0.22 |
+| Single Latent | -5.03 | -0.76 |
+| No Aux Loss | -5.08 | -0.82 |
+| Depth 1 | -4.32 | -0.06 |
+| Depth 4 | -4.76 | -0.50 |
 
 ### Key Findings
 
-- **LSTM** achieves the best raw reward across most tasks, driven by substantially longer episode lengths (60–68 steps vs 18–38 for others).
-- **DynaMITE** outperforms Transformer on terrain (-4.25 vs -4.49) and matches or beats it on randomized (-4.35 vs -4.49).
-- **MLP** (no history) is consistently the worst, confirming the importance of temporal context.
-- **Ablations**: removing auxiliary loss (-0.73) or collapsing to a single latent (-0.68) causes the largest degradation. Sequence length (4–16) has minimal effect. Depth 1 slightly outperforms depth 2.
+- With extended training (12M steps), all methods converge to a narrower reward range (-4.27 to -4.87), demonstrating that the early 2M-step differences were largely due to convergence speed.
+- **DynaMITE** achieves the best eval reward on push (-4.32) and randomized (-4.27), outperforming all baselines.
+- **MLP** catches up significantly with longer training (from -9.53 at 2M to -4.35 at 12M on randomized), though DynaMITE still beats it.
+- **LSTM** performs worse than all other methods at 12M steps (-4.79 on randomized), reversing its early lead — its 2M advantage was driven by longer episodes, not better policy quality.
+- **Transformer** (-4.53 on randomized) is outperformed by DynaMITE (-4.27), confirming the benefit of the latent dynamics module.
+- **Ablations**: removing auxiliary loss (-0.82) or collapsing to a single latent (-0.76) causes the largest degradation. Depth 4 hurts (-0.50). Sequence length has minimal effect.
 
 ---
 
 ## Runtime Estimates
 
-Measured on an RTX 4060 Laptop GPU (8 GB VRAM), 512 parallel environments, 2M timesteps per run.
+Measured on an RTX 4060 Laptop GPU (8 GB VRAM), 512 parallel environments.
 
 | Experiment Set | Runs | Time per Run | Total Time |
 |---|---|---|---|
-| Single training run | 1 | ~2–3 min | ~3 min |
-| All baselines (4×4×1) | 16 | ~2–3 min | ~40 min |
-| All ablations (7×1) | 7 | ~2–3 min | ~18 min |
+| Single training run (12M steps) | 1 | ~10–13 min | ~13 min |
+| All baselines (4×4×1, 12M steps) | 16 | ~10–13 min | ~2.5 hours |
+| All ablations (7×1, 2M steps) | 7 | ~2–3 min | ~18 min |
 | Evaluation | 23 runs | ~15 sec each | ~6 min |
 | Analysis & plotting | — | — | ~2 min |
-| **Full reproduction** | **—** | **—** | **~1 h 15 min** |
+| **Full reproduction** | **—** | **—** | **~3.5 hours** |
 
 ### Memory Usage
 

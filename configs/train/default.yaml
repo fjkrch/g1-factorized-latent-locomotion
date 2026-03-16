@@ -16,7 +16,7 @@ train:
   normalize_obs: true
   normalize_value: true
   normalize_advantage: true
-  total_timesteps: 2_000_000
+  total_timesteps: 10_000_000
   log_interval: 10
   save_interval: 50
   eval_interval: 50

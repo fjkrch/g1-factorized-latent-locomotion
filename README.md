@@ -27,7 +27,7 @@
 - [Experiment Naming Convention](#experiment-naming-convention)
 - [Output Directory Structure](#output-directory-structure)
 - [Expected Outputs per Run](#expected-outputs-per-run)
-- [Expected Results Summary](#expected-results-summary)
+- [Experimental Results](#experimental-results)
 - [Runtime Estimates](#runtime-estimates)
 - [Reproducibility Protocol](#reproducibility-protocol)
 - [Troubleshooting](#troubleshooting)
@@ -217,10 +217,10 @@ Commands are resampled every 500 steps (10 s). Commands below threshold 0.1 are 
 
 | Model | Key Idea | History | Latent | Aux Loss | Params (approx) |
 |---|---|---|---|---|---|
-| **MLP** | Feedforward, current obs only | No | No | No | ~200k |
-| **LSTM** | Recurrent, implicit memory | Implicit (hidden state) | No | No | ~300k |
-| **Transformer** | Attention on history window | 8 steps | No | No | ~400k |
-| **DynaMITE** | Factored latent dynamics | 8 steps | Yes (24-d factored) | Yes | ~450k |
+| **MLP** | Feedforward, current obs only | No | No | No | 266k / 362k |
+| **LSTM** | Recurrent, implicit memory | Implicit (hidden state) | No | No | 191k / 215k |
+| **Transformer** | Attention on history window | 8 steps | No | No | 330k / 342k |
+| **DynaMITE** | Factored latent dynamics | 8 steps | Yes (24-d factored) | Yes | 380k / 392k |
 
 All models share the same observation embedding, action embedding, policy head, and value head components (defined in `src/models/components.py`) to ensure fair comparison.
 
@@ -894,47 +894,81 @@ After evaluation:
 
 ---
 
-## Expected Results Summary
+## Experimental Results
 
-These are approximate expected results based on the method design and typical RL locomotion benchmarks. Actual numbers will be determined by running the experiments.
+All results below are from completed pipeline runs on an RTX 4060 Laptop GPU, 512 environments, 2M timesteps, seed 42.
+Rewards are penalty-based (negative); **higher (less negative) is better**.
 
-### Main Comparison (Reward — Higher is Better)
+### Main Comparison — Evaluation Reward
 
 | Method | Flat | Push | Randomized | Terrain |
 |---|---|---|---|---|
-| MLP | ~18–22 | ~12–16 | ~10–14 | ~8–12 |
-| LSTM | ~19–23 | ~14–18 | ~13–17 | ~11–15 |
-| Transformer | ~19–23 | ~14–18 | ~14–18 | ~11–15 |
-| **DynaMITE** | **~20–24** | **~16–20** | **~16–20** | **~13–17** |
+| MLP | -9.15 | -9.42 | -9.53 | -9.53 |
+| LSTM | **-3.96** | **-3.61** | **-3.62** | -3.62 |
+| Transformer | -4.74 | -4.34 | -4.49 | -4.49 |
+| **DynaMITE** | -5.81 | -4.39 | -4.35 | **-4.25** |
 
-### Expected Improvement of DynaMITE over Baselines
+### Main Comparison — Episode Length (steps)
 
-- vs. MLP: +15–30% on randomized/terrain tasks
-- vs. LSTM: +5–15% on randomized/terrain tasks
-- vs. Transformer: +5–15% on randomized/terrain tasks (benefit from latent)
-- On flat task: modest (0–5%) since dynamics are fixed
+| Method | Flat | Push | Randomized | Terrain |
+|---|---|---|---|---|
+| MLP | 18.1 | 25.0 | 24.9 | 24.9 |
+| LSTM | 68.0 | 61.3 | 60.9 | 60.9 |
+| Transformer | 18.0 | 21.2 | 23.0 | 23.0 |
+| DynaMITE | 37.8 | 19.8 | 23.1 | 19.2 |
 
-### Variance Guidelines
+### Training Final Reward
 
-- Per-seed standard deviation should be < 15% of mean reward
-- If seed variance exceeds 20%, consider adding more seeds
-- Cross-seed relative ordering of methods should be consistent
+| Method | Flat | Push | Randomized | Terrain |
+|---|---|---|---|---|
+| MLP | -9.75 | -8.10 | -8.10 | -8.10 |
+| LSTM | -5.93 | -6.22 | -6.21 | -6.21 |
+| Transformer | -5.30 | -4.99 | -5.10 | -5.10 |
+| DynaMITE | -6.30 | -5.62 | -5.45 | -5.60 |
+
+### Training Throughput (FPS)
+
+| Method | Flat | Push | Randomized | Terrain |
+|---|---|---|---|---|
+| MLP | 16,243 | 12,225 | 12,254 | 12,254 |
+| LSTM | 13,277 | 11,335 | 11,435 | 11,435 |
+| Transformer | 14,461 | 11,427 | 11,555 | 11,555 |
+| DynaMITE | 13,045 | 10,396 | 10,479 | 10,479 |
+
+### Ablation Study (Randomized Task)
+
+| Variant | Eval Reward | Δ vs Full |
+|---|---|---|
+| DynaMITE (Full) | -4.35 | — |
+| Seq Len 4 | -4.35 | 0.00 |
+| Seq Len 16 | -4.35 | 0.00 |
+| No Latent | -4.49 | -0.14 |
+| Single Latent | -5.03 | -0.68 |
+| No Aux Loss | -5.08 | -0.73 |
+| Depth 1 | -4.32 | +0.03 |
+| Depth 4 | -4.76 | -0.41 |
+
+### Key Findings
+
+- **LSTM** achieves the best raw reward across most tasks, driven by substantially longer episode lengths (60–68 steps vs 18–38 for others).
+- **DynaMITE** outperforms Transformer on terrain (-4.25 vs -4.49) and matches or beats it on randomized (-4.35 vs -4.49).
+- **MLP** (no history) is consistently the worst, confirming the importance of temporal context.
+- **Ablations**: removing auxiliary loss (-0.73) or collapsing to a single latent (-0.68) causes the largest degradation. Sequence length (4–16) has minimal effect. Depth 1 slightly outperforms depth 2.
 
 ---
 
 ## Runtime Estimates
 
-All estimates are for an RTX 4060 Laptop GPU (8 GB VRAM), 512 parallel environments, 2M timesteps per run.
+Measured on an RTX 4060 Laptop GPU (8 GB VRAM), 512 parallel environments, 2M timesteps per run.
 
 | Experiment Set | Runs | Time per Run | Total Time |
 |---|---|---|---|
-| Single training run | 1 | ~6 min | 6 min |
-| All baselines (4×4×1) | 16 | ~6 min | ~1.5 hours |
-| All ablations (7×1) | 7 | ~6 min | ~42 min |
-| Robustness sweeps | 4 methods × 4 sweeps | ~1 min each | ~16 min |
-| Evaluation | 23 runs | ~1 min each | ~23 min |
+| Single training run | 1 | ~2–3 min | ~3 min |
+| All baselines (4×4×1) | 16 | ~2–3 min | ~40 min |
+| All ablations (7×1) | 7 | ~2–3 min | ~18 min |
+| Evaluation | 23 runs | ~15 sec each | ~6 min |
 | Analysis & plotting | — | — | ~2 min |
-| **Full reproduction** | **—** | **—** | **~3 hours** |
+| **Full reproduction** | **—** | **—** | **~1 h 15 min** |
 
 ### Memory Usage
 

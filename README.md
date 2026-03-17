@@ -128,29 +128,41 @@ We measure whether DynaMITE's learned latent subspaces correlate with their inte
 - The 0.477 score suggests moderate disentanglement — the model partially separates dynamics factors into their intended subspaces, but with substantial cross-talk between factors.
 - Correlation heatmap and t-SNE visualizations are in `figures/`.
 
-### OOD Robustness Sweeps
+### OOD Robustness Sweeps (PhysX-Verified)
 
-We evaluated all four models across friction, actuation delay, and push magnitude sweeps (20 episodes per level).
+We evaluated all four models across friction levels using `scripts/eval_ood_validated.py`, which spawns a fresh subprocess per sweep level, modifies `env_cfg.events.physics_material.params` before `gymnasium.make()`, and verifies the PhysX read-back matches the target (std=0.0 across all shapes). This ensures the friction changes actually reach the simulator.
 
-| Method | Nominal | Worst OOD | Gap |
-|---|---|---|---|
-| DynaMITE | **-4.27** | **-4.32** | **0.05** |
-| Transformer | -4.67 | -4.71 | 0.04 |
-| LSTM | -4.74 | -4.82 | 0.08 |
-| MLP | -4.50 | -4.60 | 0.10 |
+**Friction Sweep Results** (50 episodes per level, seed 42):
 
-**Caveat:** The results above were collected with the original `eval.py` sweep loop, which mutated the Python config dict at runtime without verifying propagation to the PhysX simulator. Identical reward patterns across all three perturbation types suggest the parameter changes did **not** reach the live simulation. The gaps above likely reflect episode-to-episode variance rather than true OOD degradation.
+| Method | Friction 1.0 | Friction 0.7 | Friction 0.5 | Friction 0.3 | Friction 0.1 | Sensitivity |
+|---|---|---|---|---|---|---|
+| DynaMITE | **-4.27±0.15** | **-4.27±0.15** | **-4.27±0.15** | **-4.27±0.14** | **-4.28±0.14** | **0.01** |
+| MLP | -4.56±0.39 | -4.50±0.32 | -4.42±0.32 | -4.45±0.35 | -4.56±0.33 | 0.14 |
+| LSTM | -4.78±0.22 | -4.79±0.20 | -4.76±0.21 | -4.80±0.21 | -4.91±0.17 | 0.15 |
+| Transformer | -5.04±0.58 | -4.72±0.32 | -4.54±0.21 | -4.39±0.12 | -4.36±0.12 | 0.68 |
 
-**Validated pipeline:** `scripts/eval_ood_validated.py` addresses this by (1) pinning all DR params to nominal except the swept factor, (2) calling `set_material_properties` on every `env.reset()`, (3) reading back the live PhysX state and asserting it matches the target within tolerance, and (4) refusing to continue if verification fails. Use this script for any publishable OOD results:
+*Sensitivity = max(reward) - min(reward) across friction levels. Lower is more robust.*
 
+**Key findings:**
+- **DynaMITE is the most friction-robust** — reward barely changes (0.01 range) from high friction (1.0) to extreme low friction (0.1).
+- **Transformer is most friction-sensitive** — reward varies by 0.68 across levels, actually improving at low friction (possibly due to reduced ground reaction forces).
+- **MLP and LSTM show moderate sensitivity** (0.14–0.15 range).
+
+**Additional DynaMITE sweeps** (push_magnitude, action_delay):
+- Push magnitude: No effect observed — episode length (17 steps) is shorter than push_interval (200 steps), so pushes never fire.
+- Action delay: Config-level only (not physically simulated in PhysX), so no effect on reward.
+
+All verified results are in `outputs/ood_validated/randomized/<model>/` with CSV + JSON files.
+
+**Validation command:**
 ```bash
 python scripts/eval_ood_validated.py \
     --checkpoint path/to/best.pt \
     --sweep configs/sweeps/friction.yaml \
-    --num_episodes 100
+    --num_episodes 50 --num_envs 32 --seed 42
 ```
 
-Per-sweep plots from the original (unvalidated) pipeline are in `figures/sweep_*.png` for transparency.
+The script runs a sanity check first (spawning two subprocesses with extreme friction levels) and refuses to continue if the PhysX read-backs are identical.
 
 ---
 
@@ -159,7 +171,8 @@ Per-sweep plots from the original (unvalidated) pipeline are in `figures/sweep_*
 - **Single seed.** All reported numbers use seed 42. Method rankings could change with additional seeds. Multi-seed experiments are required before claiming statistical significance.
 - **Narrow reward spread.** After 12M steps, all methods fall within [-4.27, -4.87] on randomized — a range of 0.60. Whether this difference is practically meaningful for a physical robot is unknown.
 - **No sim-to-real transfer.** All experiments are in simulation (Isaac Lab). We have not validated on physical hardware.
-- **Sweep config does not reach PhysX (original pipeline).** The original `eval.py` sweep loop modified the wrapper's config dict at runtime, but Isaac Lab's PhysX parameters are set during env construction via its EventManager. `scripts/eval_ood_validated.py` works around this by using `root_physx_view.set/get_material_properties()` with explicit read-back verification. If the read-back fails (e.g. for factors with no PhysX-level API), the script refuses to continue. Factors with verified simulator-level support: friction, restitution. Factors that are config/wrapper-level only: push magnitude, action delay.
+- **Sweep config does not reach PhysX (original pipeline).** The original `eval.py` sweep loop modified the wrapper's config dict at runtime, but Isaac Lab's PhysX parameters are set during env construction via its EventManager. `scripts/eval_ood_validated.py` solves this with a subprocess-per-level architecture that modifies `env_cfg.events.physics_material.params` before `gymnasium.make()` and verifies read-backs. **Friction sweeps are now fully validated.** Factors that remain config/wrapper-level only (no PhysX verification): push magnitude, action delay.
+- **Push magnitude sweeps are ineffective** with current episode lengths. Episodes terminate after ~17 steps, but push_interval=200 means pushes never fire. Shorter push intervals or longer-surviving policies are needed to test push robustness.
 - **Moderate disentanglement.** The 0.477 disentanglement score is above chance (0.20) but below the 0.50+ threshold for strong disentanglement, indicating substantial cross-talk between latent subspaces.
 - **Reward is penalty-based.** The reward function sums several penalty terms. A method achieving -4.27 vs -4.53 is accumulating ~5% less penalty per step on average. The practical significance of this gap is unclear without real-world deployment.
 

@@ -59,6 +59,7 @@ def collect_latent_data(
 
     all_z = []
     all_params = {k: [] for k in ["friction", "mass", "motor", "contact", "delay"]}
+    prev_action = torch.zeros(env.num_envs, act_dim, device=device)
 
     with torch.no_grad():
         reset_data = env.reset()
@@ -67,15 +68,25 @@ def collect_latent_data(
         completed = 0
         step = 0
 
+        # Seed history buffer so first get() has at least one valid entry
+        history_buf.insert(obs, prev_action)
+
         while completed < num_episodes:
             obs_hist, act_hist, hist_mask = history_buf.get()
 
             z, factors = model.get_latent(obs_hist, act_hist, cmd, hist_mask)
-            all_z.append(z.cpu().numpy())
+            z_np = z.cpu().numpy()
 
-            if "dynamics_params" in reset_data:
-                for k, v in reset_data["dynamics_params"].items():
-                    all_params[k].append(v.cpu().numpy())
+            # Skip steps with NaN latent (can happen if hist_mask is empty)
+            if not np.any(np.isnan(z_np)):
+                all_z.append(z_np)
+
+                # Collect current dynamics params (tensor is modified in-place by env)
+                dyn = step_data.get("dynamics_params", None) if step > 0 else reset_data.get("dynamics_params", None)
+                if dyn is not None:
+                    for k, v in dyn.items():
+                        if k in all_params:
+                            all_params[k].append(v.cpu().numpy())
 
             # Take action
             output = model(obs=obs, cmd=cmd, obs_hist=obs_hist,
@@ -88,9 +99,13 @@ def collect_latent_data(
             done = step_data["done"]
 
             history_buf.insert(obs, action)
+            prev_action = action
             reset_ids = step_data.get("reset_ids", torch.tensor([], device=device))
             if len(reset_ids) > 0:
                 history_buf.reset_envs(reset_ids)
+                # Re-seed reset envs so mask isn't all-false
+                history_buf.obs_buf[reset_ids, -1] = obs[reset_ids]
+                history_buf.lengths[reset_ids] = 1
                 completed += len(reset_ids)
             step += 1
 
@@ -122,10 +137,21 @@ def compute_correlations(
         z = latent_z[:n]
         p = param_vals[:n]
 
+        # Remove rows with NaN in either z or p
+        valid = ~(np.isnan(z).any(axis=1) | np.isnan(p).any(axis=1))
+        z = z[valid]
+        p = p[valid]
+
         corr = np.zeros((z.shape[1], p.shape[1]))
         for i in range(z.shape[1]):
+            zi = z[:, i]
+            if np.std(zi) < 1e-10:  # constant column
+                continue
             for j in range(p.shape[1]):
-                corr[i, j] = np.corrcoef(z[:, i], p[:, j])[0, 1]
+                pj = p[:, j]
+                if np.std(pj) < 1e-10:  # constant column
+                    continue
+                corr[i, j] = np.corrcoef(zi, pj)[0, 1]
         correlations[name] = corr
 
     return correlations

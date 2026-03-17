@@ -297,11 +297,35 @@ class G1EnvWrapper:
     def _apply_dynamics_to_env(self) -> None:
         """Apply randomized dynamics parameters to the Isaac Lab environment.
 
-        Isaac Lab handles most DR via its EventManager when the env cfg has
-        randomisation events configured.  This method is a hook for any
-        *additional* per-step modifications you want to apply on top.
+        Attempts to set physics material properties (friction, restitution)
+        via Isaac Lab's PhysX rigid body view API. Silently skips if the
+        API is unavailable or the env doesn't support it.
         """
-        pass
+        if self._env is None:
+            return
+
+        try:
+            robot = self._rl_env.scene["robot"]
+
+            # -- Friction & restitution via body_physx_view --
+            if hasattr(robot, "root_physx_view"):
+                view = robot.root_physx_view
+                # Material properties tensor: (num_envs * num_shapes, 3)
+                #   columns: [static_friction, dynamic_friction, restitution]
+                mat = view.get_material_properties()
+                n_shapes_per_env = mat.shape[0] // self.num_envs
+
+                for i in range(self.num_envs):
+                    sl = slice(i * n_shapes_per_env, (i + 1) * n_shapes_per_env)
+                    fric = self._dynamics_params["friction"][i, 0].item()
+                    rest = self._dynamics_params["contact"][i, 0].item()
+                    mat[sl, 0] = fric   # static friction
+                    mat[sl, 1] = fric   # dynamic friction
+                    mat[sl, 2] = rest   # restitution
+
+                view.set_material_properties(mat)
+        except Exception:
+            pass  # silently skip if API changed or unavailable
 
     def _apply_push(self, mask: torch.Tensor) -> None:
         """Apply external push disturbance to selected environments."""

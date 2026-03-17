@@ -26,6 +26,7 @@ Outputs (in same run_dir or specified output_dir):
 
 import argparse
 import json
+import os
 import sys
 import time
 from datetime import datetime
@@ -74,12 +75,25 @@ def evaluate_checkpoint(
     model: torch.nn.Module,
     device: str = "cuda",
     num_episodes: int = 100,
+    existing_env=None,
 ) -> dict:
-    """Run evaluation and return metrics."""
+    """Run evaluation and return metrics.
+
+    Args:
+        cfg: Config dict.
+        model: Model to evaluate.
+        device: Torch device.
+        num_episodes: Number of episodes to evaluate.
+        existing_env: If provided, reuse this env (reset it) instead of creating a new one.
+                      Essential for sweep evaluations where Isaac Lab can't create multiple envs.
+    """
     from src.utils.history_buffer import HistoryBuffer
 
     model.eval()
-    env = make_env(cfg, device=device)
+    if existing_env is not None:
+        env = existing_env
+    else:
+        env = make_env(cfg, device=device)
     uses_history = getattr(model, 'uses_history', False)
 
     history_buf = None
@@ -220,15 +234,20 @@ def main():
             "results": [],
         }
 
+        # Create env ONCE and reuse for all sweep values
+        # (Isaac Lab can only have one env per SimulationApp session)
+        sweep_env = None
         for val in values:
-            # Apply sweep variable
+            # Apply sweep variable to config
             keys = variable.split(".")
             d = cfg
             for k in keys[:-1]:
                 d = d[k]
             d[keys[-1]] = val
 
-            metrics, env = evaluate_checkpoint(cfg, model, device, args.num_episodes)
+            metrics, sweep_env = evaluate_checkpoint(
+                cfg, model, device, args.num_episodes, existing_env=sweep_env
+            )
             entry = {"value": val, **metrics}
             sweep_results["results"].append(entry)
             print(f"  {variable}={val}: reward={metrics.get('episode_reward/mean', 0):.1f}")
@@ -237,8 +256,10 @@ def main():
         with open(output_dir / f"sweep_{sweep_name}.json", "w") as f:
             json.dump(sweep_results, f, indent=2)
         print(f"[Eval] Sweep results saved to: {output_dir / f'sweep_{sweep_name}.json'}")
-        if env is not None:
-            env.close()
+        # Force-exit to avoid Isaac Lab teardown hang (_is_closed bug)
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(0)
 
     else:
         # Standard evaluation
@@ -270,9 +291,10 @@ def main():
             print(f"  {k}: {v:.4f}")
         print(f"\n[Eval] Wall time: {wall_time:.1f}s")
         print(f"[Eval] Saved to: {output_dir / 'eval_metrics.json'}")
-
-        if env is not None:
-            env.close()
+        # Force-exit to avoid Isaac Lab teardown hang (_is_closed bug)
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(0)
 
 
 if __name__ == "__main__":

@@ -58,5 +58,8 @@ figures/*.svg
 # Jupyter
 .ipynb_checkpoints/
 
+# Paper draft (generated, do not commit)
+paper_draft/
+
 # Environment
 .env

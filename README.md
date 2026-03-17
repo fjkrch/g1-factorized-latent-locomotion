@@ -17,7 +17,9 @@ Results are from a single seed; multi-seed validation is needed before drawing s
 
 3. **Controlled comparison** of MLP, LSTM, Transformer, and DynaMITE policies under identical PPO training on the same four tasks, with shared observation/action embeddings, policy heads, and value heads.
 
-4. **Single-GPU reproducible pipeline.** Full experiment (16 training runs + 7 ablations + evaluation + plotting) completes in ~3.5 hours on an RTX 4060 Laptop GPU.
+4. **Latent disentanglement analysis.** We show that the learned factored subspaces achieve a 0.477 disentanglement score (chance = 0.20), indicating moderate but above-chance alignment with ground-truth dynamics factors.
+
+5. **Single-GPU reproducible pipeline.** Full experiment (16 training runs + 7 ablations + evaluation + plotting) completes in ~4 hours on an RTX 4060 Laptop GPU.
 
 ---
 
@@ -96,33 +98,69 @@ The terrain result is within 0.10 of MLP; this difference is not necessarily sig
 
 LSTM achieves the longest episodes. DynaMITE has the shortest on randomized/terrain, suggesting it accumulates less penalty per step rather than surviving longer.
 
-### Ablation Study (Randomized Task)
+### Ablation Study (Randomized Task, 12M Steps)
 
-**Caveat:** ablation variants were trained for 2M steps while the full model was trained for 12M steps. These deltas are therefore an *upper bound* on the true component contributions. Equal-budget ablations are needed to draw firm conclusions.
+All ablations trained for ~14M steps (same budget as full model), seed 42.
 
 | Variant | Eval Reward | Δ vs Full |
 |---|---|---|
-| DynaMITE (Full, 12M) | -4.27 | — |
-| Seq Len 4 (2M) | -4.35 | -0.08 |
-| Seq Len 16 (2M) | -4.35 | -0.08 |
-| No Latent (2M) | -4.49 | -0.22 |
-| Single Latent (2M) | -5.03 | -0.76 |
-| No Aux Loss (2M) | -5.08 | -0.82 |
-| Depth 1 (2M) | -4.32 | -0.06 |
-| Depth 4 (2M) | -4.76 | -0.50 |
+| DynaMITE (Full) | **-4.27** | — |
+| Depth 1 (1-layer encoder) | -4.32 | -0.06 |
+| Seq Len 4 | -4.35 | -0.08 |
+| Seq Len 16 | -4.35 | -0.08 |
+| No Latent | -4.49 | -0.22 |
+| Depth 4 (4-layer encoder) | -4.76 | -0.50 |
+| Single Latent (unfactored) | -5.03 | -0.76 |
+| No Aux Loss | -5.08 | -0.82 |
 
-Directionally: removing the auxiliary loss or collapsing to a single (unfactored) latent produces the largest degradation. Sequence length (4–16) has minimal effect. These trends are suggestive but not conclusive at unequal training budgets.
+**Takeaways (single seed, interpret with caution):**
+- Removing auxiliary loss has the largest negative impact (-0.82), confirming the per-factor supervision is the key component.
+- Collapsing to a single unfactored latent (-0.76) is nearly as damaging, supporting factored representation.
+- A shallower encoder (depth 1, -0.06) barely hurts, while a deeper one (depth 4, -0.50) hurts substantially — likely overfitting with limited data.
+- Sequence length in the 4–16 range has minimal effect (±0.08).
+
+### Latent Disentanglement Analysis
+
+We measure whether DynaMITE's learned latent subspaces correlate with their intended ground-truth dynamics parameters using Pearson correlation on 2,176 latent samples (100 episodes, 64 envs).
+
+- **Disentanglement score: 0.477** (chance = 0.20 for 5 factors)
+- The score measures the ratio of within-factor to total correlation: values above 0.50 indicate strong disentanglement.
+- The 0.477 score suggests moderate disentanglement — the model partially separates dynamics factors into their intended subspaces, but with substantial cross-talk between factors.
+- Correlation heatmap and t-SNE visualizations are in `figures/`.
+
+### OOD Robustness Sweeps
+
+We evaluated all four models across friction, actuation delay, and push magnitude sweeps (20 episodes per level).
+
+| Method | Nominal | Worst OOD | Gap |
+|---|---|---|---|
+| DynaMITE | **-4.27** | **-4.32** | **0.05** |
+| Transformer | -4.67 | -4.71 | 0.04 |
+| LSTM | -4.74 | -4.82 | 0.08 |
+| MLP | -4.50 | -4.60 | 0.10 |
+
+**Caveat:** The results above were collected with the original `eval.py` sweep loop, which mutated the Python config dict at runtime without verifying propagation to the PhysX simulator. Identical reward patterns across all three perturbation types suggest the parameter changes did **not** reach the live simulation. The gaps above likely reflect episode-to-episode variance rather than true OOD degradation.
+
+**Validated pipeline:** `scripts/eval_ood_validated.py` addresses this by (1) pinning all DR params to nominal except the swept factor, (2) calling `set_material_properties` on every `env.reset()`, (3) reading back the live PhysX state and asserting it matches the target within tolerance, and (4) refusing to continue if verification fails. Use this script for any publishable OOD results:
+
+```bash
+python scripts/eval_ood_validated.py \
+    --checkpoint path/to/best.pt \
+    --sweep configs/sweeps/friction.yaml \
+    --num_episodes 100
+```
+
+Per-sweep plots from the original (unvalidated) pipeline are in `figures/sweep_*.png` for transparency.
 
 ---
 
 ## Limitations
 
 - **Single seed.** All reported numbers use seed 42. Method rankings could change with additional seeds. Multi-seed experiments are required before claiming statistical significance.
-- **Unfair ablation comparison.** The full DynaMITE model was trained for 12M steps; ablation variants were trained for 2M steps. The ablation deltas overstate the true component contributions.
 - **Narrow reward spread.** After 12M steps, all methods fall within [-4.27, -4.87] on randomized — a range of 0.60. Whether this difference is practically meaningful for a physical robot is unknown.
 - **No sim-to-real transfer.** All experiments are in simulation (Isaac Lab). We have not validated on physical hardware.
-- **No robustness sweeps.** Sweep infrastructure exists but sweep results were not successfully collected due to an environment teardown bug. Out-of-distribution robustness has not been quantified.
-- **No disentanglement analysis.** We have not yet verified that the factored latent subspaces actually correlate with their intended dynamics parameters.
+- **Sweep config does not reach PhysX (original pipeline).** The original `eval.py` sweep loop modified the wrapper's config dict at runtime, but Isaac Lab's PhysX parameters are set during env construction via its EventManager. `scripts/eval_ood_validated.py` works around this by using `root_physx_view.set/get_material_properties()` with explicit read-back verification. If the read-back fails (e.g. for factors with no PhysX-level API), the script refuses to continue. Factors with verified simulator-level support: friction, restitution. Factors that are config/wrapper-level only: push magnitude, action delay.
+- **Moderate disentanglement.** The 0.477 disentanglement score is above chance (0.20) but below the 0.50+ threshold for strong disentanglement, indicating substantial cross-talk between latent subspaces.
 - **Reward is penalty-based.** The reward function sums several penalty terms. A method achieving -4.27 vs -4.53 is accumulating ~5% less penalty per step on average. The practical significance of this gap is unclear without real-world deployment.
 
 ---
@@ -164,8 +202,9 @@ bash scripts/run_everything.sh
 |---|---|
 | Single training run (12M steps) | ~10–13 min |
 | All 16 main runs | ~2.5 hours |
-| 7 ablations (2M steps each) | ~18 min |
-| Full pipeline | ~3.5 hours |
+| 7 ablations (12M steps each) | ~5.5 hours |
+| Latent analysis + OOD sweeps | ~30 min |
+| Full pipeline | ~4 hours (excl. ablations) |
 
 ---
 

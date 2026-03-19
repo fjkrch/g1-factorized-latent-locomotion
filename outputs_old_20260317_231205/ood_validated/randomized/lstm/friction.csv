@@ -1,6 +1,0 @@
-factor,level,level_display,reward_mean,reward_std,ep_len_mean,ep_len_std,num_episodes,seed,verification_passed,verification_value,wall_time_s
-friction,"[1.0, 1.0]",1.0,-4.7785,0.2156,32.36,5.13,56,42,True,"{""expected"": 1.0, ""static_friction_mean"": 1.0, ""dynamic_friction_mean"": 1.0, ""static_friction_std"": 0.0, ""dynamic_friction_std"": 0.0}",2.96
-friction,"[0.7, 0.7]",0.7,-4.7927,0.2012,32.25,4.6,51,42,True,"{""expected"": 0.7, ""static_friction_mean"": 0.7, ""dynamic_friction_mean"": 0.7, ""static_friction_std"": 0.0, ""dynamic_friction_std"": 0.0}",2.96
-friction,"[0.5, 0.5]",0.5,-4.7629,0.2094,30.64,4.2,53,42,True,"{""expected"": 0.5, ""static_friction_mean"": 0.5, ""dynamic_friction_mean"": 0.5, ""static_friction_std"": 0.0, ""dynamic_friction_std"": 0.0}",3.47
-friction,"[0.3, 0.3]",0.3,-4.8026,0.2117,30.64,4.36,50,42,True,"{""expected"": 0.3, ""static_friction_mean"": 0.3, ""dynamic_friction_mean"": 0.3, ""static_friction_std"": 0.0, ""dynamic_friction_std"": 0.0}",2.99
-friction,"[0.1, 0.1]",0.1,-4.9083,0.1662,30.38,3.34,50,42,True,"{""expected"": 0.1, ""static_friction_mean"": 0.1, ""dynamic_friction_mean"": 0.1, ""static_friction_std"": 0.0, ""dynamic_friction_std"": 0.0}",3.01

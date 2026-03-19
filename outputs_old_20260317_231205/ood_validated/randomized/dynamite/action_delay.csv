@@ -1,6 +1,0 @@
-factor,level,level_display,reward_mean,reward_std,ep_len_mean,ep_len_std,num_episodes,seed,verification_passed,verification_value,wall_time_s
-action_delay,"[0, 0]",0,-4.2682,0.1456,17.07,0.25,59,42,True,"{""expected"": 0, ""actual_mean"": 0.4688, ""note"": ""delay is aux-loss-level only; not physically applied in step()""}",2.36
-action_delay,"[1, 1]",1,-4.2682,0.1456,17.07,0.25,59,42,True,"{""expected"": 1, ""actual_mean"": 1.0, ""note"": ""delay is aux-loss-level only; not physically applied in step()""}",2.28
-action_delay,"[2, 2]",2,-4.2682,0.1456,17.07,0.25,59,42,True,"{""expected"": 2, ""actual_mean"": 2.0, ""note"": ""delay is aux-loss-level only; not physically applied in step()""}",2.39
-action_delay,"[3, 3]",3,-4.2682,0.1456,17.07,0.25,59,42,True,"{""expected"": 3, ""actual_mean"": 3.0, ""note"": ""delay is aux-loss-level only; not physically applied in step()""}",2.45
-action_delay,"[5, 5]",5,-4.2682,0.1456,17.07,0.25,59,42,True,"{""expected"": 5, ""actual_mean"": 5.0, ""note"": ""delay is aux-loss-level only; not physically applied in step()""}",2.19

@@ -49,8 +49,8 @@ results/**/
 tb/
 events.out.*
 
-# Figures (regenerable)
-figures/*.png
+# Figures — PNGs tracked for GitHub rendering; PDFs/SVGs regenerable
+# figures/*.png   # UN-IGNORED: tracked so they display in README
 figures/*.pdf
 figures/*.svg
 !figures/.gitkeep
@@ -63,3 +63,7 @@ paper_draft/
 
 # Environment
 .env
+
+# Stale experiment archives
+outputs_old*/
+/*.log

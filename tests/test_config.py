@@ -28,7 +28,7 @@ class TestConfig:
         )
         assert cfg["task"]["name"] == "push"
         assert cfg["task"]["domain_randomization"]["enabled"] == True
-        assert cfg["task"]["domain_randomization"]["push_interval"] == 100
+        assert cfg["task"]["domain_randomization"]["push_steps"] == [5, 10, 15]
 
     def test_model_override(self):
         cfg = load_config(

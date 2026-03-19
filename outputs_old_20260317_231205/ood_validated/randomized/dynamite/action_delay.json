@@ -1,0 +1,147 @@
+{
+  "sweep_name": "action_delay",
+  "factor": "action_delay",
+  "variable": "task.domain_randomization.action_delay_range",
+  "checkpoint": "outputs/randomized/dynamite_full/seed_42/20260316_205319/checkpoints/best.pt",
+  "task": "randomized",
+  "model": "dynamite",
+  "seed": 42,
+  "num_episodes_per_level": 50,
+  "num_envs": 32,
+  "timestamp": "2026-03-17T13:34:32.528222",
+  "total_wall_time_s": 114.21,
+  "nominal_dr": {
+    "enabled": true,
+    "friction_range": [
+      1.0,
+      1.0
+    ],
+    "restitution_range": [
+      0.5,
+      0.5
+    ],
+    "added_mass_range": [
+      0.0,
+      0.0
+    ],
+    "com_displacement_range": [
+      0.0,
+      0.0
+    ],
+    "motor_strength_range": [
+      1.0,
+      1.0
+    ],
+    "kp_range": [
+      1.0,
+      1.0
+    ],
+    "kd_range": [
+      1.0,
+      1.0
+    ],
+    "action_delay_range": [
+      0,
+      0
+    ],
+    "push_interval": 0,
+    "push_vel_range": [
+      0.0,
+      0.0
+    ]
+  },
+  "levels": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      5,
+      5
+    ]
+  ],
+  "results": [
+    {
+      "factor": "action_delay",
+      "level": "[0, 0]",
+      "level_display": "0",
+      "reward_mean": -4.2682,
+      "reward_std": 0.1456,
+      "ep_len_mean": 17.07,
+      "ep_len_std": 0.25,
+      "num_episodes": 59,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 0, \"actual_mean\": 0.4688, \"note\": \"delay is aux-loss-level only; not physically applied in step()\"}",
+      "wall_time_s": 2.36
+    },
+    {
+      "factor": "action_delay",
+      "level": "[1, 1]",
+      "level_display": "1",
+      "reward_mean": -4.2682,
+      "reward_std": 0.1456,
+      "ep_len_mean": 17.07,
+      "ep_len_std": 0.25,
+      "num_episodes": 59,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 1, \"actual_mean\": 1.0, \"note\": \"delay is aux-loss-level only; not physically applied in step()\"}",
+      "wall_time_s": 2.28
+    },
+    {
+      "factor": "action_delay",
+      "level": "[2, 2]",
+      "level_display": "2",
+      "reward_mean": -4.2682,
+      "reward_std": 0.1456,
+      "ep_len_mean": 17.07,
+      "ep_len_std": 0.25,
+      "num_episodes": 59,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 2, \"actual_mean\": 2.0, \"note\": \"delay is aux-loss-level only; not physically applied in step()\"}",
+      "wall_time_s": 2.39
+    },
+    {
+      "factor": "action_delay",
+      "level": "[3, 3]",
+      "level_display": "3",
+      "reward_mean": -4.2682,
+      "reward_std": 0.1456,
+      "ep_len_mean": 17.07,
+      "ep_len_std": 0.25,
+      "num_episodes": 59,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 3, \"actual_mean\": 3.0, \"note\": \"delay is aux-loss-level only; not physically applied in step()\"}",
+      "wall_time_s": 2.45
+    },
+    {
+      "factor": "action_delay",
+      "level": "[5, 5]",
+      "level_display": "5",
+      "reward_mean": -4.2682,
+      "reward_std": 0.1456,
+      "ep_len_mean": 17.07,
+      "ep_len_std": 0.25,
+      "num_episodes": 59,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 5, \"actual_mean\": 5.0, \"note\": \"delay is aux-loss-level only; not physically applied in step()\"}",
+      "wall_time_s": 2.19
+    }
+  ]
+}

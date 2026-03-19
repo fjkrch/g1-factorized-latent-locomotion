@@ -1,0 +1,17 @@
+{
+  "checkpoint": "outputs/terrain/transformer_full/seed_42/20260316_210230/checkpoints/best.pt",
+  "task": "terrain",
+  "model": "transformer",
+  "seed": 42,
+  "num_episodes": 100,
+  "timestamp": "2026-03-17T06:36:42.668180",
+  "wall_time_s": 11.6,
+  "episode_reward/mean": -4.533730139732361,
+  "episode_reward/std": 0.23197941845587952,
+  "episode_reward/min": -5.266749382019043,
+  "episode_reward/max": -4.214268207550049,
+  "episode_length/mean": 19.86,
+  "episode_length/std": 1.8385864135253474,
+  "episode_length/min": 18.0,
+  "episode_length/max": 24.0
+}

@@ -25,22 +25,9 @@ task:
     history_len: 8              # number of past steps in history window
     include_previous_action: true
 
-  reward:
-    tracking_lin_vel: 1.5
-    tracking_ang_vel: 0.8
-    lin_vel_z: -2.0
-    ang_vel_xy: -0.05
-    orientation: -1.0
-    base_height: -5.0
-    torques: -0.00002
-    joint_acc: -2.5e-7
-    action_rate: -0.01
-    feet_air_time: 1.0
-    collision: -1.0
-    stumble: -0.5
-    stand_still: -0.5
-    feet_contact_forces: -0.01
-    termination: -200.0
+  # NOTE: Rewards are managed entirely by Isaac Lab's built-in RewardManager
+  # (see isaaclab_tasks/.../config/g1/rough_env_cfg.py and flat_env_cfg.py).
+  # No reward config is needed here.
 
   termination:
     max_episode_length: true
@@ -59,8 +46,8 @@ task:
     kp_range: [0.9, 1.1]
     kd_range: [0.9, 1.1]
     action_delay_range: [0, 2]              # steps of delay
-    push_interval: 0                        # 0 = no pushes
-    push_vel_range: [0.0, 0.0]
+    push_steps: [5, 10, 15]                 # episode steps at which to apply pushes
+    push_vel_range: [0.0, 0.0]              # velocity perturbation magnitude range (m/s)
 
   terrain:
     type: flat                   # flat | rough | stairs | mixed

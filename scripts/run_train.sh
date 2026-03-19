@@ -59,7 +59,7 @@ if [[ -z "$TASK" || -z "$MODEL" ]]; then
 fi
 
 # ── Build command ──
-CMD="python scripts/train.py"
+CMD="python3 scripts/train.py"
 CMD="$CMD --task configs/task/${TASK}.yaml"
 CMD="$CMD --model configs/model/${MODEL}.yaml"
 CMD="$CMD --seed $SEED"

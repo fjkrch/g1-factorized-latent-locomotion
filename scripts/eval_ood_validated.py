@@ -156,6 +156,9 @@ CSV_COLUMNS = [
     "verification_passed",
     "verification_value",
     "wall_time_s",
+    "total_pushes",
+    "avg_pushes_per_episode",
+    "pct_episodes_with_push",
 ]
 
 
@@ -339,7 +342,7 @@ def apply_sweep_level_to_wrapper(env, factor: str, level) -> None:
 # =====================================================================
 
 def run_eval_episodes(env, model, cfg, num_episodes, device, initial_reset_data=None):
-    """Run deterministic evaluation episodes."""
+    """Run deterministic evaluation episodes with push statistics tracking."""
     import torch
     from src.utils.history_buffer import HistoryBuffer
 
@@ -365,6 +368,10 @@ def run_eval_episodes(env, model, cfg, num_episodes, device, initial_reset_data=
     running_reward = torch.zeros(env.num_envs, device=device)
     running_length = torch.zeros(env.num_envs, device=device)
     completed = 0
+
+    # Reset push statistics for this evaluation run
+    if hasattr(env, "reset_push_statistics"):
+        env.reset_push_statistics()
 
     if initial_reset_data is not None:
         obs = initial_reset_data["obs"]
@@ -414,12 +421,18 @@ def run_eval_episodes(env, model, cfg, num_episodes, device, initial_reset_data=
 
             prev_action = action
 
+    # Collect push statistics
+    push_stats = {}
+    if hasattr(env, "get_push_statistics"):
+        push_stats = env.get_push_statistics()
+
     return {
         "reward_mean": float(np.mean(ep_rewards)),
         "reward_std": float(np.std(ep_rewards)),
         "ep_len_mean": float(np.mean(ep_lengths)),
         "ep_len_std": float(np.std(ep_lengths)),
         "num_episodes": len(ep_rewards),
+        "push_stats": push_stats,
     }
 
 
@@ -506,6 +519,7 @@ def worker_main(args):
     env._env = isaac_env
     env._rl_env = rl_env
 
+
     # Auto-detect dims (same logic as _create_isaac_env)
     obs_space = isaac_env.observation_space
     act_space = isaac_env.action_space
@@ -582,6 +596,7 @@ def worker_main(args):
             v_details["post_eval"] = post_details
 
     # ── Write results ──────────────────────────────────────────────
+    push_stats = metrics.get("push_stats", {})
     result = {
         "factor": factor,
         "level": level,
@@ -595,15 +610,26 @@ def worker_main(args):
         "verification_passed": v_passed,
         "verification_value": v_details,
         "wall_time_s": round(wall, 2),
+        "push_stats": {
+            "total_pushes": push_stats.get("total_pushes", 0),
+            "avg_pushes_per_episode": push_stats.get("avg_pushes_per_episode", 0.0),
+            "pct_episodes_with_push": push_stats.get("pct_episodes_with_push", 0.0),
+            "avg_push_magnitude": push_stats.get("avg_push_magnitude", 0.0),
+            "push_steps_config": push_stats.get("push_steps_config", []),
+        },
     }
 
     with open(result_path, "w") as f:
         json.dump(result, f, indent=2)
 
+    # Log push statistics
+    pct_push = push_stats.get("pct_episodes_with_push", 0.0)
+    avg_push = push_stats.get("avg_pushes_per_episode", 0.0)
     print(
         f"[Worker] Done: reward={metrics['reward_mean']:.2f} "
         f"± {metrics['reward_std']:.2f}  "
         f"ep_len={metrics['ep_len_mean']:.0f}  "
+        f"pushes={avg_push:.1f}/ep ({pct_push:.0f}% with ≥1)  "
         f"time={wall:.1f}s"
     )
     sys.stdout.flush()
@@ -901,6 +927,9 @@ def main():
                 print("[OOD]   Aborting sweep due to verification failure.")
                 sys.exit(1)
         else:
+            # Extract push stats from result
+            push_stats = result.get("push_stats", {})
+
             # Normalize the result row for CSV
             row = {
                 "factor": result.get("factor", factor),
@@ -915,13 +944,23 @@ def main():
                 "verification_passed": result.get("verification_passed"),
                 "verification_value": json.dumps(result.get("verification_value", {})),
                 "wall_time_s": result.get("wall_time_s", round(wall, 2)),
+                "total_pushes": push_stats.get("total_pushes", 0),
+                "avg_pushes_per_episode": push_stats.get("avg_pushes_per_episode", 0.0),
+                "pct_episodes_with_push": push_stats.get("pct_episodes_with_push", 0.0),
+                "push_stats": push_stats,  # Keep full stats for JSON output
             }
             rows.append(row)
+
+            # Log with push info
+            push_info = ""
+            if push_stats.get("pct_episodes_with_push", 0) > 0:
+                push_info = f"pushes={push_stats.get('avg_pushes_per_episode', 0):.1f}/ep "
 
             print(
                 f"[OOD]   reward = {row['reward_mean']:>8.2f} "
                 f"± {row['reward_std']:.2f}   "
                 f"ep_len = {row['ep_len_mean']:.0f}   "
+                f"{push_info}"
                 f"verified = {'yes' if row['verification_passed'] else 'no'}   "
                 f"time = {row['wall_time_s']:.1f}s"
             )
@@ -969,12 +1008,22 @@ def main():
     print(f"{'=' * 60}")
     for row in rows:
         v = "yes" if row["verification_passed"] else "no"
+        push = row.get("push_stats", {})
+        push_info = ""
+        if push.get("pct_episodes_with_push", 0) > 0:
+            push_info = f"  pushes={push.get('avg_pushes_per_episode', 0):.1f}/ep"
         print(
             f"  {factor}={str(row['level_display']):>10s}  "
             f"reward={row['reward_mean']:>8.2f} +/- {row['reward_std']:<6.2f}  "
             f"ep_len={row['ep_len_mean']:>6.0f}  "
-            f"verified={v}"
+            f"verified={v}{push_info}"
         )
+
+    # Print push statistics summary if pushes were applied
+    if rows and rows[0].get("push_stats", {}).get("pct_episodes_with_push", 0) > 0:
+        avg_pct = sum(r.get("push_stats", {}).get("pct_episodes_with_push", 0) for r in rows) / len(rows)
+        print(f"\n  Push coverage: {avg_pct:.1f}% episodes received ≥1 push")
+
     print(f"\n  Total time: {total_wall:.0f}s")
     print(f"  CSV  -> {csv_path}")
     print(f"  JSON -> {json_path}")

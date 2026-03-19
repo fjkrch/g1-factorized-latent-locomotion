@@ -1,0 +1,42 @@
+================================================================
+ Remaining Publication Experiments — 20260319_160346
+================================================================
+
+=== PHASE 1: Ablations (8 runs) ===
+  [SKIP] no_aux_loss seed=42 (already completed)
+
+[ABL 1/8] no_aux_loss seed=43 — 16:03:46
+ (already completed)
+
+[ABL 1/8] no_aux_loss seed=43 — 16:03:46
+[Train] Run directory: outputs/randomized/dynamite_no_aux_no_aux_loss/seed_43/20260319_160348
+[Train] Run ID: 20260319_160348_dynamite_randomized_dynamite_no_aux_no_aux_loss_seed43
+[16:03:48][dynamite][WARNING] TensorBoard not available. Logging to CSV only.
+[Train] Device: cuda
+[Train] GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+[Train] GPU Memory: 7805 MB
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[WARNING] SimulationApp not initialised — using mock env.
+[Model] Built dynamite with 373,167 parameters
+[Train] Starting training: dynamite_no_aux on randomized
+[Train] Variant: no_aux_loss | Seed: 43
+[Train] Total timesteps: 10,000,000
+[Train] Starting training: 813 iterations, 10,000,000 total timesteps
+[16:03:52][dynamite][INFO] [step 122880] iteration: 10 | global_step: 122880 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 43744.7186 | perf/gpu_mem_mb: 52
+[16:03:54][dynamite][INFO] [step 245760] iteration: 20 | global_step: 245760 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 58442.7613 | perf/gpu_mem_mb: 52
+[16:03:56][dynamite][INFO] [step 368640] iteration: 30 | global_step: 368640 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 59263.2984 | perf/gpu_mem_mb: 52
+[16:03:58][dynamite][INFO] [step 491520] iteration: 40 | global_step: 491520 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 58992.3737 | perf/gpu_mem_mb: 52
+[16:04:01][dynamite][INFO] [step 614400] iteration: 50 | global_step: 614400 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 57258.2972 | perf/gpu_mem_mb: 52
+[16:04:02][dynamite][INFO] [step 614400] eval/reward_mean: 0.0000
+[16:04:04][dynamite][INFO] [step 737280] iteration: 60 | global_step: 737280 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 31960.9517 | perf/gpu_mem_mb: 52
+[16:04:07][dynamite][INFO] [step 860160] iteration: 70 | global_step: 860160 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 58478.4831 | perf/gpu_mem_mb: 52
+[16:04:09][dynamite][INFO] [step 983040] iteration: 80 | global_step: 983040 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 58676.7613 | perf/gpu_mem_mb: 52
+[16:04:11][dynamite][INFO] [step 1105920] iteration: 90 | global_step: 1105920 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 58397.8843 | perf/gpu_mem_mb: 52
+[16:04:13][dynamite][INFO] [step 1228800] iteration: 100 | global_step: 1228800 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 56796.9615 | perf/gpu_mem_mb: 52
+[16:04:15][dynamite][INFO] [step 1228800] eval/reward_mean: 0.0000
+[16:04:17][dynamite][INFO] [step 1351680] iteration: 110 | global_step: 1351680 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 32075.4250 | perf/gpu_mem_mb: 52
+[16:04:19][dynamite][INFO] [step 1474560] iteration: 120 | global_step: 1474560 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 57739.6185 | perf/gpu_mem_mb: 52
+[16:04:21][dynamite][INFO] [step 1597440] iteration: 130 | global_step: 1597440 | reward/mean: 0.0000 | reward/std: 0.0000 | perf/fps: 57962.1174 | perf/gpu_mem_mb: 52

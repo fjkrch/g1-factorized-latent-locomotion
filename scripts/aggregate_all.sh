@@ -36,7 +36,7 @@ echo "════════════════════════�
 # ── Step 1: Validate runs ──
 echo ""
 echo "── Step 1: Validating all runs ──"
-python -m src.utils.validate_runs --base-dir outputs/ || true
+python3 -m src.utils.validate_runs --base-dir outputs/ || true
 
 # ── Step 2: Run missing evals ──
 if ! $SKIP_EVAL; then
@@ -47,7 +47,7 @@ if ! $SKIP_EVAL; then
             CKPT="$run_dir/checkpoints/best.pt"
             if [[ -f "$CKPT" ]]; then
                 echo "  Evaluating: $run_dir"
-                python scripts/eval.py --run_dir "$run_dir" --num_episodes 50 || echo "  ⚠ eval failed: $run_dir"
+                python3 scripts/eval.py --run_dir "$run_dir" --num_episodes 50 || echo "  ⚠ eval failed: $run_dir"
             fi
         fi
     done
@@ -76,7 +76,7 @@ for task in "${TASKS[@]}"; do
         done
         if [[ -n "$SEED_DIRS" ]]; then
             echo "  Aggregating: ${task}/${model}_${VARIANT} ($(echo $SEED_DIRS | wc -w) seeds)"
-            python scripts/aggregate_seeds.py \
+            python3 scripts/aggregate_seeds.py \
                 --run_dirs $SEED_DIRS \
                 --output "results/aggregated/${task}_${model}_${VARIANT}.json" \
                 2>/dev/null || echo "  ⚠ aggregation failed: ${task}/${model}"
@@ -88,21 +88,12 @@ done
 echo ""
 echo "── Step 4: Aggregating ablations ──"
 
-# Ablation name → actual directory name (model_name + variant)
-# The directory is {ablation_model_name}_{variant}, e.g. dynamite_depth1_depth_1
-declare -A ABL_DIRS=(
-    [depth_1]="dynamite_depth1_depth_1"
-    [depth_4]="dynamite_depth4_depth_4"
-    [no_aux_loss]="dynamite_no_aux_no_aux_loss"
-    [no_latent]="dynamite_no_latent_no_latent"
-    [single_latent]="dynamite_single_latent_single_latent"
-    [seq_len_4]="dynamite_seq_len_4"
-    [seq_len_16]="dynamite_seq_len_16"
-)
+# Ablation variant names match --variant passed in run_ablations.sh
+ABLATIONS=(depth_1 depth_4 no_aux_loss no_latent single_latent seq_len_4 seq_len_16)
 TASK="randomized"
 
-for abl in "${!ABL_DIRS[@]}"; do
-    dir_name="${ABL_DIRS[$abl]}"
+for abl in "${ABLATIONS[@]}"; do
+    dir_name="dynamite_${abl}"
     SEED_DIRS=""
     for seed_dir in outputs/${TASK}/${dir_name}/seed_*/; do
         if [[ -d "$seed_dir" ]]; then
@@ -114,7 +105,7 @@ for abl in "${!ABL_DIRS[@]}"; do
     done
     if [[ -n "$SEED_DIRS" ]]; then
         echo "  Aggregating ablation: ${abl} ($(echo $SEED_DIRS | wc -w) seeds)"
-        python scripts/aggregate_seeds.py \
+        python3 scripts/aggregate_seeds.py \
             --run_dirs $SEED_DIRS \
             --output "results/aggregated/ablation_${abl}.json" \
             2>/dev/null || echo "  ⚠ aggregation failed: ablation_${abl}"
@@ -125,7 +116,7 @@ done
 echo ""
 echo "── Step 5: Generating tables ──"
 mkdir -p results/tables
-python scripts/generate_tables.py \
+python3 scripts/generate_tables.py \
     --results_dir results/aggregated/ \
     --output_dir results/tables/ \
     2>/dev/null || echo "  ⚠ table generation failed"

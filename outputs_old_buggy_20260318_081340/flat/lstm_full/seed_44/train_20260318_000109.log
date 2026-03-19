@@ -1,0 +1,684 @@
+[Info] [carb] Logging to file: /home/chyanin/miniconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/kit/logs/Kit/Isaac-Sim Python/5.1/kit_20260318_000111.log
+[0.045s] [ext: omni.kit.async_engine-0.0.3] startup
+[0.140s] [ext: omni.metrics.core-0.0.3] startup
+[0.140s] [ext: omni.client.lib-1.1.0] startup
+[0.157s] [ext: omni.blobkey-1.1.2] startup
+[0.158s] [ext: omni.stats-1.0.1] startup
+[0.159s] [ext: omni.datastore-0.0.0] startup
+[0.166s] [ext: omni.client-1.3.0] startup
+[0.223s] [ext: omni.ujitso.default-1.0.0] startup
+[0.226s] [ext: omni.hsscclient-1.1.2] startup
+[0.231s] [ext: omni.gpu_foundation.shadercache.vulkan-1.0.0] startup
+[0.233s] [ext: omni.assets.plugins-0.0.0] startup
+[0.235s] [ext: omni.gpu_foundation-0.0.0] startup
+[0.253s] [ext: carb.windowing.plugins-1.0.0] startup
+[0.267s] [ext: omni.kit.renderer.init-0.0.0] startup
+2026-03-17T17:01:12Z [540ms] [Warning] [gpu.foundation.plugin] Skipping unsupported non-NVIDIA GPU: AMD Radeon 780M (RADV PHOENIX)
+2026-03-17T17:01:12Z [541ms] [Warning] [gpu.foundation.plugin] Skipping unsupported non-NVIDIA GPU: AMD Radeon 780M (RADV PHOENIX)
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 580.126.09    | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 4060 Laptop.. | Yes: 0 |     | 8188    MB | 10de      | 0          |
+|     |                                  |        |     |            | 28e0      | 78564eae.. |
+|     |                                  |        |     |            | 1         |            |
+|---------------------------------------------------------------------------------------------|
+| 1   | AMD Radeon 780M (RADV PHOENIX)   |        |     | 5396    MB | 1002      | 0          |
+|     |                                  |        |     |            | 15bf      | 00000000.. |
+|     |                                  |        |     |            | 6         |            |
+|=============================================================================================|
+| OS: 24.04.3 LTS (Noble Numbat) ubuntu, Version: 24.04.3, Kernel: 6.17.0-14-generic
+| XServer Vendor: The X.Org Foundation, XServer Version: 12101011 (1.21.1.11)
+| Processor: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics
+| Cores: 8 | Logical Cores: 16
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 15165 | Free Memory: 9667
+| Total Page/Swap (MB): 4095 | Free Page/Swap: 3049
+|---------------------------------------------------------------------------------------------|
+2026-03-17T17:01:12Z [859ms] [Warning] [gpu.foundation.plugin] CPU performance profile is set to powersave. This profile sets the CPU to the lowest frequency reducing performance.
+2026-03-17T17:01:12Z [862ms] [Warning] [gpu.foundation.plugin] IOMMU is enabled.
+2026-03-17T17:01:12Z [862ms] [Warning] [gpu.foundation.plugin] Detected IOMMU is enabled. Running CUDA peer-to-peer bandwidth and latency validation.
+Unidirectional P2P=Enabled Bandwidth (P2P Writes) Matrix (GB/s)
+   D\D     0 
+     0 197.73 
+P2P=Enabled Latency (P2P Writes) Matrix (us)
+   GPU     0 
+     0   1.60 
+
+   CPU     0 
+     0   2.00 
+[1.038s] [ext: omni.materialx.libs-1.0.7] startup
+[1.047s] [ext: omni.kit.telemetry-0.5.2] startup
+[1.080s] [ext: omni.usd.config-1.0.6] startup
+[1.083s] [ext: omni.gpucompute.plugins-0.0.0] startup
+[1.085s] [ext: omni.usd.libs-1.0.1] startup
+[1.197s] [ext: omni.kit.loop-isaac-1.3.7] startup
+[1.198s] [ext: omni.kit.test-2.0.1] startup
+[1.229s] [ext: omni.mdl-56.0.3] startup
+[1.247s] [ext: omni.iray.libs-0.0.0] startup
+[1.259s] [ext: omni.mdl.neuraylib-0.2.12] startup
+[1.261s] [ext: omni.kit.usd.mdl-1.1.5] startup
+[1.343s] [ext: omni.kit.pipapi-0.0.0] startup
+[1.344s] [ext: omni.appwindow-1.1.10] startup
+[1.346s] [ext: omni.kit.renderer.core-1.1.0] startup
+[1.367s] [ext: omni.kit.renderer.capture-0.0.0] startup
+[1.369s] [ext: omni.kit.renderer.imgui-2.0.5] startup
+[1.430s] [ext: omni.ui-2.27.1] startup
+[1.440s] [ext: omni.kit.mainwindow-1.0.3] startup
+[1.440s] [ext: carb.audio-0.1.0] startup
+[1.446s] [ext: omni.uiaudio-1.0.0] startup
+[1.448s] [ext: omni.kit.uiapp-0.0.0] startup
+[1.448s] [ext: omni.usd.schema.metrics.assembler-107.3.1] startup
+[1.449s] [ext: omni.usd.schema.physx-107.3.26] startup
+[1.477s] [ext: omni.usd.schema.geospatial-0.0.0] startup
+[1.479s] [ext: omni.usd.schema.audio-0.0.0] startup
+[1.482s] [ext: omni.usd.schema.anim-0.0.0] startup
+[1.499s] [ext: omni.usd.schema.flow-107.1.1] startup
+[1.500s] [ext: omni.usd_resolver-1.0.0] startup
+[1.504s] [ext: omni.usd.core-1.5.3] startup
+[1.506s] [ext: omni.usd.schema.omni_sensors-0.0.0] startup
+[1.520s] [ext: omni.usd.schema.semantics-0.0.0] startup
+[1.522s] [ext: omni.usd.schema.omniscripting-1.0.0] startup
+[1.526s] [ext: omni.usd.schema.omni_lens_distortion-0.0.0] startup
+[1.526s] [ext: omni.usd.schema.omnigraph-1.0.0] startup
+[1.531s] [ext: omni.kit.window.popup_dialog-2.0.24] startup
+[1.535s] [ext: omni.graph.exec-0.9.6] startup
+[1.535s] [ext: omni.kit.widget.nucleus_connector-2.0.1] startup
+[1.537s] [ext: omni.kit.usd_undo-0.1.8] startup
+[1.537s] [ext: omni.kit.exec.core-0.13.4] startup
+[1.539s] [ext: omni.kit.actions.core-1.0.0] startup
+[1.542s] [ext: omni.resourcemonitor-107.0.1] startup
+[1.544s] [ext: omni.activity.core-1.0.3] startup
+[1.546s] [ext: omni.timeline-1.0.14] startup
+[1.548s] [ext: omni.kit.commands-1.4.10] startup
+[1.551s] [ext: usdrt.scenegraph-7.6.1] startup
+[1.586s] [ext: omni.kit.audiodeviceenum-1.0.2] startup
+[1.588s] [ext: omni.hydra.usdrt_delegate-7.5.1] startup
+[1.596s] [ext: omni.hydra.scene_delegate-0.3.4] startup
+[1.601s] [ext: omni.usd-1.13.10] startup
+[1.626s] [ext: omni.inspect-1.0.2] startup
+[1.627s] [ext: omni.kit.notification_manager-1.0.10] startup
+[1.629s] [ext: omni.graph.core-2.184.5] startup
+[1.632s] [ext: isaacsim.core.deprecation_manager-0.2.7] startup
+[1.632s] [ext: omni.anim.graph.schema-107.3.3] startup
+[1.638s] [ext: omni.usd.schema.isaac-3.0.5] startup
+[1.638s] [ext: omni.anim.navigation.schema-107.3.3] startup
+[1.641s] [ext: omni.kit.asset_converter-5.0.17] startup
+[1.654s] [ext: isaacsim.robot.schema-3.6.0] startup
+[1.663s] [ext: omni.usd.schema.render_settings.rtx-0.0.0] startup
+[1.664s] [ext: omni.kit.menu.core-1.1.2] startup
+[1.665s] [ext: omni.kit.widget.path_field-2.0.11] startup
+[1.665s] [ext: omni.kit.widget.context_menu-1.2.5] startup
+[1.666s] [ext: omni.kit.widget.browser_bar-2.0.10] startup
+[1.667s] [ext: omni.kit.clipboard-1.0.5] startup
+[1.668s] [ext: omni.kit.numpy.common-0.1.3] startup
+[1.669s] [ext: omni.kit.widget.options_menu-1.1.6] startup
+[1.671s] [ext: omni.kit.helper.file_utils-0.1.9] startup
+[1.672s] [ext: omni.ui.scene-1.11.5] startup
+[1.676s] [ext: omni.kit.widget.options_button-1.0.3] startup
+[1.677s] [ext: omni.kit.widget.filebrowser-2.12.3] startup
+[1.680s] [ext: omni.kit.usd.layers-2.2.11] startup
+[1.687s] [ext: omni.kit.window.filepicker-2.13.4] startup
+[1.695s] [ext: omni.kit.hotkeys.core-1.3.10] startup
+[1.697s] [ext: omni.kit.context_menu-1.8.6] startup
+[1.699s] [ext: omni.kit.property.adapter.core-1.0.2] startup
+[1.700s] [ext: omni.kit.window.file_exporter-1.0.33] startup
+[1.702s] [ext: omni.kit.widget.searchfield-1.1.8] startup
+[1.703s] [ext: omni.kit.widget.filter-1.1.4] startup
+[1.704s] [ext: omni.kit.widget.graph-2.0.0] startup
+[1.708s] [ext: omni.kit.widget.stage-3.1.4] startup
+[1.719s] [ext: omni.kit.property.adapter.usd-1.0.2] startup
+[1.720s] [ext: omni.kit.property.adapter.fabric-1.0.3] startup
+[1.721s] [ext: omni.kit.graph.delegate.default-1.2.3] startup
+[1.721s] [ext: omni.kit.window.file_importer-1.1.18] startup
+[1.722s] [ext: omni.kit.stage_template.core-1.1.22] startup
+[1.722s] [ext: omni.kit.menu.utils-2.0.5] startup
+[1.726s] [ext: omni.kit.window.file-2.0.5] startup
+[1.728s] [ext: omni.kit.widget.highlight_label-1.0.3] startup
+[1.728s] [ext: omni.kit.window.drop_support-1.0.5] startup
+[1.729s] [ext: omni.kit.window.content_browser_registry-0.0.6] startup
+[1.729s] [ext: omni.kit.window.property-1.12.1] startup
+[1.731s] [ext: omni.kit.window.content_browser-3.1.3] startup
+[1.740s] [ext: isaacsim.core.version-2.0.6] startup
+[1.740s] [ext: omni.kit.property.usd-4.5.12] startup
+[1.748s] [ext: omni.kit.graph.editor.core-1.5.3] startup
+[1.750s] [ext: omni.kit.material.library-2.0.7] startup
+[1.754s] [ext: omni.kit.graph.usd.commands-1.3.1] startup
+[1.754s] [ext: omni.kvdb-107.3.26] startup
+[1.756s] [ext: omni.usdphysics-107.3.26] startup
+[1.758s] [ext: omni.physx.foundation-107.3.26] startup
+[1.760s] [ext: omni.localcache-107.3.26] startup
+[1.761s] [ext: omni.convexdecomposition-107.3.26] startup
+[1.764s] [ext: omni.physics-107.3.26] startup
+[1.767s] [ext: omni.physx.cooking-107.3.26] startup
+[1.770s] [ext: omni.physics.stageupdate-107.3.26] startup
+[1.771s] [ext: omni.physx-107.3.26] startup
+[1.780s] [ext: omni.index.libs-380600.8087.0] startup
+[1.780s] [ext: omni.physics.physx-107.3.26] startup
+2026-03-17T17:01:13Z [1,765ms] [Warning] [carb] Acquiring non optional plugin interface which is not listed as dependency: [omni::physx::IPhysxBenchmarks v1.0] (plugin: <default plugin>), by client: omni.physics.physx.plugin. Add it to CARB_PLUGIN_IMPL_DEPS() macro of a client.
+[1.782s] [ext: omni.index-1.0.1] startup
+[1.783s] [ext: omni.volume-0.5.2] startup
+[1.787s] [ext: omni.ujitso.client-0.0.0] startup
+[1.787s] [ext: omni.hydra.rtx.shadercache.vulkan-1.0.0] startup
+[1.788s] [ext: omni.kit.widget.searchable_combobox-1.0.6] startup
+[1.788s] [ext: omni.hydra.rtx-1.0.0] startup
+2026-03-17T17:01:13Z [1,792ms] [Warning] [omni.log] Source: omni.hydra was already registered.
+[1.826s] [ext: omni.kit.widget.settings-1.2.6] startup
+[1.828s] [ext: omni.kit.hydra_texture-1.4.6] startup
+[1.832s] [ext: omni.graph.tools-1.79.2] startup
+[1.850s] [ext: omni.kit.window.preferences-1.8.0] startup
+[1.854s] [ext: omni.kit.widget.material_preview-1.0.16] startup
+[1.855s] [ext: omni.graph-1.141.2] startup
+[1.885s] [ext: omni.kit.window.material_graph-1.9.1] startup
+[1.892s] [ext: omni.isaac.dynamic_control-2.0.7] startup
+2026-03-17T17:01:13Z [1,879ms] [Warning] [omni.isaac.dynamic_control] omni.isaac.dynamic_control is deprecated as of Isaac Sim 4.5. No action is needed from end-users.
+[1.896s] [ext: isaacsim.storage.native-1.5.1] startup
+[1.899s] [ext: omni.graph.scriptnode-1.50.0] startup
+[1.900s] [ext: omni.hydra.engine.stats-1.0.3] startup
+[1.903s] [ext: omni.kit.viewport.legacy_gizmos-1.0.19] startup
+[1.905s] [ext: omni.kit.raycast.query-1.1.0] startup
+[1.910s] [ext: omni.graph.action_core-1.1.7] startup
+[1.912s] [ext: omni.kit.viewport.scene_camera_model-1.0.6] startup
+[1.917s] [ext: omni.graph.image.core-0.6.1] startup
+[1.918s] [ext: omni.kit.widget.viewport-107.1.3] startup
+[1.925s] [ext: omni.kit.viewport.registry-104.0.6] startup
+[1.927s] [ext: omni.usd.metrics.assembler-107.3.1] startup
+[1.930s] [ext: omni.kit.viewport.window-107.2.0] startup
+[1.944s] [ext: omni.kit.viewport.menubar.core-107.2.1] startup
+[1.954s] [ext: omni.graph.image.nodes-1.3.1] startup
+[1.955s] [ext: omni.usd.metrics.assembler.physics-107.3.26] startup
+[1.957s] [ext: omni.warp.core-1.8.2] startup
+[2.105s] [ext: omni.kit.viewport.utility-1.1.2] startup
+[2.107s] [ext: omni.physics.tensors-107.3.26] startup
+[2.112s] [ext: omni.syntheticdata-0.6.13] startup
+[2.132s] [ext: isaacsim.test.docstring-1.1.0] startup
+[2.136s] [ext: isaacsim.core.utils-3.5.1] startup
+[2.141s] [ext: omni.physx.tensors-107.3.26] startup
+[2.145s] [ext: omni.graph.nodes-1.170.10] startup
+[2.157s] [ext: omni.graph.action_nodes-1.50.4] startup
+[2.160s] [ext: omni.kit.primitive.mesh-1.0.17] startup
+[2.168s] [ext: isaacsim.core.simulation_manager-1.4.4] startup
+[2.395s] [ext: omni.graph.ui_nodes-1.50.5] startup
+[2.400s] [ext: omni.graph.action-1.130.0] startup
+[2.401s] [ext: omni.kit.stage_templates-2.0.0] startup
+[2.406s] [ext: isaacsim.core.prims-0.6.1] startup
+[2.430s] [ext: omni.warp-1.8.2] startup
+[2.439s] [ext: omni.videoencoding-0.1.2] startup
+[2.442s] [ext: isaacsim.core.api-4.8.0] startup
+[2.472s] [ext: isaacsim.core.experimental.utils-0.3.0] startup
+[2.490s] [ext: omni.replicator.core-1.12.27] startup
+2026-03-17T17:01:14Z [2,495ms] [Warning] [pxr.Semantics] pxr.Semantics is deprecated - please use Semantics instead
+2026-03-17T17:01:14Z [2,581ms] [Warning] [omni.graph.core.plugin] Found duplicate of category 'Replicator' - was 'Annotators', adding 'Fabric Reader'
+2026-03-17T17:01:14Z [2,581ms] [Warning] [omni.graph.core.plugin] Category 'Replicator' not accepted on node type 'omni.replicator.core.FabricReader' in extension 'omni.replicator.core'
+2026-03-17T17:01:14Z [2,582ms] [Warning] [omni.replicator.core.scripts.extension] No material configuration file, adding configuration to material settings directly.
+[2.601s] [ext: isaacsim.core.experimental.prims-0.8.1] startup
+[2.640s] [ext: omni.kit.window.extensions-1.4.27] startup
+[2.651s] [ext: isaacsim.core.experimental.objects-0.4.0] startup
+[2.663s] [ext: omni.ui_query-1.1.8] startup
+[2.670s] [ext: omni.kit.manipulator.viewport-107.0.1] startup
+[2.672s] [ext: isaacsim.robot.surface_gripper-3.3.1] startup
+[2.676s] [ext: omni.kit.ui_test-1.3.7] startup
+[2.682s] [ext: omni.graph.visualization.nodes-2.1.3] startup
+[2.711s] [ext: isaacsim.robot_motion.lula-4.0.8] startup
+[2.720s] [ext: isaacsim.core.nodes-3.4.3] startup
+[2.732s] [ext: isaacsim.gui.components-1.2.1] startup
+[2.744s] [ext: isaacsim.robot_motion.motion_generation-8.0.26] startup
+[2.771s] [ext: isaacsim.robot.manipulators-3.3.6] startup
+[2.780s] [ext: isaacsim.core.experimental.materials-0.4.0] startup
+[2.801s] [ext: isaacsim.robot.manipulators.examples-1.1.2] startup
+[2.832s] [ext: isaacsim.cortex.framework-1.0.12] startup
+[2.836s] [ext: isaacsim.cortex.behaviors-2.0.14] startup
+[2.840s] [ext: omni.isaac.cortex.sample_behaviors-2.0.5] startup
+2026-03-17T17:01:14Z [2,827ms] [Warning] [omni.isaac.cortex] omni.isaac.cortex has been deprecated in favor of isaacsim.cortex.framework. Please update your code accordingly.
+2026-03-17T17:01:14Z [2,837ms] [Warning] [omni.isaac.cortex.sample_behaviors] omni.isaac.cortex.sample_behaviors has been deprecated in favor of isaacsim.cortex.behaviors. Please update your code accordingly.
+[2.854s] [ext: omni.kit.widget.zoombar-1.0.6] startup
+[2.901s] [ext: isaacsim.gui.content_browser-0.1.11] startup
+[2.982s] [ext: omni.kit.browser.core-2.3.13] startup
+[3.078s] [ext: omni.kit.widget.stage_icons-1.0.8] startup
+[3.100s] [ext: omni.kit.widget.prompt-1.0.7] startup
+[3.184s] [ext: omni.kit.usd.collect-2.4.5] startup
+[3.188s] [ext: omni.kit.browser.folder.core-1.10.9] startup
+[3.208s] [ext: omni.kit.window.stage-2.6.1] startup
+[3.219s] [ext: omni.kit.usdz_export-1.0.9] startup
+[3.221s] [ext: omni.kit.tool.collect-2.2.18] startup
+[3.225s] [ext: omni.kit.menu.stage-1.2.7] startup
+[3.227s] [ext: omni.kit.tool.asset_importer-4.3.2] startup
+[3.237s] [ext: isaacsim.robot.wheeled_robots-4.0.24] startup
+[3.242s] [ext: isaacsim.examples.browser-0.2.1] startup
+[3.246s] [ext: isaacsim.asset.importer.urdf-2.4.30] startup
+[3.307s] [ext: omni.isaac.wheeled_robots-3.0.7] startup
+2026-03-17T17:01:15Z [3,292ms] [Warning] [omni.isaac.wheeled_robots] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,293ms] [Warning] [omni.isaac.wheeled_robots.controllers] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,293ms] [Warning] [omni.isaac.wheeled_robots.controllers.ackermann_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,293ms] [Warning] [omni.isaac.wheeled_robots.controllers.differential_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,293ms] [Warning] [omni.isaac.wheeled_robots.controllers.holonomic_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,294ms] [Warning] [omni.isaac.wheeled_robots.controllers.quintic_path_planner] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,294ms] [Warning] [omni.isaac.wheeled_robots.controllers.stanley_control] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,294ms] [Warning] [omni.isaac.wheeled_robots.controllers.wheel_base_pose_controller] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,294ms] [Warning] [omni.isaac.wheeled_robots.impl] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,296ms] [Warning] [omni.isaac.wheeled_robots.robots] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,296ms] [Warning] [omni.isaac.wheeled_robots.robots.holonomic_robot_usd_setup] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,299ms] [Warning] [omni.isaac.wheeled_robots.robots.wheeled_robot] omni.isaac.wheeled_robots has been deprecated in favor of isaacsim.robot.wheeled_robots. Please update your code accordingly.
+[3.316s] [ext: isaacsim.simulation_app-2.12.2] startup
+[3.318s] [ext: omni.isaac.franka-1.0.7] startup
+2026-03-17T17:01:15Z [3,302ms] [Warning] [omni.isaac.franka] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.franka. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,302ms] [Warning] [omni.isaac.franka.franka] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.franka. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,319ms] [Warning] [omni.isaac.franka.kinematics_solver] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.franka. Please update your code accordingly.
+[3.336s] [ext: omni.isaac.kit-2.0.6] startup
+2026-03-17T17:01:15Z [3,321ms] [Warning] [omni.isaac.kit] omni.isaac.kit has been deprecated in favor of isaacsim.simulation_app. Please update your code accordingly.
+[3.338s] [ext: omni.kit.selection-0.1.6] startup
+[3.340s] [ext: omni.isaac.lula-4.0.6] startup
+2026-03-17T17:01:15Z [3,324ms] [Warning] [omni.isaac.lula] omni.isaac.lula has been deprecated in favor of isaacsim.robot_motion.lula. Please update your code accordingly.
+[3.341s] [ext: isaacsim.robot_motion.lula_test_widget-1.0.12] startup
+[3.343s] [ext: isaacsim.asset.browser-1.3.23] startup
+[3.375s] [ext: omni.kit.viewport.actions-107.0.2] startup
+[3.380s] [ext: isaacsim.gui.menu-2.4.4] startup
+[3.386s] [ext: omni.isaac.manipulators-3.0.7] startup
+2026-03-17T17:01:15Z [3,371ms] [Warning] [omni.isaac.manipulators] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,371ms] [Warning] [omni.isaac.manipulators.controllers] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,371ms] [Warning] [omni.isaac.manipulators.controllers.pick_place_controller] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,372ms] [Warning] [omni.isaac.manipulators.controllers.stacking_controller] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,372ms] [Warning] [omni.isaac.manipulators.grippers] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,373ms] [Warning] [omni.isaac.manipulators.grippers.gripper] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,373ms] [Warning] [omni.isaac.manipulators.grippers.parallel_gripper] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,374ms] [Warning] [omni.isaac.manipulators.grippers.surface_gripper] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,374ms] [Warning] [omni.isaac.manipulators.manipulators] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,374ms] [Warning] [omni.isaac.manipulators.manipulators.single_manipulator] omni.isaac.manipulators has been deprecated in favor of isaacsim.robot.manipulators. Please update your code accordingly.
+[3.390s] [ext: omni.isaac.lula_test_widget-1.0.6] startup
+2026-03-17T17:01:15Z [3,376ms] [Warning] [omni.isaac.lula_test_widget] omni.isaac.lula_test_widget has been deprecated in favor of isaacsim.robot_motion.lula_test_widget. Please update your code accordingly.
+[3.393s] [ext: omni.isaac.asset_browser-1.0.6] startup
+2026-03-17T17:01:15Z [3,378ms] [Warning] [omni.isaac.asset_browser] omni.isaac.asset_browser has been deprecated in favor of isaacsim.asset.browser. Please update your code accordingly.
+[3.395s] [ext: omni.kit.viewport.menubar.display-107.0.3] startup
+[3.399s] [ext: omni.isaac.menu-1.0.6] startup
+2026-03-17T17:01:15Z [3,384ms] [Warning] [omni.isaac.menu] omni.isaac.menu has been deprecated in favor of isaacsim.gui.menu. Please update your code accordingly.
+[3.401s] [ext: omni.isaac.motion_generation-8.0.7] startup
+2026-03-17T17:01:15Z [3,385ms] [Warning] [omni.isaac.motion_generation] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,385ms] [Warning] [omni.isaac.motion_generation.articulation_kinematics_solver] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,386ms] [Warning] [omni.isaac.motion_generation.articulation_motion_policy] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,386ms] [Warning] [omni.isaac.motion_generation.articulation_trajectory] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,386ms] [Warning] [omni.isaac.motion_generation.kinematics_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,386ms] [Warning] [omni.isaac.motion_generation.lula] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.lula.kinematics] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.lula.motion_policies] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.lula.path_planners] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.lula.trajectory_generator] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.motion_policy_controller] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.motion_policy_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.path_planner_visualizer] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.path_planning_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.trajectory] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,387ms] [Warning] [omni.isaac.motion_generation.world_interface] omni.isaac.motion_generation has been deprecated in favor of isaacsim.robot_motion.motion_generation. Please update your code accordingly.
+[3.404s] [ext: omni.isaac.assets_check-0.3.13] startup
+2026-03-17T17:01:15Z [3,389ms] [Warning] [omni.isaac.assets_check] omni.isaac.assets_check has been deprecated in favor of isaacsim.asset.browser. Please update your code accordingly.
+[3.406s] [ext: isaacsim.gui.sensors.icon-2.0.3] startup
+[3.418s] [ext: isaacsim.asset.importer.mjcf-2.5.13] startup
+[3.423s] [ext: omni.sensors.nv.common-3.0.0] startup
+[3.433s] [ext: isaacsim.sensors.physics-0.4.3] startup
+[3.438s] [ext: omni.sensors.net-1.0.0] startup
+[3.441s] [ext: omni.isaac.nucleus-1.0.6] startup
+2026-03-17T17:01:15Z [3,425ms] [Warning] [omni.isaac.nucleus] omni.isaac.nucleus has been deprecated in favor of isaacsim.storage.native. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,425ms] [Warning] [omni.isaac.nucleus.nucleus] omni.isaac.nucleus.nucleus has been deprecated in favor of isaacsim.storage.native. Please update your code accordingly.
+[3.442s] [ext: omni.sensors.nv.materials-2.0.0] startup
+[3.449s] [ext: isaacsim.robot.policy.examples-4.1.11] startup
+[3.452s] [ext: omni.sensors.nv.wpm-3.0.0] startup
+[3.455s] [ext: omni.sensors.nv.lidar-3.0.0] startup
+[3.461s] [ext: isaacsim.util.debug_draw-3.1.0] startup
+[3.463s] [ext: omni.sensors.nv.radar-3.0.0] startup
+[3.467s] [ext: omni.sensors.nv.ids-2.0.0] startup
+[3.469s] [ext: isaacsim.core.cloner-1.4.10] startup
+[3.471s] [ext: isaacsim.sensors.physx-2.3.2] startup
+[3.475s] [ext: isaacsim.sensors.rtx-15.8.4] startup
+[3.483s] [ext: isaacsim.sensors.camera-1.3.6] startup
+[3.492s] [ext: omni.isaac.quadruped-3.0.7] startup
+2026-03-17T17:01:15Z [3,479ms] [Warning] [omni.isaac.quadruped] omni.isaac.quadruped has been deprecated in favor of isaacsim.robot.policy.examples. Please update your code accordingly.
+[3.495s] [ext: omni.isaac.cloner-1.0.7] startup
+2026-03-17T17:01:15Z [3,482ms] [Warning] [omni.isaac.cloner] omni.isaac.cloner has been deprecated in favor of isaacsim.core.cloner. Please update your code accordingly.
+[3.499s] [ext: omni.isaac.range_sensor-4.0.6] startup
+2026-03-17T17:01:15Z [3,484ms] [Warning] [omni.isaac.range_sensor] omni.isaac.range_sensor has been deprecated in favor of isaacsim.sensors.physx. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,485ms] [Warning] [omni.isaac.range_sensor.commands] omni.isaac.range_sensor.commands has been deprecated in favor of isaacsim.sensors.physx.commands. Please update your code accordingly.
+[3.502s] [ext: omni.isaac.sensor-13.0.7] startup
+2026-03-17T17:01:15Z [3,488ms] [Warning] [omni.isaac.sensor] omni.isaac.sensor has been deprecated in favor of isaacsim.sensors.camera, isaacsim.sensors.physics, isaacsim.sensors.physx, and isaacsim.sensors.rtx. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,488ms] [Warning] [omni.isaac.sensor.camera] omni.isaac.sensor.camera has been deprecated in favor of isaacsim.sensors.camera.camera. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,489ms] [Warning] [omni.isaac.sensor.camera_view] omni.isaac.sensor.camera_view has been deprecated in favor of isaacsim.sensors.camera.camera_view. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,489ms] [Warning] [omni.isaac.sensor.commands] omni.isaac.sensor.commands has been deprecated in favor of isaacsim.sensors.physics.commands, isaacsim.sensors.physx.commands, and isaacsim.sensors.rtx.commands. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,490ms] [Warning] [omni.isaac.sensor.contact_sensor] omni.isaac.sensor.contact_sensor has been deprecated in favor of isaacsim.sensors.physics.contact_sensor. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,490ms] [Warning] [omni.isaac.sensor.imu_sensor] omni.isaac.sensor.imu_sensor has been deprecated in favor of isaacsim.sensors.physics.imu_sensor. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,490ms] [Warning] [omni.isaac.sensor.lidar_rtx] omni.isaac.sensor.lidar_rtx has been deprecated in favor of isaacsim.sensors.rtx.lidar_rtx. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,490ms] [Warning] [omni.isaac.sensor.rotating_lidar_physX] omni.isaac.sensor.imu_sensor has been deprecated in favor of isaacsim.sensors.physix.rotating_lidar_physX. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,490ms] [Warning] [omni.isaac.sensor.scripts.samples.contact_sensor] omni.isaac.sensor.scripts.samples.contact_sensor has been deprecated in favor of isaacsim.sensors.physics.scripts.samples.contact_sensor. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,490ms] [Warning] [omni.isaac.sensor.scripts.samples.imu_sensor] omni.isaac.sensor.scripts.samples.imu_sensor has been deprecated in favor of isaacsim.sensors.physics.scripts.samples.imu_sensor. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,490ms] [Warning] [omni.isaac.sensor.scripts.samples.lightbeam_sensor] omni.isaac.sensor.scripts.samples.lightbeam_sensor has been deprecated in favor of isaacsim.sensors.physx.scripts.samples.lightbeam_sensor. Please update your code accordingly.
+[3.507s] [ext: omni.kit.menu.create-2.0.1] startup
+[3.511s] [ext: omni.kit.widget.toolbar-2.0.1] startup
+[3.522s] [ext: omni.kit.manipulator.transform-107.0.0] startup
+[3.525s] [ext: omni.isaac.core-4.0.7] startup
+2026-03-17T17:01:15Z [3,510ms] [Warning] [omni.isaac.core.physics_context.physics_context] omni.isaac.core.physics_context.physics_context has been deprecated in favor of isaacsim.core.api.physics_context.physics_context. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,510ms] [Warning] [omni.isaac.core.simulation_context.simulation_context] omni.isaac.core.simulation_context.simulation_context has been deprecated in favor of isaacsim.core.api.simulation_context.simulation_context. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,510ms] [Warning] [omni.isaac.core.world.world] omni.isaac.core.world.world has been deprecated in favor of isaacsim.core.api.world.world. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,510ms] [Warning] [omni.isaac.core] omni.isaac.core has been deprecated in favor of isaacsim.core.api. Please update your code accordingly.
+[3.527s] [ext: omni.kit.scripting-107.3.2] startup
+[3.532s] [ext: omni.kit.manipulator.tool.snap-1.5.13] startup
+[3.537s] [ext: omni.kit.manipulator.selector-1.1.3] startup
+[3.539s] [ext: isaacsim.app.about-2.0.11] startup
+[3.544s] [ext: isaacsim.replicator.behavior-1.1.16] startup
+[3.545s] [ext: omni.kit.viewport.manipulator.transform-107.0.4] startup
+[3.547s] [ext: omni.isaac.window.about-2.0.7] startup
+2026-03-17T17:01:15Z [3,532ms] [Warning] [omni.isaac.window.about] omni.isaac.window.about has been deprecated in favor of isaacsim.app.about. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,532ms] [Warning] [omni.isaac.window.about.about] omni.isaac.window.about.about has been deprecated in favor of isaacsim.app.about.about. Please update your code accordingly.
+[3.549s] [ext: omni.fabric.commands-1.1.6] startup
+[3.551s] [ext: omni.kit.manipulator.prim.core-107.0.8] startup
+[3.556s] [ext: omni.kit.property.audio-1.0.16] startup
+[3.559s] [ext: omni.kit.property.camera-1.0.10] startup
+[3.560s] [ext: omni.kit.property.geometry-2.0.4] startup
+[3.563s] [ext: omni.hydra.scene_api-0.1.2] startup
+[3.567s] [ext: omni.kit.property.light-1.0.12] startup
+[3.577s] [ext: omni.kit.manipulator.prim.fabric-107.0.4] startup
+[3.579s] [ext: omni.kit.manipulator.prim.usd-107.0.3] startup
+[3.580s] [ext: omni.kit.property.material-1.11.9] startup
+[3.585s] [ext: omni.kit.property.render-1.2.1] startup
+[3.587s] [ext: omni.kit.property.transform-1.5.13] startup
+[3.590s] [ext: isaacsim.gui.property-1.1.3] startup
+[3.592s] [ext: omni.kit.manipulator.camera-106.0.4] startup
+[3.597s] [ext: omni.kit.manipulator.prim-107.0.0] startup
+[3.597s] [ext: omni.isaac.surface_gripper-2.0.6] startup
+2026-03-17T17:01:15Z [3,580ms] [Warning] [omni.isaac.surface_gripper] omni.isaac.surface_gripper has been deprecated in favor of isaacsim.robot.surface_gripper. Please update your code accordingly.
+[3.597s] [ext: omni.kit.manipulator.selection-106.0.1] startup
+[3.600s] [ext: omni.kit.property.bundle-1.4.1] startup
+[3.602s] [ext: omni.kit.property.isaac-1.0.6] startup
+2026-03-17T17:01:15Z [3,587ms] [Warning] [omni.kit.property.isaac] omni.kit.property.isaac has been deprecated in favor of isaacsim.gui.property. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,587ms] [Warning] [omni.kit.property.isaac.widgets] omni.kit.property.isaac.widgets has been deprecated in favor of isaacsim.gui.property.widgets. Please update your code accordingly.
+[3.604s] [ext: omni.isaac.universal_robots-1.0.6] startup
+2026-03-17T17:01:15Z [3,588ms] [Warning] [omni.isaac.universal_robots] omni.isaac.universal_robots has been deprecated in favor of isaacsim.robot.manipulators.examples.universal_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,588ms] [Warning] [omni.isaac.universal_robots.kinematics_solver] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.universal_robots. Please update your code accordingly.
+2026-03-17T17:01:15Z [3,588ms] [Warning] [omni.isaac.universal_robots.ur10] omni.isaac.franka has been deprecated in favor of isaacsim.robot.manipulators.examples.universal_robots. Please update your code accordingly.
+[3.605s] [ext: omni.isaac.core_nodes-2.0.6] startup
+2026-03-17T17:01:15Z [3,590ms] [Warning] [omni.isaac.core_nodes] omni.isaac.core_nodes has been deprecated in favor of isaacsim.core.nodes. Please update your code accordingly.
+[3.607s] [ext: omni.kit.viewport.menubar.camera-107.0.6] startup
+[3.614s] [ext: omni.kit.viewport.menubar.lighting-107.3.1] startup
+[3.616s] [ext: isaacsim.replicator.writers-1.0.17] startup
+[3.628s] [ext: omni.kit.viewport.menubar.render-107.0.10] startup
+[3.633s] [ext: omni.kit.viewport.menubar.settings-107.0.3] startup
+[3.638s] [ext: omni.kit.window.console-1.1.4] startup
+[3.645s] [ext: isaacsim.replicator.domain_randomization-1.0.16] startup
+[3.647s] [ext: isaacsim.replicator.examples-1.3.6] startup
+[3.648s] [ext: omni.ocio-0.1.1] startup
+[3.654s] [ext: omni.rtx.window.settings-0.6.19] startup
+[3.662s] [ext: omni.kit.window.status_bar-0.1.9] startup
+[3.665s] [ext: omni.kit.window.toolbar-2.0.0] startup
+[3.674s] [ext: omni.replicator.isaac-2.0.8] startup
+2026-03-17T17:01:15Z [3,658ms] [Warning] [omni.replicator.isaac] omni.replicator.isaac has been deprecated in favor of isaacsim.replicator.domain_randomization, isaacsim.replicator.examples, isaacsim.replicator.writers. Please update your code accordingly.
+[3.676s] [ext: omni.replicator.replicator_yaml-2.0.11] startup
+[3.683s] [ext: omni.rtx.settings.core-0.6.5] startup
+[3.688s] [ext: omni.usd.metrics.assembler.ui-107.3.1] startup
+[3.699s] [ext: omni.isaac.utils-2.0.6] startup
+[3.700s] [ext: semantics.schema.editor-2.0.2] startup
+[3.705s] [ext: omni.kit.ui.actions-1.0.5] startup
+[3.706s] [ext: semantics.schema.property-2.0.1] startup
+[3.708s] [ext: omni.isaac.version-2.0.7] startup
+2026-03-17T17:01:15Z [3,692ms] [Warning] [omni.isaac.version] omni.isaac.version has been deprecated in favor of isaacsim.core.version. Please update your code accordingly.
+[3.709s] [ext: omni.isaac.cortex-1.0.5] startup
+[3.710s] [ext: omni.anim.curve.core-1.3.1] startup
+[3.719s] [ext: isaacsim.core.throttling-2.2.2] startup
+[3.721s] [ext: omni.kit.menu.common-2.0.1] startup
+[3.723s] [ext: isaacsim.exp.base-5.1.0] startup
+[3.724s] [ext: isaacsim.exp.base.python-5.1.0] startup
+[3.725s] Simulation App Starting
+2026-03-17T17:01:15Z [3,813ms] [Warning] [omni.fabric.plugin] Warning: attribute viewportHandle not found for bucket id 9
+
+[3.872s] app ready
+[Train] Run directory: outputs/flat/lstm_full/seed_44/20260318_000111
+[Train] Run ID: 20260318_000111_dynamite_flat_lstm_full_seed44
+[Train] Device: cuda
+[Train] GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+[Train] GPU Memory: 7805 MB
+Starting kit application with the following args:  ['/home/chyanin/miniconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py', '/home/chyanin/miniconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/apps/isaacsim.exp.base.python.kit', '--/app/tokens/exe-path=/home/chyanin/miniconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/kit', '--/persistent/app/viewport/displayOptions=3094', '--/rtx/materialDb/syncLoads=True', '--/rtx/hydra/materialSyncLoads=True', '--/omni.kit.plugin/syncUsdLoads=True', '--/app/renderer/resolution/width=1280', '--/app/renderer/resolution/height=720', '--/app/window/width=1440', '--/app/window/height=900', '--/renderer/multiGpu/enabled=True', '--/app/fastShutdown=True', '--/app/installSignalHandlers=0', '--ext-folder', '/home/chyanin/miniconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/exts', '--ext-folder', '/home/chyanin/miniconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/apps', '--/physics/cudaDevice=0', '--/plugins/carb.tasking.plugin/threadCount=16', '--/plugins/omni.tbb.globalcontrol/maxThreadCount=16', '--portable', '--no-window', '--/app/window/hideUi=1']
+Passing the following args to the base kit application:  ['--task', 'configs/task/flat.yaml', '--model', 'configs/model/lstm.yaml', '--seed', '44', '--variant', 'full', '--headless']
+Warp 1.8.2 initialized:
+   CUDA Toolkit 12.8, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 4060 Laptop GPU" (8 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /home/chyanin/.cache/warp/1.8.2
+Warp DeprecationWarning: The `warp.sim` module is deprecated and will be removed in v1.10. Please transition to using the forthcoming Newton library instead.
+[Sim] SimulationApp created (headless=True)
+[Sim] Set nucleus cloud root to: https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1
+[INFO]: Parsing configuration from: isaaclab_tasks.manager_based.locomotion.velocity.config.g1.flat_env_cfg:G1FlatEnvCfg
+
+[36m======================================================================================[0m
+[36m[1m[INFO][IsaacLab]: Logging to file: /tmp/isaaclab/logs/isaaclab_2026-03-18_00-01-18.log[0m
+[36m======================================================================================[0m
+
+[33m00:01:18 [simulation_context.py] WARNING: The `enable_external_forces_every_iteration` parameter in the PhysxCfg is set to False. If you are experiencing noisy velocities, consider enabling this flag. You may need to slightly increase the number of velocity iterations (setting it to 1 or 2 rather than 0), together with this flag, to improve the accuracy of velocity updates.[0m
+[INFO]: Base environment:
+	Environment device    : cuda:0
+	Environment seed      : None
+	Physics step-size     : 0.005
+	Rendering step-size   : 0.02
+	Environment step-size : 0.02
+[33m00:01:20 [terrain_importer.py] WARNING: Visual material specified for ground plane but no diffuse color found. Using default color: (0.0, 0.0, 0.0)[0m
+[INFO]: Time taken for scene creation : 3.452361 seconds
+[INFO]: Scene manager:  <class InteractiveScene>
+	Number of environments: 512
+	Environment spacing   : 2.5
+	Source prim name      : /World/envs/env_0
+	Global prim paths     : ['/World/ground']
+	Replicate physics     : True
+[INFO]: Starting the simulation. This may take a few seconds. Please wait...
+[INFO]: Time taken for simulation start : 2.637240 seconds
+[INFO] Command Manager:  <CommandManager> contains 1 active terms.
++------------------------------------------------+
+|              Active Command Terms              |
++-------+---------------+------------------------+
+| Index | Name          |          Type          |
++-------+---------------+------------------------+
+|   0   | base_velocity | UniformVelocityCommand |
++-------+---------------+------------------------+
+
+[INFO] Event Manager:  <EventManager> contains 2 active terms.
++--------------------------------------+
+| Active Event Terms in Mode: 'startup' |
++----------+---------------------------+
+|  Index   | Name                      |
++----------+---------------------------+
+|    0     | physics_material          |
++----------+---------------------------+
++---------------------------------------+
+|  Active Event Terms in Mode: 'reset'  |
++--------+------------------------------+
+| Index  | Name                         |
++--------+------------------------------+
+|   0    | base_external_force_torque   |
+|   1    | reset_base                   |
+|   2    | reset_robot_joints           |
++--------+------------------------------+
+
+[INFO] Recorder Manager:  <RecorderManager> contains 0 active terms.
++---------------------+
+| Active Recorder Terms |
++-----------+---------+
+|   Index   | Name    |
++-----------+---------+
++-----------+---------+
+
+[INFO] Action Manager:  <ActionManager> contains 1 active terms.
++------------------------------------+
+|  Active Action Terms (shape: 37)   |
++--------+-------------+-------------+
+| Index  | Name        |   Dimension |
++--------+-------------+-------------+
+|   0    | joint_pos   |          37 |
++--------+-------------+-------------+
+
+[INFO] Observation Manager: <ObservationManager> contains 1 groups.
++---------------------------------------------------------+
+| Active Observation Terms in Group: 'policy' (shape: (123,)) |
++-----------+---------------------------------+-----------+
+|   Index   | Name                            |   Shape   |
++-----------+---------------------------------+-----------+
+|     0     | base_lin_vel                    |    (3,)   |
+|     1     | base_ang_vel                    |    (3,)   |
+|     2     | projected_gravity               |    (3,)   |
+|     3     | velocity_commands               |    (3,)   |
+|     4     | joint_pos                       |   (37,)   |
+|     5     | joint_vel                       |   (37,)   |
+|     6     | actions                         |   (37,)   |
++-----------+---------------------------------+-----------+
+
+[INFO] Termination Manager:  <TerminationManager> contains 2 active terms.
++---------------------------------+
+|     Active Termination Terms    |
++-------+--------------+----------+
+| Index | Name         | Time Out |
++-------+--------------+----------+
+|   0   | time_out     |   True   |
+|   1   | base_contact |  False   |
++-------+--------------+----------+
+
+[INFO] Reward Manager:  <RewardManager> contains 16 active terms.
++------------------------------------------+
+|           Active Reward Terms            |
++-------+-------------------------+--------+
+| Index | Name                    | Weight |
++-------+-------------------------+--------+
+|   0   | track_lin_vel_xy_exp    |    1.0 |
+|   1   | track_ang_vel_z_exp     |    1.0 |
+|   2   | lin_vel_z_l2            |   -0.2 |
+|   3   | ang_vel_xy_l2           |  -0.05 |
+|   4   | dof_torques_l2          | -2e-06 |
+|   5   | dof_acc_l2              | -1e-07 |
+|   6   | action_rate_l2          | -0.005 |
+|   7   | feet_air_time           |   0.75 |
+|   8   | flat_orientation_l2     |   -1.0 |
+|   9   | dof_pos_limits          |   -1.0 |
+|   10  | termination_penalty     | -200.0 |
+|   11  | feet_slide              |   -0.1 |
+|   12  | joint_deviation_hip     |   -0.1 |
+|   13  | joint_deviation_arms    |   -0.1 |
+|   14  | joint_deviation_fingers |  -0.05 |
+|   15  | joint_deviation_torso   |   -0.1 |
++-------+-------------------------+--------+
+
+[INFO] Curriculum Manager:  <CurriculumManager> contains 0 active terms.
++----------------------+
+| Active Curriculum Terms |
++-----------+----------+
+|   Index   | Name     |
++-----------+----------+
++-----------+----------+
+
+[INFO]: Completed setting up the environment...
+[Env] Created Isaac-Velocity-Flat-G1-v0  (num_envs=512)
+[Env] Auto-detected dims: obs=123, act=37 (cmd & prev_action already in obs)
+[Model] Built lstm with 190,667 parameters
+[Train] Starting training: lstm on flat
+[Train] Variant: full | Seed: 44
+[Train] Total timesteps: 10,000,000
+[Train] Starting training: 813 iterations, 10,000,000 total timesteps
+[00:01:34][dynamite][INFO] [step 122880] iteration: 10 | global_step: 122880 | reward/mean: -6.0782 | reward/std: 0.4137 | perf/fps: 15768.8427 | perf/gpu_mem_mb: 98
+[00:01:40][dynamite][INFO] [step 245760] iteration: 20 | global_step: 245760 | reward/mean: -6.1123 | reward/std: 0.4254 | perf/fps: 18992.9844 | perf/gpu_mem_mb: 98
+[00:01:47][dynamite][INFO] [step 368640] iteration: 30 | global_step: 368640 | reward/mean: -6.1226 | reward/std: 0.4201 | perf/fps: 18970.1625 | perf/gpu_mem_mb: 98
+[00:01:53][dynamite][INFO] [step 491520] iteration: 40 | global_step: 491520 | reward/mean: -6.1404 | reward/std: 0.4461 | perf/fps: 18929.8464 | perf/gpu_mem_mb: 98
+[00:02:00][dynamite][INFO] [step 614400] iteration: 50 | global_step: 614400 | reward/mean: -6.1532 | reward/std: 0.4518 | perf/fps: 19008.9461 | perf/gpu_mem_mb: 98
+[00:02:01][dynamite][INFO] [step 614400] eval/reward_mean: -3.8761
+[00:02:08][dynamite][INFO] [step 737280] iteration: 60 | global_step: 737280 | reward/mean: -6.0304 | reward/std: 0.6439 | perf/fps: 15068.5380 | perf/gpu_mem_mb: 98
+[00:02:14][dynamite][INFO] [step 860160] iteration: 70 | global_step: 860160 | reward/mean: -6.1943 | reward/std: 0.4618 | perf/fps: 18856.6103 | perf/gpu_mem_mb: 98
+[00:02:21][dynamite][INFO] [step 983040] iteration: 80 | global_step: 983040 | reward/mean: -6.2137 | reward/std: 0.4585 | perf/fps: 18832.6116 | perf/gpu_mem_mb: 98
+[00:02:27][dynamite][INFO] [step 1105920] iteration: 90 | global_step: 1105920 | reward/mean: -6.2578 | reward/std: 0.4974 | perf/fps: 18856.6537 | perf/gpu_mem_mb: 98
+[00:02:34][dynamite][INFO] [step 1228800] iteration: 100 | global_step: 1228800 | reward/mean: -6.2956 | reward/std: 0.5173 | perf/fps: 18930.8337 | perf/gpu_mem_mb: 98
+[00:02:35][dynamite][INFO] [step 1228800] eval/reward_mean: -3.9007
+[00:02:42][dynamite][INFO] [step 1351680] iteration: 110 | global_step: 1351680 | reward/mean: -6.1792 | reward/std: 0.7040 | perf/fps: 15328.7786 | perf/gpu_mem_mb: 98
+[00:02:48][dynamite][INFO] [step 1474560] iteration: 120 | global_step: 1474560 | reward/mean: -6.3464 | reward/std: 0.5214 | perf/fps: 18868.0033 | perf/gpu_mem_mb: 98
+[00:02:55][dynamite][INFO] [step 1597440] iteration: 130 | global_step: 1597440 | reward/mean: -6.4086 | reward/std: 0.5594 | perf/fps: 18950.1464 | perf/gpu_mem_mb: 98
+[00:03:01][dynamite][INFO] [step 1720320] iteration: 140 | global_step: 1720320 | reward/mean: -6.4632 | reward/std: 0.5961 | perf/fps: 18909.2423 | perf/gpu_mem_mb: 98
+[00:03:08][dynamite][INFO] [step 1843200] iteration: 150 | global_step: 1843200 | reward/mean: -6.5587 | reward/std: 0.6522 | perf/fps: 18853.9759 | perf/gpu_mem_mb: 98
+[00:03:09][dynamite][INFO] [step 1843200] eval/reward_mean: -4.0550
+[00:03:16][dynamite][INFO] [step 1966080] iteration: 160 | global_step: 1966080 | reward/mean: -6.4565 | reward/std: 0.8502 | perf/fps: 15384.5409 | perf/gpu_mem_mb: 98
+[00:03:22][dynamite][INFO] [step 2088960] iteration: 170 | global_step: 2088960 | reward/mean: -6.6159 | reward/std: 0.6812 | perf/fps: 18892.2598 | perf/gpu_mem_mb: 98
+[00:03:29][dynamite][INFO] [step 2211840] iteration: 180 | global_step: 2211840 | reward/mean: -6.6404 | reward/std: 0.7033 | perf/fps: 18805.0306 | perf/gpu_mem_mb: 98
+[00:03:36][dynamite][INFO] [step 2334720] iteration: 190 | global_step: 2334720 | reward/mean: -6.6082 | reward/std: 0.7423 | perf/fps: 18605.9938 | perf/gpu_mem_mb: 98
+[00:03:43][dynamite][INFO] [step 2457600] iteration: 200 | global_step: 2457600 | reward/mean: -6.5257 | reward/std: 0.7157 | perf/fps: 17666.0743 | perf/gpu_mem_mb: 98
+[00:03:44][dynamite][INFO] [step 2457600] eval/reward_mean: -4.8184
+[00:03:51][dynamite][INFO] [step 2580480] iteration: 210 | global_step: 2580480 | reward/mean: -6.3643 | reward/std: 0.7189 | perf/fps: 15117.0695 | perf/gpu_mem_mb: 98
+[00:03:57][dynamite][INFO] [step 2703360] iteration: 220 | global_step: 2703360 | reward/mean: -6.3040 | reward/std: 0.6617 | perf/fps: 18656.3103 | perf/gpu_mem_mb: 98
+[00:04:04][dynamite][INFO] [step 2826240] iteration: 230 | global_step: 2826240 | reward/mean: -6.2299 | reward/std: 0.6482 | perf/fps: 18613.3113 | perf/gpu_mem_mb: 98
+[00:04:10][dynamite][INFO] [step 2949120] iteration: 240 | global_step: 2949120 | reward/mean: -6.1980 | reward/std: 0.6360 | perf/fps: 18603.9185 | perf/gpu_mem_mb: 98
+[00:04:17][dynamite][INFO] [step 3072000] iteration: 250 | global_step: 3072000 | reward/mean: -6.2101 | reward/std: 0.6277 | perf/fps: 18644.0795 | perf/gpu_mem_mb: 98
+[00:04:18][dynamite][INFO] [step 3072000] eval/reward_mean: -5.3751
+[00:04:25][dynamite][INFO] [step 3194880] iteration: 260 | global_step: 3194880 | reward/mean: -6.1784 | reward/std: 0.7047 | perf/fps: 15934.8792 | perf/gpu_mem_mb: 98
+[00:04:31][dynamite][INFO] [step 3317760] iteration: 270 | global_step: 3317760 | reward/mean: -6.2255 | reward/std: 0.6407 | perf/fps: 18494.7756 | perf/gpu_mem_mb: 98
+[00:04:38][dynamite][INFO] [step 3440640] iteration: 280 | global_step: 3440640 | reward/mean: -6.2160 | reward/std: 0.6506 | perf/fps: 18106.2877 | perf/gpu_mem_mb: 98
+[00:04:45][dynamite][INFO] [step 3563520] iteration: 290 | global_step: 3563520 | reward/mean: -6.2191 | reward/std: 0.6611 | perf/fps: 18596.9573 | perf/gpu_mem_mb: 98
+[00:04:51][dynamite][INFO] [step 3686400] iteration: 300 | global_step: 3686400 | reward/mean: -6.2062 | reward/std: 0.6298 | perf/fps: 18611.8736 | perf/gpu_mem_mb: 98
+[00:04:52][dynamite][INFO] [step 3686400] eval/reward_mean: -5.4690
+[00:04:59][dynamite][INFO] [step 3809280] iteration: 310 | global_step: 3809280 | reward/mean: -6.1400 | reward/std: 0.6817 | perf/fps: 16235.2243 | perf/gpu_mem_mb: 98
+[00:05:06][dynamite][INFO] [step 3932160] iteration: 320 | global_step: 3932160 | reward/mean: -6.2022 | reward/std: 0.6517 | perf/fps: 18462.7887 | perf/gpu_mem_mb: 98
+[00:05:12][dynamite][INFO] [step 4055040] iteration: 330 | global_step: 4055040 | reward/mean: -6.1533 | reward/std: 0.6318 | perf/fps: 18548.4826 | perf/gpu_mem_mb: 98
+[00:05:19][dynamite][INFO] [step 4177920] iteration: 340 | global_step: 4177920 | reward/mean: -6.1725 | reward/std: 0.6425 | perf/fps: 18559.2201 | perf/gpu_mem_mb: 98
+[00:05:26][dynamite][INFO] [step 4300800] iteration: 350 | global_step: 4300800 | reward/mean: -6.1562 | reward/std: 0.6101 | perf/fps: 18532.1523 | perf/gpu_mem_mb: 98
+[00:05:26][dynamite][INFO] [step 4300800] eval/reward_mean: -5.3697
+[00:05:33][dynamite][INFO] [step 4423680] iteration: 360 | global_step: 4423680 | reward/mean: -6.1352 | reward/std: 0.6675 | perf/fps: 16396.3953 | perf/gpu_mem_mb: 98
+[00:05:40][dynamite][INFO] [step 4546560] iteration: 370 | global_step: 4546560 | reward/mean: -6.1715 | reward/std: 0.6315 | perf/fps: 18531.6359 | perf/gpu_mem_mb: 98
+[00:05:46][dynamite][INFO] [step 4669440] iteration: 380 | global_step: 4669440 | reward/mean: -6.1502 | reward/std: 0.6239 | perf/fps: 18551.8683 | perf/gpu_mem_mb: 98
+[00:05:53][dynamite][INFO] [step 4792320] iteration: 390 | global_step: 4792320 | reward/mean: -6.1378 | reward/std: 0.6296 | perf/fps: 18590.3527 | perf/gpu_mem_mb: 98
+[00:05:59][dynamite][INFO] [step 4915200] iteration: 400 | global_step: 4915200 | reward/mean: -6.1379 | reward/std: 0.6105 | perf/fps: 18579.9736 | perf/gpu_mem_mb: 98
+[00:06:00][dynamite][INFO] [step 4915200] eval/reward_mean: -5.2757
+[00:06:07][dynamite][INFO] [step 5038080] iteration: 410 | global_step: 5038080 | reward/mean: -6.1508 | reward/std: 0.6596 | perf/fps: 15357.7390 | perf/gpu_mem_mb: 98
+[00:06:14][dynamite][INFO] [step 5160960] iteration: 420 | global_step: 5160960 | reward/mean: -6.1319 | reward/std: 0.6137 | perf/fps: 18531.6472 | perf/gpu_mem_mb: 98
+[00:06:21][dynamite][INFO] [step 5283840] iteration: 430 | global_step: 5283840 | reward/mean: -6.1262 | reward/std: 0.6342 | perf/fps: 18442.1290 | perf/gpu_mem_mb: 98
+[00:06:27][dynamite][INFO] [step 5406720] iteration: 440 | global_step: 5406720 | reward/mean: -6.1467 | reward/std: 0.6578 | perf/fps: 18554.3528 | perf/gpu_mem_mb: 98
+[00:06:34][dynamite][INFO] [step 5529600] iteration: 450 | global_step: 5529600 | reward/mean: -6.1476 | reward/std: 0.6285 | perf/fps: 18515.2561 | perf/gpu_mem_mb: 98
+[00:06:35][dynamite][INFO] [step 5529600] eval/reward_mean: -5.0507
+[00:06:41][dynamite][INFO] [step 5652480] iteration: 460 | global_step: 5652480 | reward/mean: -6.1752 | reward/std: 0.6930 | perf/fps: 16917.9533 | perf/gpu_mem_mb: 98
+[00:06:48][dynamite][INFO] [step 5775360] iteration: 470 | global_step: 5775360 | reward/mean: -6.1497 | reward/std: 0.6404 | perf/fps: 18572.6977 | perf/gpu_mem_mb: 98
+[00:06:55][dynamite][INFO] [step 5898240] iteration: 480 | global_step: 5898240 | reward/mean: -6.1571 | reward/std: 0.6415 | perf/fps: 18578.8190 | perf/gpu_mem_mb: 98
+[00:07:01][dynamite][INFO] [step 6021120] iteration: 490 | global_step: 6021120 | reward/mean: -6.1487 | reward/std: 0.6457 | perf/fps: 18596.3863 | perf/gpu_mem_mb: 98
+[00:07:08][dynamite][INFO] [step 6144000] iteration: 500 | global_step: 6144000 | reward/mean: -6.1558 | reward/std: 0.6421 | perf/fps: 18609.7889 | perf/gpu_mem_mb: 98
+[00:07:08][dynamite][INFO] [step 6144000] eval/reward_mean: -4.9967
+[00:07:15][dynamite][INFO] [step 6266880] iteration: 510 | global_step: 6266880 | reward/mean: -6.1397 | reward/std: 0.6757 | perf/fps: 17104.4886 | perf/gpu_mem_mb: 98
+[00:07:22][dynamite][INFO] [step 6389760] iteration: 520 | global_step: 6389760 | reward/mean: -6.1499 | reward/std: 0.6230 | perf/fps: 18461.0871 | perf/gpu_mem_mb: 98
+[00:07:28][dynamite][INFO] [step 6512640] iteration: 530 | global_step: 6512640 | reward/mean: -6.1625 | reward/std: 0.6400 | perf/fps: 18661.2077 | perf/gpu_mem_mb: 98
+[00:07:35][dynamite][INFO] [step 6635520] iteration: 540 | global_step: 6635520 | reward/mean: -6.1554 | reward/std: 0.6310 | perf/fps: 17834.8956 | perf/gpu_mem_mb: 98
+[00:07:42][dynamite][INFO] [step 6758400] iteration: 550 | global_step: 6758400 | reward/mean: -6.1540 | reward/std: 0.6162 | perf/fps: 17976.2293 | perf/gpu_mem_mb: 98
+[00:07:42][dynamite][INFO] [step 6758400] eval/reward_mean: -4.9975
+[00:07:49][dynamite][INFO] [step 6881280] iteration: 560 | global_step: 6881280 | reward/mean: -6.1427 | reward/std: 0.6744 | perf/fps: 17083.4672 | perf/gpu_mem_mb: 98
+[00:07:56][dynamite][INFO] [step 7004160] iteration: 570 | global_step: 7004160 | reward/mean: -6.1423 | reward/std: 0.6286 | perf/fps: 18513.3161 | perf/gpu_mem_mb: 98
+[00:08:02][dynamite][INFO] [step 7127040] iteration: 580 | global_step: 7127040 | reward/mean: -6.1413 | reward/std: 0.6328 | perf/fps: 18609.5181 | perf/gpu_mem_mb: 98
+[00:08:09][dynamite][INFO] [step 7249920] iteration: 590 | global_step: 7249920 | reward/mean: -6.1426 | reward/std: 0.6349 | perf/fps: 18505.4617 | perf/gpu_mem_mb: 98
+[00:08:16][dynamite][INFO] [step 7372800] iteration: 600 | global_step: 7372800 | reward/mean: -6.1375 | reward/std: 0.6075 | perf/fps: 18477.1386 | perf/gpu_mem_mb: 98
+[00:08:16][dynamite][INFO] [step 7372800] eval/reward_mean: -4.9812
+[00:08:23][dynamite][INFO] [step 7495680] iteration: 610 | global_step: 7495680 | reward/mean: -6.1326 | reward/std: 0.6683 | perf/fps: 16652.7379 | perf/gpu_mem_mb: 98
+[00:08:30][dynamite][INFO] [step 7618560] iteration: 620 | global_step: 7618560 | reward/mean: -6.1310 | reward/std: 0.6154 | perf/fps: 18587.9451 | perf/gpu_mem_mb: 98
+[00:08:36][dynamite][INFO] [step 7741440] iteration: 630 | global_step: 7741440 | reward/mean: -6.1447 | reward/std: 0.6362 | perf/fps: 18517.9530 | perf/gpu_mem_mb: 98
+[00:08:43][dynamite][INFO] [step 7864320] iteration: 640 | global_step: 7864320 | reward/mean: -6.1334 | reward/std: 0.6240 | perf/fps: 18495.0066 | perf/gpu_mem_mb: 98
+[00:08:50][dynamite][INFO] [step 7987200] iteration: 650 | global_step: 7987200 | reward/mean: -6.1336 | reward/std: 0.6359 | perf/fps: 18501.3822 | perf/gpu_mem_mb: 98
+[00:08:50][dynamite][INFO] [step 7987200] eval/reward_mean: -4.9625
+[00:08:57][dynamite][INFO] [step 8110080] iteration: 660 | global_step: 8110080 | reward/mean: -6.1148 | reward/std: 0.6622 | perf/fps: 17119.4586 | perf/gpu_mem_mb: 98
+[00:09:03][dynamite][INFO] [step 8232960] iteration: 670 | global_step: 8232960 | reward/mean: -6.1533 | reward/std: 0.6511 | perf/fps: 18633.7016 | perf/gpu_mem_mb: 98
+[00:09:10][dynamite][INFO] [step 8355840] iteration: 680 | global_step: 8355840 | reward/mean: -6.1515 | reward/std: 0.6229 | perf/fps: 18544.5883 | perf/gpu_mem_mb: 98
+[00:09:17][dynamite][INFO] [step 8478720] iteration: 690 | global_step: 8478720 | reward/mean: -6.1506 | reward/std: 0.6333 | perf/fps: 18227.5163 | perf/gpu_mem_mb: 98
+[00:09:23][dynamite][INFO] [step 8601600] iteration: 700 | global_step: 8601600 | reward/mean: -6.1551 | reward/std: 0.6318 | perf/fps: 18557.0156 | perf/gpu_mem_mb: 98
+[00:09:24][dynamite][INFO] [step 8601600] eval/reward_mean: -4.9497
+[00:09:31][dynamite][INFO] [step 8724480] iteration: 710 | global_step: 8724480 | reward/mean: -6.1170 | reward/std: 0.6673 | perf/fps: 17039.0212 | perf/gpu_mem_mb: 98
+[00:09:37][dynamite][INFO] [step 8847360] iteration: 720 | global_step: 8847360 | reward/mean: -6.1358 | reward/std: 0.6204 | perf/fps: 18433.9848 | perf/gpu_mem_mb: 98
+[00:09:44][dynamite][INFO] [step 8970240] iteration: 730 | global_step: 8970240 | reward/mean: -6.1426 | reward/std: 0.6268 | perf/fps: 18544.1386 | perf/gpu_mem_mb: 98
+[00:09:50][dynamite][INFO] [step 9093120] iteration: 740 | global_step: 9093120 | reward/mean: -6.1412 | reward/std: 0.6162 | perf/fps: 18575.9925 | perf/gpu_mem_mb: 98
+[00:09:57][dynamite][INFO] [step 9216000] iteration: 750 | global_step: 9216000 | reward/mean: -6.1362 | reward/std: 0.6263 | perf/fps: 18576.5254 | perf/gpu_mem_mb: 98
+[00:09:58][dynamite][INFO] [step 9216000] eval/reward_mean: -4.9292
+[00:10:04][dynamite][INFO] [step 9338880] iteration: 760 | global_step: 9338880 | reward/mean: -6.1144 | reward/std: 0.6723 | perf/fps: 17036.9941 | perf/gpu_mem_mb: 98
+[00:10:11][dynamite][INFO] [step 9461760] iteration: 770 | global_step: 9461760 | reward/mean: -6.1315 | reward/std: 0.6132 | perf/fps: 18433.5773 | perf/gpu_mem_mb: 98
+[00:10:18][dynamite][INFO] [step 9584640] iteration: 780 | global_step: 9584640 | reward/mean: -6.1282 | reward/std: 0.6322 | perf/fps: 18294.0513 | perf/gpu_mem_mb: 98
+[00:10:24][dynamite][INFO] [step 9707520] iteration: 790 | global_step: 9707520 | reward/mean: -6.1296 | reward/std: 0.6087 | perf/fps: 18484.0475 | perf/gpu_mem_mb: 98
+[00:10:31][dynamite][INFO] [step 9830400] iteration: 800 | global_step: 9830400 | reward/mean: -6.1116 | reward/std: 0.5959 | perf/fps: 18552.1307 | perf/gpu_mem_mb: 98
+[00:10:31][dynamite][INFO] [step 9830400] eval/reward_mean: -4.9117
+[00:10:38][dynamite][INFO] [step 9953280] iteration: 810 | global_step: 9953280 | reward/mean: -6.0768 | reward/std: 0.6394 | perf/fps: 17032.7438 | perf/gpu_mem_mb: 98
+[6.214s] Simulation App Startup Complete
+2026-03-17T17:01:18Z [7,019ms] [Warning] [isaaclab.envs.manager_based_env] Seed not set for the environment. The environment creation may not be deterministic.
+[7.047s] [ext: omni.physx.fabric-107.3.26] startup
+2026-03-17T17:01:26Z [14,693ms] [Warning] [omni.physx.fabric.plugin] FabricManager::initializePointInstancer mismatched prototypes on point instancer: /Visuals/Command/velocity_goal.
+2026-03-17T17:01:26Z [14,693ms] [Warning] [omni.physx.fabric.plugin] FabricManager::initializePointInstancer mismatched prototypes on point instancer: /Visuals/Command/velocity_current.
+[569.679s] Simulation App Shutting Down

@@ -1,0 +1,612 @@
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-18T22:56:14+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 20
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 1/60] RUN: push/mlp_full/seed_42
+  Latest: [22:56:06][dynamite][INFO] [step 6021120] iteration: 490 | global_step: 6021120 | reward/mean: -5.0794 | reward/std: 0.1499 | perf/fps: 11884.9550 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 1.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-18T22:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 20
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 1/60] RUN: push/mlp_full/seed_42
+  Latest: [22:56:16][dynamite][INFO] [step 6144000] iteration: 500 | global_step: 6144000 | reward/mean: -5.0465 | reward/std: 0.1263 | perf/fps: 11662.9995 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 1.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-18T23:56:14+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 24
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 5/60] RUN: push/mlp_full/seed_46
+  Latest: [23:56:06][dynamite][INFO] [step 6881280] iteration: 560 | global_step: 6881280 | reward/mean: -5.8476 | reward/std: 0.6559 | perf/fps: 10957.1765 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 1.7G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-18T23:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 24
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 5/60] RUN: push/mlp_full/seed_46
+  Latest: [23:56:17][dynamite][INFO] [step 7004160] iteration: 570 | global_step: 7004160 | reward/mean: -5.7911 | reward/std: 0.3573 | perf/fps: 11264.9431 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 1.7G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T00:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 28
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 9/60] RUN: push/lstm_full/seed_45
+  Latest: [00:56:14][dynamite][INFO] [step 8478720] iteration: 690 | global_step: 8478720 | reward/mean: -6.7372 | reward/std: 0.6544 | perf/fps: 11999.1498 | perf/gpu_mem_mb: 187
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 1.9G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T00:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 28
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 9/60] RUN: push/lstm_full/seed_45
+  Latest: [00:56:14][dynamite][INFO] [step 8478720] iteration: 690 | global_step: 8478720 | reward/mean: -6.7372 | reward/std: 0.6544 | perf/fps: 11999.1498 | perf/gpu_mem_mb: 187
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 1.9G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T01:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 32
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 13/60] RUN: push/transformer_full/seed_44
+  Latest: [01:56:08][dynamite][INFO] [step 6144000] iteration: 500 | global_step: 6144000 | reward/mean: -4.9723 | reward/std: 0.2159 | perf/fps: 10424.5031 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 2.1G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T01:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 32
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 13/60] RUN: push/transformer_full/seed_44
+  Latest: [01:56:20][dynamite][INFO] [step 6266880] iteration: 510 | global_step: 6266880 | reward/mean: -4.9524 | reward/std: 0.2650 | perf/fps: 10226.0039 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 2.1G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T02:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 36
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 17/60] RUN: push/dynamite_full/seed_43
+  Latest: [02:56:07][dynamite][INFO] [step 2088960] iteration: 170 | global_step: 2088960 | reward/mean: -5.5933 | reward/std: 0.5110 | perf/fps: 10273.0460 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 2.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T02:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 36
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 17/60] RUN: push/dynamite_full/seed_43
+  Latest: [02:56:19][dynamite][INFO] [step 2211840] iteration: 180 | global_step: 2211840 | reward/mean: -5.6153 | reward/std: 0.5421 | perf/fps: 10196.6259 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 2.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T03:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 39
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 20/60] RUN: push/dynamite_full/seed_46
+  Latest: [03:56:12][dynamite][INFO] [step 7864320] iteration: 640 | global_step: 7864320 | reward/mean: -5.2890 | reward/std: 0.4376 | perf/fps: 10024.5224 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 2.7G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T03:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 39
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 20/60] RUN: push/dynamite_full/seed_46
+  Latest: [03:56:12][dynamite][INFO] [step 7864320] iteration: 640 | global_step: 7864320 | reward/mean: -5.2890 | reward/std: 0.4376 | perf/fps: 10024.5224 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 2.7G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T04:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 43
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 24/60] RUN: randomized/mlp_full/seed_45
+  Latest: [04:56:08][dynamite][INFO] [step 8478720] iteration: 690 | global_step: 8478720 | reward/mean: -5.2339 | reward/std: 0.2012 | perf/fps: 11826.1797 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.0G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T04:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 43
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 24/60] RUN: randomized/mlp_full/seed_45
+  Latest: [04:56:19][dynamite][INFO] [step 8601600] iteration: 700 | global_step: 8601600 | reward/mean: -5.2225 | reward/std: 0.2107 | perf/fps: 11952.7172 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.0G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T05:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 47
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 28/60] RUN: randomized/lstm_full/seed_44
+  Latest: [05:56:10][dynamite][INFO] [step 9830400] iteration: 800 | global_step: 9830400 | reward/mean: -5.8132 | reward/std: 0.4833 | perf/fps: 11892.3596 | perf/gpu_mem_mb: 187
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.2G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T05:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 47
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 28/60] RUN: randomized/lstm_full/seed_44
+  Latest: [05:56:21][dynamite][INFO] [step 9953280] iteration: 810 | global_step: 9953280 | reward/mean: -5.7592 | reward/std: 0.5144 | perf/fps: 11133.0711 | perf/gpu_mem_mb: 187
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.2G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T06:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 51
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 32/60] RUN: randomized/transformer_full/seed_43
+  Latest: [06:56:14][dynamite][INFO] [step 8478720] iteration: 690 | global_step: 8478720 | reward/mean: -5.1480 | reward/std: 0.2142 | perf/fps: 10449.6126 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.5G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T06:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 51
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 32/60] RUN: randomized/transformer_full/seed_43
+  Latest: [06:56:14][dynamite][INFO] [step 8478720] iteration: 690 | global_step: 8478720 | reward/mean: -5.1480 | reward/std: 0.2142 | perf/fps: 10449.6126 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.5G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T07:56:15+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 55
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 36/60] RUN: randomized/dynamite_full/seed_42
+  Latest: [07:56:12][dynamite][INFO] [step 5652480] iteration: 460 | global_step: 5652480 | reward/mean: -4.8000 | reward/std: 0.1803 | perf/fps: 11153.0825 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.8G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T07:56:22+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 55
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 36/60] RUN: randomized/dynamite_full/seed_42
+  Latest: [07:56:12][dynamite][INFO] [step 5652480] iteration: 460 | global_step: 5652480 | reward/mean: -4.8000 | reward/std: 0.1803 | perf/fps: 11153.0825 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 3.8G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T08:56:16+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 59
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 40/60] RUN: randomized/dynamite_full/seed_46
+  Latest: [08:56:12][dynamite][INFO] [step 1474560] iteration: 120 | global_step: 1474560 | reward/mean: -5.9694 | reward/std: 0.6406 | perf/fps: 10129.2751 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.1G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T08:56:23+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 59
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 40/60] RUN: randomized/dynamite_full/seed_46
+  Latest: [08:56:12][dynamite][INFO] [step 1474560] iteration: 120 | global_step: 1474560 | reward/mean: -5.9694 | reward/std: 0.6406 | perf/fps: 10129.2751 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.1G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T09:56:16+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 63
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 44/60] RUN: terrain/mlp_full/seed_45
+  Latest: [09:56:15][dynamite][INFO] [step 122880] iteration: 10 | global_step: 122880 | reward/mean: -11.1358 | reward/std: 2.1208 | perf/fps: 10463.4160 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T09:56:23+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 63
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 44/60] RUN: terrain/mlp_full/seed_45
+  Latest: [09:56:15][dynamite][INFO] [step 122880] iteration: 10 | global_step: 122880 | reward/mean: -11.1358 | reward/std: 2.1208 | perf/fps: 10463.4160 | perf/gpu_mem_mb: 53
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T10:56:16+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 67
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 48/60] RUN: terrain/lstm_full/seed_44
+  Latest: [10:56:16][dynamite][INFO] [step 245760] iteration: 20 | global_step: 245760 | reward/mean: -5.9012 | reward/std: 0.3822 | perf/fps: 11900.9671 | perf/gpu_mem_mb: 187
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.6G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T10:56:23+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 67
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 48/60] RUN: terrain/lstm_full/seed_44
+  Latest: [10:56:16][dynamite][INFO] [step 245760] iteration: 20 | global_step: 245760 | reward/mean: -5.9012 | reward/std: 0.3822 | perf/fps: 11900.9671 | perf/gpu_mem_mb: 187
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.6G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T11:56:16+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 70
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 51/60] RUN: terrain/transformer_full/seed_42
+  Latest: [11:56:08][dynamite][INFO] [step 9830400] iteration: 800 | global_step: 9830400 | reward/mean: -5.0409 | reward/std: 0.2111 | perf/fps: 10162.5495 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.8G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T11:56:23+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 70
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 51/60] RUN: terrain/transformer_full/seed_42
+  Latest: [11:56:20][dynamite][INFO] [step 9953280] iteration: 810 | global_step: 9953280 | reward/mean: -5.0576 | reward/std: 0.2581 | perf/fps: 9972.5211 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 4.8G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T12:56:16+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 74
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 55/60] RUN: terrain/transformer_full/seed_46
+  Latest: [12:56:06][dynamite][INFO] [step 5652480] iteration: 460 | global_step: 5652480 | reward/mean: -5.0481 | reward/std: 0.3083 | perf/fps: 10202.1261 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 5.1G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T12:56:23+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 74
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 55/60] RUN: terrain/transformer_full/seed_46
+  Latest: [12:56:18][dynamite][INFO] [step 5775360] iteration: 470 | global_step: 5775360 | reward/mean: -4.9752 | reward/std: 0.2471 | perf/fps: 10465.4799 | perf/gpu_mem_mb: 188
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 5.1G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T13:56:17+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 78
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 59/60] RUN: terrain/dynamite_full/seed_45
+  Latest: [13:56:06][dynamite][INFO] [step 1105920] iteration: 90 | global_step: 1105920 | reward/mean: -5.1922 | reward/std: 0.3333 | perf/fps: 10019.5608 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 5.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T13:56:23+07:00
+════════════════════════════════════════════════════════════
+  Process: RUNNING
+  Completed runs: 78
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P1 59/60] RUN: terrain/dynamite_full/seed_45
+  Latest: [13:56:18][dynamite][INFO] [step 1228800] iteration: 100 | global_step: 1228800 | reward/mean: -5.1517 | reward/std: 0.3162 | perf/fps: 10021.5532 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  (none yet)
+  Disk usage (outputs/): 5.4G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T14:56:17+07:00
+════════════════════════════════════════════════════════════
+  Process: NOT RUNNING (may have finished or crashed)
+  Completed runs: 80
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P2 1/35] RUN: randomized/dynamite_seq_len_4/seed_42
+  Latest: [14:31:51][dynamite][INFO] [step 1966080] iteration: 160 | global_step: 1966080 | reward/mean: -5.4940 | reward/std: 0.4840 | perf/fps: 8812.9762 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  Phase 1 complete: 60 total | 0 skipped | 0 failed
+  Disk usage (outputs/): 5.6G
+════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════
+  HOURLY STATUS — 2026-03-19T14:56:24+07:00
+════════════════════════════════════════════════════════════
+  Process: NOT RUNNING (may have finished or crashed)
+  Completed runs: 80
+  Failures in log: 0
+0
+  DR warnings: 0
+0
+  NaN occurrences: 0
+0
+  Current: [P2 1/35] RUN: randomized/dynamite_seq_len_4/seed_42
+  Latest: [14:31:51][dynamite][INFO] [step 1966080] iteration: 160 | global_step: 1966080 | reward/mean: -5.4940 | reward/std: 0.4840 | perf/fps: 8812.9762 | perf/gpu_mem_mb: 189
+  --- Phase completions ---
+  Phase 1 complete: 60 total | 0 skipped | 0 failed
+  Disk usage (outputs/): 5.6G
+════════════════════════════════════════════════════════════

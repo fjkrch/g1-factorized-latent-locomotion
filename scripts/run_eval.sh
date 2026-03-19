@@ -49,7 +49,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # ── Build command ──
-CMD="python scripts/eval.py"
+CMD="python3 scripts/eval.py"
 
 if [[ -n "$CHECKPOINT" ]]; then
     CMD="$CMD --checkpoint $CHECKPOINT"

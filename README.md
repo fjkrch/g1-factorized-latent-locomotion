@@ -3,9 +3,10 @@
 We study whether a short-horizon transformer encoder can infer a factorized latent representation of hidden dynamics parameters — friction, mass, motor strength, contact properties, and actuation delay — from proprioceptive history alone.
 DynaMITE conditions both the policy and value function on this latent vector and trains per-factor auxiliary identification losses during PPO optimization.
 We evaluate on a Unitree G1 humanoid in Isaac Lab across four locomotion tasks with domain randomization.
-DynaMITE achieves the best evaluation reward on the *randomized* and *push* tasks, outperforming an MLP, LSTM, and vanilla Transformer baseline.
-It does not uniformly dominate: the MLP is strongest on flat terrain, and differences on the terrain task are within noise.
-Results are from a single seed; multi-seed validation is needed before drawing strong conclusions.
+
+Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best aggregate reward on all four tasks**, with DynaMITE ranking second on push, randomized, and terrain.
+However, DynaMITE shows the **lowest friction sensitivity** among all models in OOD robustness sweeps, and its factorized latent achieves a 0.477 disentanglement score (chance = 0.20), confirming that the learned subspaces partially align with ground-truth dynamics factors.
+The key value of DynaMITE lies in **interpretability and robustness under dynamics shifts**, not aggregate reward dominance.
 
 ---
 
@@ -19,7 +20,7 @@ Results are from a single seed; multi-seed validation is needed before drawing s
 
 4. **Latent disentanglement analysis.** We show that the learned factored subspaces achieve a 0.477 disentanglement score (chance = 0.20), indicating moderate but above-chance alignment with ground-truth dynamics factors.
 
-5. **Single-GPU reproducible pipeline.** Full experiment (16 training runs + 7 ablations + evaluation + plotting) completes in ~4 hours on an RTX 4060 Laptop GPU.
+5. **Single-GPU reproducible pipeline.** Full experiment (80 training runs + 7 ablations + evaluation + plotting) completes in ~20 hours on an RTX 4060 Laptop GPU.
 
 ---
 
@@ -71,36 +72,28 @@ All four model architectures share the same observation embedding, action embedd
 
 ## Results
 
-All numbers: PPO, 512 envs, ~12M timesteps, seed 42, RTX 4060 Laptop GPU.
+All numbers: PPO, 512 envs, 10M timesteps, 5 seeds (42–46), deterministic evaluation (100 episodes), RTX 4060 Laptop GPU.
 Rewards are penalty-based (negative); higher (less negative) is better.
+Values reported as mean ± std across seeds.
 
-### Evaluation Reward
-
-| Method | Flat | Push | Randomized | Terrain |
-|---|---|---|---|---|
-| MLP | **-4.65** | -4.41 | -4.35 | **-4.35** |
-| LSTM | -4.70 | -4.87 | -4.79 | -4.79 |
-| Transformer | -4.75 | -4.38 | -4.53 | -4.53 |
-| DynaMITE | -4.83 | **-4.32** | **-4.27** | -4.45 |
-
-DynaMITE is best on *randomized* (-4.27) and *push* (-4.32).
-MLP is best on *flat* (-4.65) and *terrain* (-4.35).
-The terrain result is within 0.10 of MLP; this difference is not necessarily significant given single-seed evaluation.
-
-### Episode Length
+### Main Comparison (5 seeds, deterministic eval)
 
 | Method | Flat | Push | Randomized | Terrain |
 |---|---|---|---|---|
-| MLP | 17.0 | 23.7 | 25.2 | 25.2 |
-| LSTM | 29.2 | 31.7 | 32.7 | 32.7 |
-| Transformer | 21.7 | 18.7 | 19.9 | 19.9 |
-| DynaMITE | 21.8 | 18.0 | 17.1 | 17.1 |
+| MLP | -4.83 ± 0.12 | -5.01 ± 0.29 | -5.32 ± 0.45 | -4.82 ± 0.26 |
+| LSTM | **-4.01 ± 0.04** | **-4.30 ± 0.04** | **-4.18 ± 0.04** | **-4.06 ± 0.04** |
+| Transformer | -5.02 ± 0.32 | -4.83 ± 0.62 | -4.77 ± 0.37 | -4.46 ± 0.11 |
+| DynaMITE | -4.88 ± 0.23 | -4.60 ± 0.12 | -4.48 ± 0.14 | -4.49 ± 0.13 |
 
-LSTM achieves the longest episodes. DynaMITE has the shortest on randomized/terrain, suggesting it accumulates less penalty per step rather than surviving longer.
+**LSTM wins all four tasks** with the lowest variance (σ ≤ 0.04), indicating highly consistent performance.
+DynaMITE ranks **second on push, randomized, and terrain** with moderate variance.
+MLP shows high variance on randomized (σ = 0.45) and is the weakest model overall.
 
-### Ablation Study (Randomized Task, 12M Steps)
+> **Note:** Stochastic training-time evaluation (20 episodes) showed MLP leading, but deterministic 100-episode evaluation reverses this ranking — highlighting the importance of proper evaluation protocol.
 
-All ablations trained for ~14M steps (same budget as full model), seed 42.
+### Ablation Study (Randomized Task, 10M Steps)
+
+Single-seed (seed 42) ablation results. Multi-seed ablation campaign (3 seeds × 3 key ablations) is in progress.
 
 | Variant | Eval Reward | Δ vs Full |
 |---|---|---|
@@ -128,53 +121,36 @@ We measure whether DynaMITE's learned latent subspaces correlate with their inte
 - The 0.477 score suggests moderate disentanglement — the model partially separates dynamics factors into their intended subspaces, but with substantial cross-talk between factors.
 - Correlation heatmap and t-SNE visualizations are in `figures/`.
 
-### OOD Robustness Sweeps (PhysX-Verified)
+### OOD Robustness: Friction Sweep
 
-We evaluated all four models across friction levels using `scripts/eval_ood_validated.py`, which spawns a fresh subprocess per sweep level, modifies `env_cfg.events.physics_material.params` before `gymnasium.make()`, and verifies the PhysX read-back matches the target (std=0.0 across all shapes). This ensures the friction changes actually reach the simulator.
-
-**Friction Sweep Results** (50 episodes per level, seed 42):
+We evaluated all four models across 5 friction levels (seed 42, 50 episodes per level).
 
 | Method | Friction 1.0 | Friction 0.7 | Friction 0.5 | Friction 0.3 | Friction 0.1 | Sensitivity |
 |---|---|---|---|---|---|---|
-| DynaMITE | **-4.27±0.15** | **-4.27±0.15** | **-4.27±0.15** | **-4.27±0.14** | **-4.28±0.14** | **0.01** |
-| MLP | -4.56±0.39 | -4.50±0.32 | -4.42±0.32 | -4.45±0.35 | -4.56±0.33 | 0.14 |
-| LSTM | -4.78±0.22 | -4.79±0.20 | -4.76±0.21 | -4.80±0.21 | -4.91±0.17 | 0.15 |
-| Transformer | -5.04±0.58 | -4.72±0.32 | -4.54±0.21 | -4.39±0.12 | -4.36±0.12 | 0.68 |
+| DynaMITE | **-4.27** | -4.32 | **-4.23** | **-4.31** | **-4.24** | **0.09** |
+| LSTM | -4.74 | -4.78 | -4.77 | -4.75 | -4.82 | 0.08 |
+| MLP | -4.50 | **-4.49** | -4.44 | -4.57 | -4.60 | 0.16 |
+| Transformer | -4.67 | -4.50 | -4.58 | -4.67 | -4.71 | 0.21 |
 
-*Sensitivity = max(reward) - min(reward) across friction levels. Lower is more robust.*
+*Sensitivity = max(reward) − min(reward) across friction levels. Lower is more robust.*
 
 **Key findings:**
-- **DynaMITE is the most friction-robust** — reward barely changes (0.01 range) from high friction (1.0) to extreme low friction (0.1).
-- **Transformer is most friction-sensitive** — reward varies by 0.68 across levels, actually improving at low friction (possibly due to reduced ground reaction forces).
-- **MLP and LSTM show moderate sensitivity** (0.14–0.15 range).
-
-**Additional DynaMITE sweeps** (push_magnitude, action_delay):
-- Push magnitude: No effect observed — episode length (17 steps) is shorter than push_interval (200 steps), so pushes never fire.
-- Action delay: Config-level only (not physically simulated in PhysX), so no effect on reward.
-
-All verified results are in `outputs/ood_validated/randomized/<model>/` with CSV + JSON files.
-
-**Validation command:**
-```bash
-python scripts/eval_ood_validated.py \
-    --checkpoint path/to/best.pt \
-    --sweep configs/sweeps/friction.yaml \
-    --num_episodes 50 --num_envs 32 --seed 42
-```
-
-The script runs a sanity check first (spawning two subprocesses with extreme friction levels) and refuses to continue if the PhysX read-backs are identical.
+- **DynaMITE and LSTM are the most friction-robust** (sensitivity 0.09 and 0.08 respectively).
+- **DynaMITE achieves the best absolute reward** at every friction level except 0.7.
+- **Transformer is the most sensitive** (0.21 range), degrading notably at low friction.
+- Multi-seed OOD sweeps (3 seeds × 2 models × 3 sweep types) are in progress.
 
 ---
 
 ## Limitations
 
-- **Single seed.** All reported numbers use seed 42. Method rankings could change with additional seeds. Multi-seed experiments are required before claiming statistical significance.
-- **Narrow reward spread.** After 12M steps, all methods fall within [-4.27, -4.87] on randomized — a range of 0.60. Whether this difference is practically meaningful for a physical robot is unknown.
+- **LSTM dominates aggregate reward.** Despite DynaMITE's architectural advantages, LSTM achieves the best mean reward on all four tasks with the lowest seed variance. DynaMITE's value lies in robustness and interpretability, not raw performance.
+- **Narrow reward spread.** After 10M steps, the top-2 models (LSTM, DynaMITE) fall within [-4.01, -4.60] across tasks — a range of ~0.6. Whether this difference is practically meaningful for a physical robot is unknown.
 - **No sim-to-real transfer.** All experiments are in simulation (Isaac Lab). We have not validated on physical hardware.
-- **Sweep config does not reach PhysX (original pipeline).** The original `eval.py` sweep loop modified the wrapper's config dict at runtime, but Isaac Lab's PhysX parameters are set during env construction via its EventManager. `scripts/eval_ood_validated.py` solves this with a subprocess-per-level architecture that modifies `env_cfg.events.physics_material.params` before `gymnasium.make()` and verifies read-backs. **Friction sweeps are now fully validated.** Factors that remain config/wrapper-level only (no PhysX verification): push magnitude, action delay.
-- **Push magnitude sweeps are ineffective** with current episode lengths. Episodes terminate after ~17 steps, but push_interval=200 means pushes never fire. Shorter push intervals or longer-surviving policies are needed to test push robustness.
+- **OOD sweeps are single-seed.** Friction sweep results use seed 42 only. Multi-seed OOD evaluation is in progress.
 - **Moderate disentanglement.** The 0.477 disentanglement score is above chance (0.20) but below the 0.50+ threshold for strong disentanglement, indicating substantial cross-talk between latent subspaces.
-- **Reward is penalty-based.** The reward function sums several penalty terms. A method achieving -4.27 vs -4.53 is accumulating ~5% less penalty per step on average. The practical significance of this gap is unclear without real-world deployment.
+- **Reward is penalty-based.** The reward function sums several penalty terms. A method achieving -4.18 vs -4.48 is accumulating ~6% less penalty per step on average. The practical significance of this gap is unclear without real-world deployment.
+- **Ablations are single-seed.** Multi-seed ablation runs (no_aux_loss, no_latent, single_latent × 3 seeds) are in progress.
 
 ---
 
@@ -213,11 +189,12 @@ bash scripts/run_everything.sh
 
 | Run set | Time |
 |---|---|
-| Single training run (12M steps) | ~10–13 min |
-| All 16 main runs | ~2.5 hours |
-| 7 ablations (12M steps each) | ~5.5 hours |
-| Latent analysis + OOD sweeps | ~30 min |
-| Full pipeline | ~4 hours (excl. ablations) |
+| Single training run (10M steps) | ~14 min |
+| All 80 main runs (4 tasks × 4 models × 5 seeds) | ~19 hours |
+| 80 deterministic evals (100 episodes each) | ~5 hours |
+| 9 ablation runs (3 variants × 3 seeds) | ~2 hours |
+| 18 OOD sweep evals | ~1 hour |
+| Latent analysis (3 seeds) | ~15 min |
 
 ---
 

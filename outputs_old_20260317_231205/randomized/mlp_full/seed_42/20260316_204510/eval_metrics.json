@@ -1,0 +1,17 @@
+{
+  "checkpoint": "outputs/randomized/mlp_full/seed_42/20260316_204510/checkpoints/best.pt",
+  "task": "randomized",
+  "model": "mlp",
+  "seed": 42,
+  "num_episodes": 100,
+  "timestamp": "2026-03-17T06:34:20.333931",
+  "wall_time_s": 11.56,
+  "episode_reward/mean": -4.3488210947206705,
+  "episode_reward/std": 0.2920779241919617,
+  "episode_reward/min": -5.671394348144531,
+  "episode_reward/max": -3.800018787384033,
+  "episode_length/mean": 25.247524752475247,
+  "episode_length/std": 3.292373246751038,
+  "episode_length/min": 19.0,
+  "episode_length/max": 37.0
+}

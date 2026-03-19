@@ -1,0 +1,171 @@
+project:
+  name: dynamite
+  version: 0.1.0
+seed: 43
+task:
+  name: flat
+  num_envs: 512
+  episode_length: 1000
+  control_dt: 0.02
+  sim_dt: 0.005
+  decimation: 4
+  gravity:
+  - 0.0
+  - 0.0
+  - -9.81
+  observation:
+    proprioception_dim: 45
+    command_dim: 3
+    action_dim: 19
+    history_len: 8
+    include_previous_action: true
+  reward:
+    tracking_lin_vel: 1.5
+    tracking_ang_vel: 0.8
+    lin_vel_z: -2.0
+    ang_vel_xy: -0.05
+    orientation: -1.0
+    base_height: -5.0
+    torques: -2.0e-05
+    joint_acc: -2.5e-07
+    action_rate: -0.01
+    feet_air_time: 1.0
+    collision: -1.0
+    stumble: -0.5
+    stand_still: -0.5
+    feet_contact_forces: -0.01
+    termination: -200.0
+  termination:
+    max_episode_length: true
+    base_contact: true
+    base_height_min: 0.25
+    roll_max: 1.5
+    pitch_max: 1.5
+  domain_randomization:
+    enabled: false
+    friction_range:
+    - 0.5
+    - 1.5
+    restitution_range:
+    - 0.0
+    - 0.5
+    added_mass_range:
+    - -1.0
+    - 3.0
+    com_displacement_range:
+    - -0.05
+    - 0.05
+    motor_strength_range:
+    - 0.9
+    - 1.1
+    kp_range:
+    - 0.9
+    - 1.1
+    kd_range:
+    - 0.9
+    - 1.1
+    action_delay_range:
+    - 0
+    - 2
+    push_interval: 0
+    push_steps:
+    - 5
+    - 10
+    - 15
+    push_vel_range:
+    - 0.0
+    - 0.0
+  terrain:
+    type: flat
+    curriculum: false
+    difficulty_range:
+    - 0.0
+    - 1.0
+model:
+  name: dynamite
+  type: dynamite
+  use_history: true
+  history_len: 8
+  obs_embed:
+    hidden_dim: 64
+    activation: elu
+  act_embed:
+    hidden_dim: 32
+    activation: elu
+  cmd_embed:
+    hidden_dim: 16
+    activation: elu
+  transformer:
+    d_model: 128
+    nhead: 4
+    num_layers: 2
+    dim_feedforward: 256
+    dropout: 0.0
+    positional_encoding: sinusoidal
+  latent:
+    total_dim: 24
+    factorized: true
+    factors:
+      friction: 4
+      mass: 6
+      motor: 6
+      contact: 4
+      delay: 4
+    bottleneck_activation: tanh
+    aggregation: mean
+  auxiliary:
+    enabled: true
+    loss_weight: 0.5
+    targets:
+      friction: 2
+      mass: 2
+      motor: 2
+      contact: 1
+      delay: 1
+    head_hidden_dim: 32
+  policy_head:
+    hidden_dims:
+    - 128
+    activation: elu
+    condition_on_latent: true
+  value_head:
+    hidden_dims:
+    - 128
+    activation: elu
+    condition_on_latent: true
+train:
+  algo: ppo
+  num_steps: 24
+  num_minibatches: 4
+  num_epochs: 5
+  learning_rate: 0.0003
+  lr_schedule: adaptive
+  target_kl: 0.01
+  clip_range: 0.2
+  gamma: 0.99
+  lam: 0.95
+  entropy_coef: 0.01
+  value_coef: 0.5
+  max_grad_norm: 1.0
+  normalize_obs: true
+  normalize_value: true
+  normalize_advantage: true
+  total_timesteps: 10000000
+  log_interval: 10
+  save_interval: 50
+  eval_interval: 50
+  eval_episodes: 20
+  use_amp: false
+  compile_model: false
+eval:
+  num_envs: 32
+  num_episodes: 50
+  deterministic: true
+  record_video: false
+  video_length: 200
+  metrics_file: eval_metrics.json
+output:
+  base_dir: outputs
+  save_config: true
+  save_manifest: true
+  save_git_hash: true

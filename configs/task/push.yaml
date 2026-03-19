@@ -8,8 +8,8 @@ task:
     added_mass_range: [-1.0, 3.0]
     motor_strength_range: [0.9, 1.1]
     action_delay_range: [0, 0]
-    push_interval: 100            # apply push every N steps
     push_vel_range: [0.5, 3.0]   # m/s impulse magnitude
+    push_steps: [5, 10, 15]      # deterministic push at these episode steps
   terrain:
     type: flat
     curriculum: false

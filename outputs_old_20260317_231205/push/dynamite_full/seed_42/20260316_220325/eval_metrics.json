@@ -1,0 +1,17 @@
+{
+  "checkpoint": "outputs/push/dynamite_full/seed_42/20260316_220325/checkpoints/best.pt",
+  "task": "push",
+  "model": "dynamite",
+  "seed": 42,
+  "num_episodes": 100,
+  "timestamp": "2026-03-17T06:33:57.489476",
+  "wall_time_s": 12.14,
+  "episode_reward/mean": -4.323513348897298,
+  "episode_reward/std": 0.09518671001192741,
+  "episode_reward/min": -4.683789253234863,
+  "episode_reward/max": -4.0700554847717285,
+  "episode_length/mean": 18.03252032520325,
+  "episode_length/std": 0.1773774327583043,
+  "episode_length/min": 18.0,
+  "episode_length/max": 19.0
+}

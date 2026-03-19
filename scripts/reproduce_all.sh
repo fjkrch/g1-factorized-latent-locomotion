@@ -1,83 +1,91 @@
-#!/bin/bash
-# =============================================================================
-# Full reproduction script.
-# Reproduces ALL experiments from scratch.
+#!/usr/bin/env bash
+# ══════════════════════════════════════════════════════════════════════════════
+# reproduce_all.sh — Full pipeline: train + eval + analysis (Items 1-9)
+# ══════════════════════════════════════════════════════════════════════════════
 #
-# Tiers:
-#   1. Quick sanity: 1 method, 1 task, short run (~3 min)
-#   2. Single full: 1 method, 1 task, full training (~6 min)
-#   3. Main comparison: 4 methods, 4 tasks, 1 seed (~1.5 hours)
-#   4. Full project: main + ablations + sweeps (~3 hours)
+# This is the ONE script to reproduce ALL results in the paper.
+#
+# Items:
+#   1. Push validation (BLOCKER)
+#   2. Train 4 models × 4 tasks × 3 seeds = 48 runs at 10M steps
+#   3. Train 7 ablations × 3 seeds = 21 runs at 10M steps
+#   4. Evaluate all checkpoints
+#   5. OOD friction sweep
+#   6. OOD push magnitude sweep
+#   7. Disentanglement analysis
+#   8. Extra OOD sweeps (motor_strength, action_delay)
+#   9. Aggregate results + generate tables + figures
+#
+# Total: 69 training runs + evaluation + analysis
+# Estimated time: ~12 hours on RTX 4060 Laptop GPU
 #
 # Usage:
-#   bash scripts/reproduce_all.sh --tier 1   # Quick sanity
-#   bash scripts/reproduce_all.sh --tier 2   # Single full
-#   bash scripts/reproduce_all.sh --tier 3   # Main comparison
-#   bash scripts/reproduce_all.sh --tier 4   # Everything
-# =============================================================================
+#   bash scripts/reproduce_all.sh
+#   bash scripts/reproduce_all.sh --dry-run
+#   bash scripts/reproduce_all.sh --skip-training    # skip training, do eval/analysis only
+# ══════════════════════════════════════════════════════════════════════════════
+set -euo pipefail
 
-set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+cd "$PROJECT_ROOT"
 
-TIER=${2:-1}  # Default to tier 1
+export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
+export DYNAMITE_PYTHON="${DYNAMITE_PYTHON:-python}"
 
-echo "=================================================="
-echo " DynaMITE — Full Reproduction (Tier ${TIER})"
-echo "=================================================="
+DRY_RUN=false
+SKIP_TRAINING=false
 
-case $TIER in
-    1)
-        echo "[Tier 1] Quick sanity check (~3 min)"
-        echo "Training DynaMITE on flat for 500k steps..."
-        python scripts/train.py \
-            --task configs/task/flat.yaml \
-            --model configs/model/dynamite.yaml \
-            --seed 42 \
-            --set train.total_timesteps=500000 train.save_interval=100 train.eval_interval=50
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --dry-run)         DRY_RUN=true; shift ;;
+        --skip-training)   SKIP_TRAINING=true; shift ;;
+        *)                 echo "Unknown argument: $1"; exit 1 ;;
+    esac
+done
 
-        echo ""
-        echo "[Tier 1] Evaluating..."
-        LATEST=$(ls -td outputs/flat/dynamite/seed_42/*/ | head -1)
-        python scripts/eval.py --run_dir "${LATEST}" --num_episodes 10
+DRY_FLAG=""
+if $DRY_RUN; then
+    DRY_FLAG="--dry-run"
+fi
 
-        echo "[Tier 1] Done. Check outputs in: ${LATEST}"
-        ;;
+echo "══════════════════════════════════════════════════════════════"
+echo "  DynaMITE: FULL REPRODUCTION PIPELINE"
+echo "  Start: $(date -Iseconds)"
+echo "  GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'N/A')"
+echo "  Seeds: 42 43 44 | Timesteps: 10M"
+echo "══════════════════════════════════════════════════════════════"
 
-    2)
-        echo "[Tier 2] Single full experiment (~6 min)"
-        python scripts/train.py \
-            --task configs/task/randomized.yaml \
-            --model configs/model/dynamite.yaml \
-            --seed 42
+# ── Item 1: Push validation ──
+echo ""
+echo "════ ITEM 1: PUSH VALIDATION ════"
+$DYNAMITE_PYTHON scripts/validate_push.py || {
+    echo "FATAL: Push validation failed. Cannot proceed."
+    exit 1
+}
+echo "[OK] Push validation passed"
 
-        LATEST=$(ls -td outputs/randomized/dynamite/seed_42/*/ | head -1)
-        python scripts/eval.py --run_dir "${LATEST}" --num_episodes 100
-        echo "[Tier 2] Done."
-        ;;
+if ! $SKIP_TRAINING; then
+    # ── Item 2: Main training (48 runs) ──
+    echo ""
+    echo "════ ITEM 2: MAIN TRAINING (48 runs) ════"
+    bash scripts/run_all_main.sh $DRY_FLAG
 
-    3)
-        echo "[Tier 3] Main comparison (~1.5 hours)"
-        bash scripts/run_all_baselines.sh
-        echo "[Tier 3] Done."
-        ;;
+    # ── Item 3: Ablation training (21 runs) ──
+    echo ""
+    echo "════ ITEM 3: ABLATION TRAINING (21 runs) ════"
+    bash scripts/run_ablations.sh $DRY_FLAG
+fi
 
-    4)
-        echo "[Tier 4] Full project (~3 hours)"
-        bash scripts/run_all_baselines.sh
-        bash scripts/run_ablations.sh
-        bash scripts/run_sweeps.sh
-
-        echo ""
-        echo "Generating tables and plots..."
-        python scripts/generate_tables.py --results_dir results/aggregated --output_dir figures/
-        python scripts/plot_results.py --results_dir results/aggregated --output_dir figures/
-        echo "[Tier 4] Done."
-        ;;
-
-    *)
-        echo "Unknown tier: ${TIER}. Use 1, 2, 3, or 4."
-        exit 1
-        ;;
-esac
+# ── Items 4-9: Post-training analysis ──
+echo ""
+echo "════ ITEMS 4-9: POST-TRAINING ANALYSIS ════"
+bash scripts/run_post_training.sh $DRY_FLAG
 
 echo ""
-echo "Reproduction tier ${TIER} completed."
+echo "══════════════════════════════════════════════════════════════"
+echo "  FULL PIPELINE COMPLETE"
+echo "  End: $(date -Iseconds)"
+echo "  Results: results/"
+echo "  Figures: figures/"
+echo "══════════════════════════════════════════════════════════════"

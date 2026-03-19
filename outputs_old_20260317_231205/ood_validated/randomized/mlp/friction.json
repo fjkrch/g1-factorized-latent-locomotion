@@ -1,0 +1,147 @@
+{
+  "sweep_name": "friction",
+  "factor": "friction",
+  "variable": "task.domain_randomization.friction_range",
+  "checkpoint": "outputs/randomized/mlp_full/seed_42/20260316_204510/checkpoints/best.pt",
+  "task": "randomized",
+  "model": "mlp",
+  "seed": 42,
+  "num_episodes_per_level": 50,
+  "num_envs": 32,
+  "timestamp": "2026-03-17T13:41:17.703783",
+  "total_wall_time_s": 106.91,
+  "nominal_dr": {
+    "enabled": true,
+    "friction_range": [
+      1.0,
+      1.0
+    ],
+    "restitution_range": [
+      0.5,
+      0.5
+    ],
+    "added_mass_range": [
+      0.0,
+      0.0
+    ],
+    "com_displacement_range": [
+      0.0,
+      0.0
+    ],
+    "motor_strength_range": [
+      1.0,
+      1.0
+    ],
+    "kp_range": [
+      1.0,
+      1.0
+    ],
+    "kd_range": [
+      1.0,
+      1.0
+    ],
+    "action_delay_range": [
+      0,
+      0
+    ],
+    "push_interval": 0,
+    "push_vel_range": [
+      0.0,
+      0.0
+    ]
+  },
+  "levels": [
+    [
+      1.0,
+      1.0
+    ],
+    [
+      0.7,
+      0.7
+    ],
+    [
+      0.5,
+      0.5
+    ],
+    [
+      0.3,
+      0.3
+    ],
+    [
+      0.1,
+      0.1
+    ]
+  ],
+  "results": [
+    {
+      "factor": "friction",
+      "level": "[1.0, 1.0]",
+      "level_display": "1.0",
+      "reward_mean": -4.5626,
+      "reward_std": 0.3854,
+      "ep_len_mean": 29.31,
+      "ep_len_std": 5.18,
+      "num_episodes": 51,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 1.0, \"static_friction_mean\": 1.0, \"dynamic_friction_mean\": 1.0, \"static_friction_std\": 0.0, \"dynamic_friction_std\": 0.0}",
+      "wall_time_s": 2.8
+    },
+    {
+      "factor": "friction",
+      "level": "[0.7, 0.7]",
+      "level_display": "0.7",
+      "reward_mean": -4.5002,
+      "reward_std": 0.3248,
+      "ep_len_mean": 27.57,
+      "ep_len_std": 4.42,
+      "num_episodes": 51,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 0.7, \"static_friction_mean\": 0.7, \"dynamic_friction_mean\": 0.7, \"static_friction_std\": 0.0, \"dynamic_friction_std\": 0.0}",
+      "wall_time_s": 2.67
+    },
+    {
+      "factor": "friction",
+      "level": "[0.5, 0.5]",
+      "level_display": "0.5",
+      "reward_mean": -4.4237,
+      "reward_std": 0.3179,
+      "ep_len_mean": 25.43,
+      "ep_len_std": 3.3,
+      "num_episodes": 51,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 0.5, \"static_friction_mean\": 0.5, \"dynamic_friction_mean\": 0.5, \"static_friction_std\": 0.0, \"dynamic_friction_std\": 0.0}",
+      "wall_time_s": 2.5
+    },
+    {
+      "factor": "friction",
+      "level": "[0.3, 0.3]",
+      "level_display": "0.3",
+      "reward_mean": -4.449,
+      "reward_std": 0.346,
+      "ep_len_mean": 24.87,
+      "ep_len_std": 3.48,
+      "num_episodes": 52,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 0.3, \"static_friction_mean\": 0.3, \"dynamic_friction_mean\": 0.3, \"static_friction_std\": 0.0, \"dynamic_friction_std\": 0.0}",
+      "wall_time_s": 2.46
+    },
+    {
+      "factor": "friction",
+      "level": "[0.1, 0.1]",
+      "level_display": "0.1",
+      "reward_mean": -4.5566,
+      "reward_std": 0.3331,
+      "ep_len_mean": 23.93,
+      "ep_len_std": 2.05,
+      "num_episodes": 54,
+      "seed": 42,
+      "verification_passed": true,
+      "verification_value": "{\"expected\": 0.1, \"static_friction_mean\": 0.1, \"dynamic_friction_mean\": 0.1, \"static_friction_std\": 0.0, \"dynamic_friction_std\": 0.0}",
+      "wall_time_s": 2.44
+    }
+  ]
+}

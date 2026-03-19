@@ -81,8 +81,9 @@ def collect_latent_data(
             if not np.any(np.isnan(z_np)):
                 all_z.append(z_np)
 
-                # Collect current dynamics params (tensor is modified in-place by env)
-                dyn = step_data.get("dynamics_params", None) if step > 0 else reset_data.get("dynamics_params", None)
+                # Collect current dynamics params from last step or reset
+                dyn_source = step_data if step > 0 else reset_data
+                dyn = dyn_source.get("dynamics_params", None)
                 if dyn is not None:
                     for k, v in dyn.items():
                         if k in all_params:

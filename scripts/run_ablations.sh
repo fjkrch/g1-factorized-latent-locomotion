@@ -1,61 +1,101 @@
-#!/bin/bash
-# =============================================================================
-# Run ablation experiments on the 'randomized' task.
-# Tests each design choice of DynaMITE.
+#!/usr/bin/env bash
+# ══════════════════════════════════════════════════════════════════════════════
+# run_ablations.sh — Run ALL ablation experiments (7 ablations × 3 seeds)
+# ══════════════════════════════════════════════════════════════════════════════
 #
-# Expected runtime: ~42 min total on RTX 4060
-# Per run: ~6 min
-# Total runs: 7 ablations x 1 seed = 7 runs (on 'randomized' task)
-# =============================================================================
+# All ablations use task=randomized, model=dynamite as the base.
+# Each ablation changes exactly one design decision.
+#
+# Usage:
+#   bash scripts/run_ablations.sh
+#   bash scripts/run_ablations.sh --dry-run
+#   bash scripts/run_ablations.sh --skip-existing
+#
+# Total: 21 runs (~52 hours on RTX 4060)
+# ══════════════════════════════════════════════════════════════════════════════
+set -euo pipefail
 
-set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+cd "$PROJECT_ROOT"
 
 DRY_RUN=false
-if [[ "$1" == "--dry-run" ]]; then
-    DRY_RUN=true
-fi
+SKIP_EXISTING=false
 
-SEEDS=(42)
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --dry-run)        DRY_RUN=true; shift ;;
+        --skip-existing)  SKIP_EXISTING=true; shift ;;
+        *)                echo "Unknown argument: $1"; exit 1 ;;
+    esac
+done
+
 TASK="randomized"
+MODEL="dynamite"
 
 ABLATIONS=(
-    "seq_len_4"
-    "seq_len_16"
-    "no_latent"
-    "single_latent"
-    "no_aux_loss"
-    "depth_1"
-    "depth_4"
+    seq_len_4
+    seq_len_16
+    no_latent
+    single_latent
+    no_aux_loss
+    depth_1
+    depth_4
 )
+SEEDS=(42 43 44 45 46)
 
-run_cmd() {
-    local cmd="$1"
-    if $DRY_RUN; then
-        echo "[DRY RUN] $cmd"
-    else
-        echo "[RUN] $cmd"
-        eval "$cmd"
-    fi
-}
+TOTAL=$((${#ABLATIONS[@]} * ${#SEEDS[@]}))
+CURRENT=0
+SKIPPED=0
+FAILED=0
 
-echo "=== DynaMITE: Ablation Experiments ==="
-echo "Task: ${TASK}"
-echo "Ablations: ${ABLATIONS[*]}"
-echo "Seeds: ${SEEDS[*]}"
-echo "Total runs: $((${#ABLATIONS[@]} * ${#SEEDS[@]}))"
-echo "======================================="
+echo "══════════════════════════════════════════════════════════════"
+echo "  ABLATIONS: ${#ABLATIONS[@]} variants × ${#SEEDS[@]} seeds = $TOTAL runs"
+echo "  Base: task=$TASK, model=$MODEL"
+echo "  Start: $(date -Iseconds)"
+echo "══════════════════════════════════════════════════════════════"
 
-for ablation in "${ABLATIONS[@]}"; do
+for abl in "${ABLATIONS[@]}"; do
     for seed in "${SEEDS[@]}"; do
+        CURRENT=$((CURRENT + 1))
+        LABEL="${TASK}/${MODEL}_${abl}/seed_${seed}"
+
+        if $SKIP_EXISTING; then
+            EXISTING=$(find "outputs/${TASK}/${MODEL}_${abl}/seed_${seed}" -name "manifest.json" -print -quit 2>/dev/null || true)
+            if [[ -n "$EXISTING" ]]; then
+                STATUS=$(python3 -c "import json; print(json.load(open('$EXISTING')).get('status',''))" 2>/dev/null || echo "")
+                if [[ "$STATUS" == "completed" ]]; then
+                    echo "[$CURRENT/$TOTAL] SKIP (completed): $LABEL"
+                    SKIPPED=$((SKIPPED + 1))
+                    continue
+                fi
+            fi
+        fi
+
         echo ""
-        echo "--- ablation=${ablation} / seed=${seed} ---"
-        run_cmd "python scripts/train.py \
-            --task configs/task/${TASK}.yaml \
-            --model configs/model/dynamite.yaml \
-            --ablation configs/ablations/${ablation}.yaml \
-            --seed ${seed}"
+        echo "[$CURRENT/$TOTAL] RUNNING: $LABEL"
+
+        if $DRY_RUN; then
+            echo "  [DRY RUN] bash scripts/run_train.sh --task $TASK --model $MODEL --seed $seed --ablation $abl --variant $abl"
+            continue
+        fi
+
+        bash scripts/run_train.sh --task "$TASK" --model "$MODEL" --seed "$seed" \
+            --ablation "$abl" --variant "$abl" || {
+            echo "  ⚠ FAILED: $LABEL"
+            FAILED=$((FAILED + 1))
+        }
     done
 done
 
 echo ""
-echo "=== All ablation runs completed ==="
+echo "══════════════════════════════════════════════════════════════"
+echo "  ABLATIONS COMPLETE"
+echo "  Total: $TOTAL  |  Skipped: $SKIPPED  |  Failed: $FAILED"
+echo "  End: $(date -Iseconds)"
+echo "══════════════════════════════════════════════════════════════"
+
+if [[ $FAILED -gt 0 ]]; then
+    echo "WARNING: $FAILED runs failed."
+    exit 1
+fi

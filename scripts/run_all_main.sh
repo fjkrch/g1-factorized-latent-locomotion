@@ -8,7 +8,7 @@
 #   bash scripts/run_all_main.sh --dry-run  # show commands without running
 #   bash scripts/run_all_main.sh --skip-existing  # skip runs that already have completed manifests
 #
-# Total: 16 training runs (~1.5 hours on RTX 4060)
+# Total: 48 training runs (~8 hours on RTX 4060)
 #
 # After completion, run:
 #   bash scripts/aggregate_all.sh
@@ -33,7 +33,7 @@ done
 
 TASKS=(flat push randomized terrain)
 MODELS=(mlp lstm transformer dynamite)
-SEEDS=(42)
+SEEDS=(42 43 44 45 46)
 
 # Activate conda env with Isaac Lab
 eval "$(conda shell.bash hook)"
@@ -57,9 +57,9 @@ for task in "${TASKS[@]}"; do
 
             # ── Skip existing? ──
             if $SKIP_EXISTING; then
-                EXISTING=$(find "outputs/${task}/${model}_full/seed_${seed}" -name "manifest.json" 2>/dev/null | head -1)
+                EXISTING=$(find "outputs/${task}/${model}_full/seed_${seed}" -name "manifest.json" -print -quit 2>/dev/null || true)
                 if [[ -n "$EXISTING" ]]; then
-                    STATUS=$(python -c "import json; print(json.load(open('$EXISTING')).get('status',''))" 2>/dev/null || echo "")
+                    STATUS=$(python3 -c "import json; print(json.load(open('$EXISTING')).get('status',''))" 2>/dev/null || echo "")
                     if [[ "$STATUS" == "completed" ]]; then
                         echo "[$CURRENT/$TOTAL] SKIP (completed): $LABEL"
                         SKIPPED=$((SKIPPED + 1))

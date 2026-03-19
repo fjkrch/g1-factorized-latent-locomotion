@@ -1,0 +1,59 @@
+[19:17:44] ================================================================
+[19:17:44]  OOD Sweeps + Latent Analysis (v2 — fixed)
+[19:17:44]  RAM: 14Gi, Swap: 11Gi
+[19:17:44] ================================================================
+[19:17:44] 
+[19:17:44] === PHASE 2: OOD Sweeps ===
+[19:17:44] START: SW friction/dynamite/seed_42
+[19:18:09] DONE:  SW friction/dynamite/seed_42
+[19:18:09] START: SW friction/dynamite/seed_43
+[19:18:34] DONE:  SW friction/dynamite/seed_43
+[19:18:34] START: SW friction/dynamite/seed_44
+[19:18:58] DONE:  SW friction/dynamite/seed_44
+[19:18:58] START: SW friction/lstm/seed_42
+[19:19:26] DONE:  SW friction/lstm/seed_42
+[19:19:26] START: SW friction/lstm/seed_43
+[19:19:54] DONE:  SW friction/lstm/seed_43
+[19:19:54] START: SW friction/lstm/seed_44
+[19:20:23] DONE:  SW friction/lstm/seed_44
+[19:20:23] START: SW push_magnitude/dynamite/seed_42
+[19:20:46] DONE:  SW push_magnitude/dynamite/seed_42
+[19:20:46] START: SW push_magnitude/dynamite/seed_43
+[19:21:10] DONE:  SW push_magnitude/dynamite/seed_43
+[19:21:10] START: SW push_magnitude/dynamite/seed_44
+[19:21:33] DONE:  SW push_magnitude/dynamite/seed_44
+[19:21:33] START: SW push_magnitude/lstm/seed_42
+[19:22:05] DONE:  SW push_magnitude/lstm/seed_42
+[19:22:05] START: SW push_magnitude/lstm/seed_43
+[19:22:36] DONE:  SW push_magnitude/lstm/seed_43
+[19:22:36] START: SW push_magnitude/lstm/seed_44
+[19:23:11] DONE:  SW push_magnitude/lstm/seed_44
+[19:23:11] START: SW action_delay/dynamite/seed_42
+[19:23:33] DONE:  SW action_delay/dynamite/seed_42
+[19:23:33] START: SW action_delay/dynamite/seed_43
+[19:23:55] DONE:  SW action_delay/dynamite/seed_43
+[19:23:55] START: SW action_delay/dynamite/seed_44
+[19:24:18] DONE:  SW action_delay/dynamite/seed_44
+[19:24:18] START: SW action_delay/lstm/seed_42
+[19:24:47] DONE:  SW action_delay/lstm/seed_42
+[19:24:47] START: SW action_delay/lstm/seed_43
+[19:25:15] DONE:  SW action_delay/lstm/seed_43
+[19:25:15] START: SW action_delay/lstm/seed_44
+[19:25:43] DONE:  SW action_delay/lstm/seed_44
+[19:25:43] 
+[19:25:43] === PHASE 2 COMPLETE ===
+[19:25:43] 
+[19:25:43] === PHASE 3: Latent Analysis ===
+[19:25:43] START: LAT seed_42
+[19:26:05] DONE:  LAT seed_42
+[19:26:05] START: LAT seed_43
+[19:26:28] DONE:  LAT seed_43
+[19:26:28] START: LAT seed_44
+[19:26:50] DONE:  LAT seed_44
+[19:26:50] 
+[19:26:50] === PHASE 3 COMPLETE ===
+[19:26:50] 
+[19:26:50] ================================================================
+[19:26:50]  ALL DONE — Failures: 0
+[19:26:50]  Thu Mar 19 07:26:50 PM +07 2026
+[19:26:50] ================================================================

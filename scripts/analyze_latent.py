@@ -59,8 +59,9 @@ def main():
     env = make_env(cfg, device=device, headless=args.headless)
 
     # Build model and load weights
-    model = build_model(cfg, device=device)
+    model = build_model(cfg)
     model.load_state_dict(ckpt["model_state_dict"])
+    model = model.to(device)
     model.eval()
 
     # Collect latent data

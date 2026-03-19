@@ -1,0 +1,59 @@
+[19:13:37] ================================================================
+[19:13:37]  OOD Sweeps + Latent Analysis
+[19:13:37]  RAM: 14Gi, Swap: 11Gi
+[19:13:37] ================================================================
+[19:13:37] 
+[19:13:37] === PHASE 2: OOD Sweeps ===
+[19:13:37] START: SW friction/dynamite/seed_42
+[19:13:39] FAIL:  SW friction/dynamite/seed_42 (exit code 1)
+[19:13:39] START: SW friction/dynamite/seed_43
+[19:13:41] FAIL:  SW friction/dynamite/seed_43 (exit code 1)
+[19:13:41] START: SW friction/dynamite/seed_44
+[19:13:42] FAIL:  SW friction/dynamite/seed_44 (exit code 1)
+[19:13:42] START: SW friction/lstm/seed_42
+[19:13:44] FAIL:  SW friction/lstm/seed_42 (exit code 1)
+[19:13:44] START: SW friction/lstm/seed_43
+[19:13:45] FAIL:  SW friction/lstm/seed_43 (exit code 1)
+[19:13:45] START: SW friction/lstm/seed_44
+[19:13:47] FAIL:  SW friction/lstm/seed_44 (exit code 1)
+[19:13:47] START: SW push_magnitude/dynamite/seed_42
+[19:13:48] FAIL:  SW push_magnitude/dynamite/seed_42 (exit code 1)
+[19:13:48] START: SW push_magnitude/dynamite/seed_43
+[19:13:50] FAIL:  SW push_magnitude/dynamite/seed_43 (exit code 1)
+[19:13:50] START: SW push_magnitude/dynamite/seed_44
+[19:13:51] FAIL:  SW push_magnitude/dynamite/seed_44 (exit code 1)
+[19:13:51] START: SW push_magnitude/lstm/seed_42
+[19:13:53] FAIL:  SW push_magnitude/lstm/seed_42 (exit code 1)
+[19:13:53] START: SW push_magnitude/lstm/seed_43
+[19:13:54] FAIL:  SW push_magnitude/lstm/seed_43 (exit code 1)
+[19:13:54] START: SW push_magnitude/lstm/seed_44
+[19:13:56] FAIL:  SW push_magnitude/lstm/seed_44 (exit code 1)
+[19:13:56] START: SW action_delay/dynamite/seed_42
+[19:13:57] FAIL:  SW action_delay/dynamite/seed_42 (exit code 1)
+[19:13:57] START: SW action_delay/dynamite/seed_43
+[19:13:59] FAIL:  SW action_delay/dynamite/seed_43 (exit code 1)
+[19:13:59] START: SW action_delay/dynamite/seed_44
+[19:14:00] FAIL:  SW action_delay/dynamite/seed_44 (exit code 1)
+[19:14:00] START: SW action_delay/lstm/seed_42
+[19:14:02] FAIL:  SW action_delay/lstm/seed_42 (exit code 1)
+[19:14:02] START: SW action_delay/lstm/seed_43
+[19:14:03] FAIL:  SW action_delay/lstm/seed_43 (exit code 1)
+[19:14:03] START: SW action_delay/lstm/seed_44
+[19:14:05] FAIL:  SW action_delay/lstm/seed_44 (exit code 1)
+[19:14:05] 
+[19:14:05] === PHASE 2 COMPLETE ===
+[19:14:05] 
+[19:14:05] === PHASE 3: Latent Analysis ===
+[19:14:05] START: LAT seed_42
+[19:14:27] DONE:  LAT seed_42
+[19:14:27] START: LAT seed_43
+[19:14:51] DONE:  LAT seed_43
+[19:14:51] START: LAT seed_44
+[19:15:13] DONE:  LAT seed_44
+[19:15:13] 
+[19:15:13] === PHASE 3 COMPLETE ===
+[19:15:13] 
+[19:15:13] ================================================================
+[19:15:13]  ALL DONE — Failures: 18
+[19:15:13]  2026-03-19 19:15:13
+[19:15:13] ================================================================

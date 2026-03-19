@@ -194,6 +194,21 @@ def compute_disentanglement_score(
     return float(np.mean(scores)) if scores else 0.0
 
 
+def _jsonable(obj):
+    """Recursively convert numpy types for JSON serialization."""
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    if isinstance(obj, (np.floating, np.float32, np.float64)):
+        return float(obj)
+    if isinstance(obj, (np.integer, np.int32, np.int64)):
+        return int(obj)
+    if isinstance(obj, dict):
+        return {k: _jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_jsonable(v) for v in obj]
+    return obj
+
+
 def save_latent_analysis(
     analysis: dict[str, Any],
     output_dir: str | Path,
@@ -202,7 +217,4 @@ def save_latent_analysis(
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     with open(output_dir / "latent_analysis.json", "w") as f:
-        json.dump(
-            {k: v.tolist() if isinstance(v, np.ndarray) else v for k, v in analysis.items()},
-            f, indent=2,
-        )
+        json.dump(_jsonable(analysis), f, indent=2)

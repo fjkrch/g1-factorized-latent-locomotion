@@ -64,9 +64,9 @@ All four model architectures share the same observation embedding, action embedd
 | Model | History | Latent | Aux Loss | Params |
 |---|---|---|---|---|
 | MLP | None | No | No | 266–362k |
-| LSTM | Hidden state | No | No | 191–215k |
+| LSTM | Hidden state | No | No | 176–215k |
 | Transformer | 8 steps | No | No | 330–342k |
-| DynaMITE | 8 steps | 24-d factored | Yes | 380–392k |
+| DynaMITE | 8 steps | 24-d factored | Yes | 342–392k |
 
 ---
 
@@ -201,8 +201,8 @@ We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomiz
 ### Setup
 
 ```bash
-git clone https://github.com/<TODO:username>/dynamite-locomotion.git
-cd dynamite-locomotion
+git clone https://github.com/fjkrch/g1-factorized-latent-locomotion.git
+cd g1-factorized-latent-locomotion
 conda env create -f environment.yml
 conda activate env_isaaclab
 python -m pytest tests/ -v
@@ -217,8 +217,10 @@ python scripts/train.py --task randomized --model dynamite --seed 42
 # Evaluate
 python scripts/eval.py --run_dir outputs/randomized/dynamite_full/seed_42/*/
 
-# Full pipeline (16 training + 7 ablations + eval + plots, ~3.5 hours)
-bash scripts/run_everything.sh
+# Full reproduction pipeline (48 training + 21 ablations + eval + analysis, ~12 hours)
+bash scripts/reproduce_all.sh
+# Or dry-run first:
+bash scripts/reproduce_all.sh --dry-run
 ```
 
 ### Runtime (RTX 4060 Laptop, 512 envs)
@@ -258,7 +260,7 @@ bash scripts/run_everything.sh
 @article{dynamite2026,
   title   = {{DynaMITE}: Dynamic Mismatch Inference via Transformer Encoder
              for Robust Humanoid Locomotion},
-  author  = {<TODO: author>},
+  author  = {Chayanin Kraicharoen},
   year    = {2026},
   note    = {Preprint / under review}
 }

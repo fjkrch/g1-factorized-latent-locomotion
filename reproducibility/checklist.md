@@ -22,7 +22,7 @@
 - [ ] `metrics.csv` growing
 - [ ] Checkpoints being saved at expected intervals
 - [ ] No NaN/Inf in loss values
-- [ ] Reward is increasing (at least initially)
+- [ ] Reward is decreasing in magnitude (less negative over time)
 
 ## Post-Run Checks
 
@@ -31,30 +31,31 @@
 - [ ] `eval_metrics.json` generated
 - [ ] Manifest updated with `status: completed`
 - [ ] Training curves plotted
-- [ ] Results consistent with expectations (within variance)
+- [ ] Results consistent with expected_results.md (within variance)
 
-## Multi-Seed Checks (optional — for final publication)
+## Multi-Seed Checks
 
-- [ ] Multiple seeds completed successfully
-- [ ] Aggregated results generated
-- [ ] Std across seeds < 20% of mean (reasonable variance)
+- [ ] Multiple seeds (3–5) completed successfully
+- [ ] Aggregated results generated (`python scripts/aggregate_seeds.py`)
+- [ ] Std across seeds reasonable (see expected_results.md for baselines)
 - [ ] No outlier seeds (single seed much worse than others)
 
 ## Cross-Method Comparison Checks
 
 - [ ] All methods trained on same tasks with same seeds
-- [ ] Same total timesteps for all methods
-- [ ] Same evaluation protocol (deterministic, same num episodes)
+- [ ] Same total timesteps (10M) for all methods
+- [ ] Same evaluation protocol (deterministic, 100 episodes)
 - [ ] Same reward function and observation space
-- [ ] Results tables generated
-- [ ] Figures generated
+- [ ] Results tables generated (`python scripts/generate_tables.py`)
+- [ ] Figures generated (`python scripts/plot_results.py`)
 
 ## Full Reproduction Checks
 
-- [ ] All main experiments (4 methods x 4 tasks x 1 seed = 16 runs)
-- [ ] All ablations (7 ablations x 1 seed = 7 runs)
-- [ ] Robustness sweeps completed
+- [ ] All main experiments (4 methods × 4 tasks × 5 seeds = 80 runs)
+- [ ] Multi-seed ablations (3 variants × 3 seeds = 9 runs)
+- [ ] Single-seed ablations (4 variants × 1 seed = 4 runs)
+- [ ] OOD robustness sweeps (2 models × 3 sweep types × 3 seeds = 18 runs)
+- [ ] Latent disentanglement analysis (3 seeds)
 - [ ] Tables match expected format
-- [ ] Figures generated and saved
+- [ ] Figures generated and saved to `figures/`
 - [ ] No missing runs in aggregation
-- [ ] Latent analysis plotted (for DynaMITE)

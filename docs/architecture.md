@@ -112,7 +112,7 @@ h ∈ ℝ^(B, 128)
     └── ValueHead  → value ∈ ℝ^(B, 1)
 ```
 
-**Parameters**: ~200k
+**Parameters**: ~266–362k (varies by task observation size)
 **History**: None
 **Latent**: None
 
@@ -139,7 +139,7 @@ h ∈ ℝ^(B, 128)
     └── ValueHead  → value
 ```
 
-**Parameters**: ~300k
+**Parameters**: ~176–215k (varies by task observation size)
 **History**: Implicit via hidden state (theoretically infinite, practically limited)
 **Latent**: None
 **Note**: Hidden state must be reset at episode boundaries.
@@ -172,7 +172,7 @@ x ∈ ℝ^(B, 128+64+64) = ℝ^(B, 256)
     └── ValueHead(256 → ...)  → value
 ```
 
-**Parameters**: ~400k
+**Parameters**: ~330–342k (varies by task observation size)
 **History**: Explicit, 8 steps
 **Latent**: None
 
@@ -211,7 +211,7 @@ aux_losses = {
 }
 ```
 
-**Parameters**: ~450k
+**Parameters**: ~342–392k (varies by task observation size)
 **History**: Explicit, 8 steps
 **Latent**: Factored, 24-dimensional (5 subspaces)
 **Aux Loss**: Per-factor MSE identification loss

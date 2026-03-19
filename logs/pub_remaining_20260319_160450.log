@@ -462,3 +462,199 @@ Warp DeprecationWarning: The `warp.sim` module is deprecated and will be removed
 [36m======================================================================================[0m
 
 [33m16:05:04 [simulation_context.py] WARNING: The `enable_external_forces_every_iteration` parameter in the PhysxCfg is set to False. If you are experiencing noisy velocities, consider enabling this flag. You may need to slightly increase the number of velocity iterations (setting it to 1 or 2 rather than 0), together with this flag, to improve the accuracy of velocity updates.[0m
+[INFO]: Base environment:
+	Environment device    : cuda:0
+	Environment seed      : None
+	Physics step-size     : 0.005
+	Rendering step-size   : 0.02
+	Environment step-size : 0.02
+[INFO] Generating terrains based on curriculum took : 1.313999 seconds
+[INFO]: Time taken for scene creation : 5.615624 seconds
+[INFO]: Scene manager:  <class InteractiveScene>
+	Number of environments: 512
+	Environment spacing   : 2.5
+	Source prim name      : /World/envs/env_0
+	Global prim paths     : ['/World/ground']
+	Replicate physics     : True
+[INFO]: Starting the simulation. This may take a few seconds. Please wait...
+[INFO]: Time taken for simulation start : 5.034232 seconds
+[INFO] Command Manager:  <CommandManager> contains 1 active terms.
++------------------------------------------------+
+|              Active Command Terms              |
++-------+---------------+------------------------+
+| Index | Name          |          Type          |
++-------+---------------+------------------------+
+|   0   | base_velocity | UniformVelocityCommand |
++-------+---------------+------------------------+
+
+[INFO] Event Manager:  <EventManager> contains 2 active terms.
++--------------------------------------+
+| Active Event Terms in Mode: 'startup' |
++----------+---------------------------+
+|  Index   | Name                      |
++----------+---------------------------+
+|    0     | physics_material          |
++----------+---------------------------+
++---------------------------------------+
+|  Active Event Terms in Mode: 'reset'  |
++--------+------------------------------+
+| Index  | Name                         |
++--------+------------------------------+
+|   0    | base_external_force_torque   |
+|   1    | reset_base                   |
+|   2    | reset_robot_joints           |
++--------+------------------------------+
+
+[INFO] Recorder Manager:  <RecorderManager> contains 0 active terms.
++---------------------+
+| Active Recorder Terms |
++-----------+---------+
+|   Index   | Name    |
++-----------+---------+
++-----------+---------+
+
+[INFO] Action Manager:  <ActionManager> contains 1 active terms.
++------------------------------------+
+|  Active Action Terms (shape: 37)   |
++--------+-------------+-------------+
+| Index  | Name        |   Dimension |
++--------+-------------+-------------+
+|   0    | joint_pos   |          37 |
++--------+-------------+-------------+
+
+[INFO] Observation Manager: <ObservationManager> contains 1 groups.
++----------------------------------------------------------+
+| Active Observation Terms in Group: 'policy' (shape: (310,)) |
++-----------+--------------------------------+-------------+
+|   Index   | Name                           |    Shape    |
++-----------+--------------------------------+-------------+
+|     0     | base_lin_vel                   |     (3,)    |
+|     1     | base_ang_vel                   |     (3,)    |
+|     2     | projected_gravity              |     (3,)    |
+|     3     | velocity_commands              |     (3,)    |
+|     4     | joint_pos                      |    (37,)    |
+|     5     | joint_vel                      |    (37,)    |
+|     6     | actions                        |    (37,)    |
+|     7     | height_scan                    |    (187,)   |
++-----------+--------------------------------+-------------+
+
+[INFO] Termination Manager:  <TerminationManager> contains 2 active terms.
++---------------------------------+
+|     Active Termination Terms    |
++-------+--------------+----------+
+| Index | Name         | Time Out |
++-------+--------------+----------+
+|   0   | time_out     |   True   |
+|   1   | base_contact |  False   |
++-------+--------------+----------+
+
+[INFO] Reward Manager:  <RewardManager> contains 16 active terms.
++---------------------------------------------+
+|             Active Reward Terms             |
++-------+-------------------------+-----------+
+| Index | Name                    |    Weight |
++-------+-------------------------+-----------+
+|   0   | track_lin_vel_xy_exp    |       1.0 |
+|   1   | track_ang_vel_z_exp     |       2.0 |
+|   2   | lin_vel_z_l2            |       0.0 |
+|   3   | ang_vel_xy_l2           |     -0.05 |
+|   4   | dof_torques_l2          |  -1.5e-07 |
+|   5   | dof_acc_l2              | -1.25e-07 |
+|   6   | action_rate_l2          |    -0.005 |
+|   7   | feet_air_time           |      0.25 |
+|   8   | flat_orientation_l2     |      -1.0 |
+|   9   | dof_pos_limits          |      -1.0 |
+|   10  | termination_penalty     |    -200.0 |
+|   11  | feet_slide              |      -0.1 |
+|   12  | joint_deviation_hip     |      -0.1 |
+|   13  | joint_deviation_arms    |      -0.1 |
+|   14  | joint_deviation_fingers |     -0.05 |
+|   15  | joint_deviation_torso   |      -0.1 |
++-------+-------------------------+-----------+
+
+[INFO] Curriculum Manager:  <CurriculumManager> contains 1 active terms.
++---------------------------+
+|  Active Curriculum Terms  |
++--------+------------------+
+| Index  | Name             |
++--------+------------------+
+|   0    | terrain_levels   |
++--------+------------------+
+
+[INFO]: Completed setting up the environment...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=512)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+[Model] Built dynamite with 390,659 parameters
+[Train] Starting training: dynamite_no_aux on randomized
+[Train] Variant: no_aux_loss | Seed: 43
+[Train] Total timesteps: 10,000,000
+[Train] Starting training: 813 iterations, 10,000,000 total timesteps
+[16:05:33][dynamite][INFO] [step 122880] iteration: 10 | global_step: 122880 | reward/mean: -6.2125 | reward/std: 0.5370 | perf/fps: 8330.1288 | perf/gpu_mem_mb: 189
+[16:05:45][dynamite][INFO] [step 245760] iteration: 20 | global_step: 245760 | reward/mean: -6.0632 | reward/std: 0.4499 | perf/fps: 10065.0862 | perf/gpu_mem_mb: 189
+[16:05:57][dynamite][INFO] [step 368640] iteration: 30 | global_step: 368640 | reward/mean: -6.1086 | reward/std: 0.4636 | perf/fps: 9796.7588 | perf/gpu_mem_mb: 189
+[16:06:10][dynamite][INFO] [step 491520] iteration: 40 | global_step: 491520 | reward/mean: -6.0968 | reward/std: 0.4674 | perf/fps: 9855.5683 | perf/gpu_mem_mb: 189
+[16:06:22][dynamite][INFO] [step 614400] iteration: 50 | global_step: 614400 | reward/mean: -6.0351 | reward/std: 0.4387 | perf/fps: 9910.4586 | perf/gpu_mem_mb: 189
+[16:06:23][dynamite][INFO] [step 614400] eval/reward_mean: -4.9896
+[16:06:36][dynamite][INFO] [step 737280] iteration: 60 | global_step: 737280 | reward/mean: -6.0013 | reward/std: 0.5002 | perf/fps: 9139.7438 | perf/gpu_mem_mb: 189
+[16:06:48][dynamite][INFO] [step 860160] iteration: 70 | global_step: 860160 | reward/mean: -6.0010 | reward/std: 0.4374 | perf/fps: 9739.7966 | perf/gpu_mem_mb: 189
+[16:07:01][dynamite][INFO] [step 983040] iteration: 80 | global_step: 983040 | reward/mean: -6.0034 | reward/std: 0.4052 | perf/fps: 9596.5176 | perf/gpu_mem_mb: 189
+[16:07:14][dynamite][INFO] [step 1105920] iteration: 90 | global_step: 1105920 | reward/mean: -6.0111 | reward/std: 0.4200 | perf/fps: 9724.8234 | perf/gpu_mem_mb: 189
+[16:07:26][dynamite][INFO] [step 1228800] iteration: 100 | global_step: 1228800 | reward/mean: -6.0393 | reward/std: 0.4615 | perf/fps: 9673.4872 | perf/gpu_mem_mb: 189
+[16:07:27][dynamite][INFO] [step 1228800] eval/reward_mean: -4.9072
+[16:07:40][dynamite][INFO] [step 1351680] iteration: 110 | global_step: 1351680 | reward/mean: -6.0169 | reward/std: 0.5702 | perf/fps: 9019.7000 | perf/gpu_mem_mb: 189
+[16:07:53][dynamite][INFO] [step 1474560] iteration: 120 | global_step: 1474560 | reward/mean: -6.0469 | reward/std: 0.4437 | perf/fps: 9746.7382 | perf/gpu_mem_mb: 189
+[16:08:05][dynamite][INFO] [step 1597440] iteration: 130 | global_step: 1597440 | reward/mean: -6.0205 | reward/std: 0.5331 | perf/fps: 9675.8272 | perf/gpu_mem_mb: 189
+[16:08:18][dynamite][INFO] [step 1720320] iteration: 140 | global_step: 1720320 | reward/mean: -5.9786 | reward/std: 0.4809 | perf/fps: 10032.8522 | perf/gpu_mem_mb: 189
+[16:08:30][dynamite][INFO] [step 1843200] iteration: 150 | global_step: 1843200 | reward/mean: -5.8860 | reward/std: 0.4353 | perf/fps: 9639.8365 | perf/gpu_mem_mb: 189
+[16:08:31][dynamite][INFO] [step 1843200] eval/reward_mean: -4.7172
+[16:08:44][dynamite][INFO] [step 1966080] iteration: 160 | global_step: 1966080 | reward/mean: -5.7845 | reward/std: 0.5110 | perf/fps: 8932.0933 | perf/gpu_mem_mb: 189
+[16:08:57][dynamite][INFO] [step 2088960] iteration: 170 | global_step: 2088960 | reward/mean: -5.7602 | reward/std: 0.4364 | perf/fps: 9392.6808 | perf/gpu_mem_mb: 189
+[16:09:10][dynamite][INFO] [step 2211840] iteration: 180 | global_step: 2211840 | reward/mean: -5.6631 | reward/std: 0.4080 | perf/fps: 9605.4280 | perf/gpu_mem_mb: 189
+[16:09:23][dynamite][INFO] [step 2334720] iteration: 190 | global_step: 2334720 | reward/mean: -5.6207 | reward/std: 0.4140 | perf/fps: 9513.4264 | perf/gpu_mem_mb: 189
+[16:09:35][dynamite][INFO] [step 2457600] iteration: 200 | global_step: 2457600 | reward/mean: -5.5667 | reward/std: 0.3865 | perf/fps: 9807.5001 | perf/gpu_mem_mb: 189
+[16:09:36][dynamite][INFO] [step 2457600] eval/reward_mean: -4.7054
+[16:09:48][dynamite][INFO] [step 2580480] iteration: 210 | global_step: 2580480 | reward/mean: -5.4818 | reward/std: 0.4320 | perf/fps: 9565.6181 | perf/gpu_mem_mb: 189
+[16:10:01][dynamite][INFO] [step 2703360] iteration: 220 | global_step: 2703360 | reward/mean: -5.4901 | reward/std: 0.3614 | perf/fps: 9991.4184 | perf/gpu_mem_mb: 189
+[16:10:13][dynamite][INFO] [step 2826240] iteration: 230 | global_step: 2826240 | reward/mean: -5.4724 | reward/std: 0.3631 | perf/fps: 9652.6497 | perf/gpu_mem_mb: 189
+[16:10:26][dynamite][INFO] [step 2949120] iteration: 240 | global_step: 2949120 | reward/mean: -5.4450 | reward/std: 0.3484 | perf/fps: 9650.2979 | perf/gpu_mem_mb: 189
+[16:10:39][dynamite][INFO] [step 3072000] iteration: 250 | global_step: 3072000 | reward/mean: -5.4291 | reward/std: 0.3353 | perf/fps: 9519.6084 | perf/gpu_mem_mb: 189
+[16:10:40][dynamite][INFO] [step 3072000] eval/reward_mean: -4.7455
+[16:10:53][dynamite][INFO] [step 3194880] iteration: 260 | global_step: 3194880 | reward/mean: -5.3524 | reward/std: 0.3845 | perf/fps: 9019.1113 | perf/gpu_mem_mb: 189
+[16:11:05][dynamite][INFO] [step 3317760] iteration: 270 | global_step: 3317760 | reward/mean: -5.3781 | reward/std: 0.3342 | perf/fps: 9534.5277 | perf/gpu_mem_mb: 189
+[16:11:18][dynamite][INFO] [step 3440640] iteration: 280 | global_step: 3440640 | reward/mean: -5.3717 | reward/std: 0.3398 | perf/fps: 9928.6011 | perf/gpu_mem_mb: 189
+[16:11:31][dynamite][INFO] [step 3563520] iteration: 290 | global_step: 3563520 | reward/mean: -5.3737 | reward/std: 0.3690 | perf/fps: 9361.3941 | perf/gpu_mem_mb: 189
+[16:11:44][dynamite][INFO] [step 3686400] iteration: 300 | global_step: 3686400 | reward/mean: -5.3306 | reward/std: 0.3567 | perf/fps: 9574.8032 | perf/gpu_mem_mb: 189
+[16:11:45][dynamite][INFO] [step 3686400] eval/reward_mean: -4.5366
+[16:11:58][dynamite][INFO] [step 3809280] iteration: 310 | global_step: 3809280 | reward/mean: -5.1903 | reward/std: 0.3844 | perf/fps: 8975.1106 | perf/gpu_mem_mb: 189
+[16:12:11][dynamite][INFO] [step 3932160] iteration: 320 | global_step: 3932160 | reward/mean: -5.0969 | reward/std: 0.2816 | perf/fps: 9447.2145 | perf/gpu_mem_mb: 189
+[16:12:23][dynamite][INFO] [step 4055040] iteration: 330 | global_step: 4055040 | reward/mean: -5.0368 | reward/std: 0.2491 | perf/fps: 9497.0471 | perf/gpu_mem_mb: 189
+[16:12:36][dynamite][INFO] [step 4177920] iteration: 340 | global_step: 4177920 | reward/mean: -5.0149 | reward/std: 0.2218 | perf/fps: 9627.3627 | perf/gpu_mem_mb: 189
+[16:12:49][dynamite][INFO] [step 4300800] iteration: 350 | global_step: 4300800 | reward/mean: -4.9945 | reward/std: 0.2164 | perf/fps: 9612.3489 | perf/gpu_mem_mb: 189
+[16:12:50][dynamite][INFO] [step 4300800] eval/reward_mean: -4.3671
+[16:13:03][dynamite][INFO] [step 4423680] iteration: 360 | global_step: 4423680 | reward/mean: -5.0127 | reward/std: 0.2459 | perf/fps: 9077.3748 | perf/gpu_mem_mb: 189
+[16:13:16][dynamite][INFO] [step 4546560] iteration: 370 | global_step: 4546560 | reward/mean: -4.9760 | reward/std: 0.1999 | perf/fps: 9392.8031 | perf/gpu_mem_mb: 189
+[16:13:29][dynamite][INFO] [step 4669440] iteration: 380 | global_step: 4669440 | reward/mean: -4.9845 | reward/std: 0.2139 | perf/fps: 9215.1412 | perf/gpu_mem_mb: 189
+[16:13:42][dynamite][INFO] [step 4792320] iteration: 390 | global_step: 4792320 | reward/mean: -4.9828 | reward/std: 0.2186 | perf/fps: 9358.2837 | perf/gpu_mem_mb: 189
+[16:13:55][dynamite][INFO] [step 4915200] iteration: 400 | global_step: 4915200 | reward/mean: -4.9699 | reward/std: 0.2227 | perf/fps: 9502.7375 | perf/gpu_mem_mb: 189
+[16:13:56][dynamite][INFO] [step 4915200] eval/reward_mean: -4.4156
+[16:14:08][dynamite][INFO] [step 5038080] iteration: 410 | global_step: 5038080 | reward/mean: -4.9744 | reward/std: 0.2572 | perf/fps: 9197.7683 | perf/gpu_mem_mb: 189
+[16:14:21][dynamite][INFO] [step 5160960] iteration: 420 | global_step: 5160960 | reward/mean: -4.9533 | reward/std: 0.2036 | perf/fps: 9451.4595 | perf/gpu_mem_mb: 189
+[16:14:34][dynamite][INFO] [step 5283840] iteration: 430 | global_step: 5283840 | reward/mean: -4.9422 | reward/std: 0.2169 | perf/fps: 9527.8226 | perf/gpu_mem_mb: 189
+[16:14:47][dynamite][INFO] [step 5406720] iteration: 440 | global_step: 5406720 | reward/mean: -4.9309 | reward/std: 0.1996 | perf/fps: 9472.0131 | perf/gpu_mem_mb: 189
+[16:15:00][dynamite][INFO] [step 5529600] iteration: 450 | global_step: 5529600 | reward/mean: -4.9406 | reward/std: 0.2279 | perf/fps: 9521.5541 | perf/gpu_mem_mb: 189
+[16:15:01][dynamite][INFO] [step 5529600] eval/reward_mean: -4.3954
+[16:15:13][dynamite][INFO] [step 5652480] iteration: 460 | global_step: 5652480 | reward/mean: -4.9559 | reward/std: 0.2485 | perf/fps: 9282.9229 | perf/gpu_mem_mb: 189
+[16:15:26][dynamite][INFO] [step 5775360] iteration: 470 | global_step: 5775360 | reward/mean: -4.9277 | reward/std: 0.2093 | perf/fps: 9483.3014 | perf/gpu_mem_mb: 189
+[16:15:39][dynamite][INFO] [step 5898240] iteration: 480 | global_step: 5898240 | reward/mean: -4.9273 | reward/std: 0.2086 | perf/fps: 9520.6069 | perf/gpu_mem_mb: 189
+[16:15:52][dynamite][INFO] [step 6021120] iteration: 490 | global_step: 6021120 | reward/mean: -4.9342 | reward/std: 0.2295 | perf/fps: 9526.2178 | perf/gpu_mem_mb: 189
+[16:16:05][dynamite][INFO] [step 6144000] iteration: 500 | global_step: 6144000 | reward/mean: -4.9431 | reward/std: 0.2079 | perf/fps: 9513.3515 | perf/gpu_mem_mb: 189
+[16:16:06][dynamite][INFO] [step 6144000] eval/reward_mean: -4.3437
+[16:16:18][dynamite][INFO] [step 6266880] iteration: 510 | global_step: 6266880 | reward/mean: -4.9795 | reward/std: 0.2557 | perf/fps: 9276.0036 | perf/gpu_mem_mb: 189
+[16:16:31][dynamite][INFO] [step 6389760] iteration: 520 | global_step: 6389760 | reward/mean: -4.9710 | reward/std: 0.2436 | perf/fps: 9480.2845 | perf/gpu_mem_mb: 189
+[16:16:44][dynamite][INFO] [step 6512640] iteration: 530 | global_step: 6512640 | reward/mean: -4.9698 | reward/std: 0.2451 | perf/fps: 9503.1464 | perf/gpu_mem_mb: 189
+[16:16:57][dynamite][INFO] [step 6635520] iteration: 540 | global_step: 6635520 | reward/mean: -4.9628 | reward/std: 0.2234 | perf/fps: 9516.1548 | perf/gpu_mem_mb: 189
+[16:17:10][dynamite][INFO] [step 6758400] iteration: 550 | global_step: 6758400 | reward/mean: -4.9671 | reward/std: 0.2344 | perf/fps: 9489.8066 | perf/gpu_mem_mb: 189
+[16:17:11][dynamite][INFO] [step 6758400] eval/reward_mean: -4.4558
+[16:17:23][dynamite][INFO] [step 6881280] iteration: 560 | global_step: 6881280 | reward/mean: -4.9512 | reward/std: 0.2549 | perf/fps: 9256.1926 | perf/gpu_mem_mb: 189
+[16:17:36][dynamite][INFO] [step 7004160] iteration: 570 | global_step: 7004160 | reward/mean: -4.9573 | reward/std: 0.2254 | perf/fps: 9465.5973 | perf/gpu_mem_mb: 189
+[16:17:49][dynamite][INFO] [step 7127040] iteration: 580 | global_step: 7127040 | reward/mean: -4.9548 | reward/std: 0.2118 | perf/fps: 9438.6351 | perf/gpu_mem_mb: 189

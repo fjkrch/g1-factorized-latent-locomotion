@@ -1,0 +1,23 @@
+[16:22:38] ================================================================
+[16:22:38]  Publication Experiments — OOM-safe — 20260319_162238
+[16:22:38]  RAM: 14Gi, Swap: 11Gi
+[16:22:38] ================================================================
+[16:22:38] 
+[16:22:38] === PHASE 1: Ablations ===
+[16:22:38] SKIP:  no_aux_loss/seed_42 (already completed)
+[16:22:38] START: ABL no_aux_loss/seed_43
+[16:40:47] DONE:  ABL no_aux_loss/seed_43
+[16:40:47] START: ABL no_aux_loss/seed_44
+[16:59:07] DONE:  ABL no_aux_loss/seed_44
+[16:59:07] START: ABL no_latent/seed_42
+[17:17:09] DONE:  ABL no_latent/seed_42
+[17:17:09] START: ABL no_latent/seed_43
+[17:35:27] DONE:  ABL no_latent/seed_43
+[17:35:27] START: ABL no_latent/seed_44
+[17:54:15] DONE:  ABL no_latent/seed_44
+[17:54:15] START: ABL single_latent/seed_42
+[18:13:28] DONE:  ABL single_latent/seed_42
+[18:13:28] START: ABL single_latent/seed_43
+[18:31:36] DONE:  ABL single_latent/seed_43
+[18:31:36] START: ABL single_latent/seed_44
+[18:49:43] DONE:  ABL single_latent/seed_44

@@ -20,7 +20,7 @@ The key value of DynaMITE lies in **interpretability and robustness under dynami
 
 4. **Latent disentanglement analysis.** We show that the learned factored subspaces achieve a 0.477 disentanglement score (chance = 0.20), indicating moderate but above-chance alignment with ground-truth dynamics factors.
 
-5. **Single-GPU reproducible pipeline.** Full experiment (80 training runs + 7 ablations + evaluation + plotting) completes in ~20 hours on an RTX 4060 Laptop GPU.
+5. **Single-GPU reproducible pipeline.** Full experiment (80 training runs + 9 multi-seed ablations + 4 single-seed ablations + evaluation + plotting) completes in ~22 hours on an RTX 4060 Laptop GPU.
 
 ---
 
@@ -93,7 +93,26 @@ MLP shows high variance on randomized (σ = 0.45) and is the weakest model overa
 
 ### Ablation Study (Randomized Task, 10M Steps)
 
-Single-seed (seed 42) ablation results. Multi-seed ablation campaign (3 seeds × 3 key ablations) is in progress.
+#### Multi-seed ablations (3 seeds: 42, 43, 44)
+
+We retrain the three most impactful ablation variants with 3 seeds each. The DynaMITE (Full) baseline uses the 5-seed mean from the main comparison.
+
+| Variant | Eval Reward | Δ vs Full |
+|---|---|---|
+| DynaMITE (Full, 5-seed) | **-4.48 ± 0.14** | — |
+| No Latent | -4.88 ± 0.27 | -0.40 |
+| No Aux Loss | -5.06 ± 0.58 | -0.58 |
+| Single Latent (unfactored) | -5.25 ± 0.36 | -0.77 |
+
+**Multi-seed takeaways:**
+- **Single Latent (unfactored) has the largest degradation** (-0.77), confirming that the factored latent structure is the most critical design choice.
+- **No Aux Loss** is second worst (-0.58) but exhibits high seed variance (σ = 0.58), with one seed nearly matching full DynaMITE — suggesting auxiliary loss helps but its benefit is seed-dependent.
+- **No Latent** shows the mildest degradation (-0.40), indicating that the latent head's contribution is less critical than the factoring structure.
+- The ranking partially shifts from the single-seed results: Single Latent is now definitively worse than No Aux Loss, while No Latent moves from 5th to the mildest ablation.
+
+#### Extended single-seed ablations (seed 42)
+
+Full 7-variant ablation sweep for architectural sensitivity analysis:
 
 | Variant | Eval Reward | Δ vs Full |
 |---|---|---|
@@ -106,11 +125,7 @@ Single-seed (seed 42) ablation results. Multi-seed ablation campaign (3 seeds ×
 | Single Latent (unfactored) | -5.03 | -0.76 |
 | No Aux Loss | -5.08 | -0.82 |
 
-**Takeaways (single seed, interpret with caution):**
-- Removing auxiliary loss has the largest negative impact (-0.82), confirming the per-factor supervision is the key component.
-- Collapsing to a single unfactored latent (-0.76) is nearly as damaging, supporting factored representation.
-- A shallower encoder (depth 1, -0.06) barely hurts, while a deeper one (depth 4, -0.50) hurts substantially — likely overfitting with limited data.
-- Sequence length in the 4–16 range has minimal effect (±0.08).
+*Single-seed architectural findings:* A shallower encoder (depth 1, -0.06) barely hurts, while a deeper one (depth 4, -0.50) hurts substantially — likely overfitting with limited data. Sequence length in the 4–16 range has minimal effect (±0.08).
 
 ### Latent Disentanglement Analysis
 
@@ -150,7 +165,7 @@ We evaluated all four models across 5 friction levels (seed 42, 50 episodes per 
 - **OOD sweeps are single-seed.** Friction sweep results use seed 42 only. Multi-seed OOD evaluation is in progress.
 - **Moderate disentanglement.** The 0.477 disentanglement score is above chance (0.20) but below the 0.50+ threshold for strong disentanglement, indicating substantial cross-talk between latent subspaces.
 - **Reward is penalty-based.** The reward function sums several penalty terms. A method achieving -4.18 vs -4.48 is accumulating ~6% less penalty per step on average. The practical significance of this gap is unclear without real-world deployment.
-- **Ablations are single-seed.** Multi-seed ablation runs (no_aux_loss, no_latent, single_latent × 3 seeds) are in progress.
+- **Ablation seed count.** The three key ablations (No Aux Loss, No Latent, Single Latent) use 3 seeds; the remaining four architectural variants (depth 1/4, seq len 4/16) use a single seed.
 
 ---
 

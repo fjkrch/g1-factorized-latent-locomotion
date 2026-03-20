@@ -174,10 +174,10 @@ LSTM achieves the best mean reward on all four tasks with the lowest variance (�
 DynaMITE ranks second on push, randomized, and terrain with moderate variance.
 MLP shows high variance on randomized (σ = 0.50) and is the weakest model overall.
 
-### Training Curves
+### Training Curves (Randomized Task, 5-Seed Average)
 
 <p align="center">
-  <img src="figures/training_curves.png" width="700" alt="Training curves across tasks">
+  <img src="figures/training_curves.png" width="700" alt="Training curves — randomized task, 5-seed mean ± std">
 </p>
 
 ### Ablation Study (Randomized Task, 10M Steps)

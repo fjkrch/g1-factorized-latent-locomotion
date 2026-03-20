@@ -194,10 +194,6 @@ We train the three most impactful ablation variants with 5 seeds each (matching 
 | No Latent | -4.77 ± 0.41 | -0.29 | [-5.29, -4.26] |
 | Single Latent (unfactored) | -4.67 ± 0.11 | -0.19 | [-4.80, -4.54] |
 
-<p align="center">
-  <img src="figures/ablation.png" width="600" alt="Ablation results">
-</p>
-
 <details>
 <summary><strong>Paired t-tests and per-seed data (n = 5)</strong></summary>
 

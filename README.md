@@ -1,24 +1,24 @@
-# DynaMITE: Dynamic Mismatch Inference via Transformer Encoder for Robust Humanoid Locomotion
+# DynaMITE: Dynamic Mismatch Inference via Transformer Encoder for Humanoid Locomotion
 
 We study whether a short-horizon transformer encoder can infer a factorized latent representation of hidden dynamics parameters — friction, mass, motor strength, contact properties, and actuation delay — from proprioceptive history alone.
 DynaMITE conditions both the policy and value function on this latent vector and trains per-factor auxiliary identification losses during PPO optimization.
 We evaluate on a Unitree G1 humanoid in Isaac Lab across four locomotion tasks with domain randomization.
 
-Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best aggregate reward on all four tasks**, with DynaMITE ranking second on push, randomized, and terrain.
-However, DynaMITE shows **lower sensitivity** than LSTM across all three OOD robustness sweeps (friction, push magnitude, action delay), and its factorized latent achieves a **0.500 ± 0.020 within-factor correlation score** across 3 seeds (chance = 0.20).
-The main value of DynaMITE lies in **robustness under dynamics shifts and latent interpretability**, not aggregate reward.
+Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best aggregate reward on all four tasks** (p < 0.03 on all, paired t-test), with DynaMITE ranking second on push, randomized, and terrain.
+DynaMITE shows **lower sensitivity than LSTM** across three tested OOD perturbation types (friction, push magnitude, action delay; n = 3 seeds), and its factored latent achieves a **0.500 ± 0.020 score on a custom within-factor correlation metric** across 3 seeds (chance = 0.20).
+DynaMITE did not outperform LSTM on nominal reward. Its potential value is a **tradeoff: worse in-distribution performance for lower OOD sensitivity and partial latent factor alignment**.
 
 ---
 
 ## Contributions
 
-1. **Factorized latent dynamics inference.** A transformer encoder maps an 8-step (160 ms) observation–action history to a 24-d latent vector decomposed into 5 semantically-aligned subspaces (friction, mass, motor, contact, delay).
+1. **Factorized latent dynamics inference.** A transformer encoder maps an 8-step (160 ms) observation–action history to a 24-d latent vector decomposed into 5 subspaces intended to align with ground-truth dynamics parameters (friction, mass, motor, contact, delay).
 
 2. **Per-factor auxiliary supervision.** Each subspace is trained against the corresponding ground-truth dynamics parameter via MSE loss during training. At deployment, no privileged information is required.
 
-3. **Controlled comparison** of MLP, LSTM, Transformer, and DynaMITE policies under identical PPO training on the same four tasks, with shared observation/action embeddings, policy heads, and value heads.
+3. **Controlled comparison** of MLP, LSTM, Transformer, and DynaMITE policies under identical PPO training on the same four tasks, with shared observation/action embeddings, policy heads, and value heads. LSTM outperformed all other methods on aggregate reward.
 
-4. **Latent disentanglement analysis.** Under a within-factor correlation metric (see [Evaluation Protocol](#evaluation-protocol)), the learned factored subspaces achieve a mean score of 0.500 ± 0.020 across 3 seeds (chance = 0.20 for 5 factors).
+4. **Latent factor alignment analysis.** Under a custom within-factor correlation metric (see [Evaluation Protocol](#evaluation-protocol)), the learned subspaces achieve a mean score of 0.500 ± 0.020 across 3 seeds (chance = 0.20 for 5 factors). This indicates partial alignment but is not measured using standard disentanglement benchmarks.
 
 5. **Single-GPU reproducible pipeline.** `reproduce_all.sh` trains 69 runs (3 seeds) + evaluates + runs OOD sweeps + latent analysis + generates tables/figures in ~12 hours on an RTX 4060 Laptop GPU. The full 5-seed experiment set reported below took ~24 hours.
 
@@ -100,7 +100,6 @@ All results below follow this protocol, locked before running the main experimen
 | Reward aggregation | Mean of per-episode cumulative reward across all eval episodes |
 | Main comparison | 5 training seeds (42, 43, 44, 45, 46) × 4 tasks × 4 models = 80 evals |
 | Multi-seed ablations | 5 training seeds (42, 43, 44, 45, 46) × 3 variants = 15 evals |
-| Single-seed ablations | 1 training seed (42) × 4 variants = 4 evals |
 | OOD sweeps | 3 training seeds (42, 43, 44) × 2 models × 3 sweep types = 18 evals |
 | Latent analysis | 3 training seeds (42, 43, 44) × 50 episodes each |
 
@@ -112,7 +111,7 @@ All results below follow this protocol, locked before running the main experimen
 
 **Reward.** Penalty-based (always negative). Higher (less negative) = better. A method achieving −4.18 vs −4.48 accumulates ~6% less penalty per step on average.
 
-**Disentanglement metric (custom).** We compute Pearson correlation between each learned latent subspace and each ground-truth dynamics parameter over 50 episodes. The "disentanglement score" is the ratio of mean within-factor correlation to mean total correlation across all factor–subspace pairs. This is a **custom metric** — not MIG, DCI, or SAP — and should not be directly compared to standard disentanglement benchmarks. Chance level for 5 factors is 0.20. See `src/analysis/latent_analysis.py` for implementation.
+**Factor alignment metric (custom).** We compute Pearson correlation between each learned latent subspace and each ground-truth dynamics parameter over 50 episodes. The "factor alignment score" is the ratio of mean within-factor correlation to mean total correlation across all factor–subspace pairs. This is a **custom metric** — not MIG, DCI, or SAP — and should not be directly compared to standard disentanglement benchmarks. It measures correlation, not causal alignment or independence. Chance level for 5 factors is 0.20. See `src/analysis/latent_analysis.py` for implementation.
 
 **OOD sensitivity metric.** Sensitivity = max(mean reward) − min(mean reward) across sweep levels. This is a simple range metric; it does not capture curve shape or monotonicity. Lower = more robust.
 
@@ -171,7 +170,7 @@ LSTM is significantly better than DynaMITE on all four tasks (p < 0.05, paired t
 
 </details>
 
-LSTM achieves the best mean reward on all four tasks with the lowest variance (σ ≤ 0.05).
+LSTM achieves the best mean reward on all four tasks with the lowest variance (σ ≤ 0.05). All four paired t-tests (LSTM vs DynaMITE) are significant at p < 0.03.
 DynaMITE ranks second on push, randomized, and terrain with moderate variance.
 MLP shows high variance on randomized (σ = 0.50) and is the weakest model overall.
 
@@ -220,30 +219,13 @@ No ablation variant reaches p < 0.05 with n = 5, though Single Latent approaches
 </details>
 
 **Observations:**
-- All three ablation variants degrade compared to the full model, with deltas of 0.08–0.29.
-- **No Latent** shows the largest degradation (Δ = -0.29) and highest variance (σ = 0.41), confirming that the latent representation provides meaningful benefit.
-- **Single Latent (unfactored)** approaches significance (p = 0.063), suggesting the factored structure provides a consistent benefit with low variance (σ = 0.11).
-- **No Aux Loss** shows the smallest mean degradation (Δ = -0.08) but high variance (σ = 0.27), with one outlier seed (42: -5.01) driving the effect — suggesting the auxiliary loss benefit may be seed-dependent.
-- These results use the same deterministic 100-episode protocol as the main comparison, resolving the previous eval protocol mismatch.
+- All three ablation variants show consistent directional degradation compared to the full model (Δ = 0.08–0.29), but no variant reaches statistical significance at p < 0.05 with n = 5.
+- **No Latent** shows the largest mean degradation (Δ = -0.29, p = 0.174) and highest variance (σ = 0.41). The direction is consistent (4/5 seeds degrade) but the effect is not statistically reliable at this sample size.
+- **Single Latent (unfactored)** shows Δ = -0.19, p = 0.063. This does not reach significance. All 5 seeds show degradation, suggesting a consistent but small effect that would require more seeds to confirm.
+- **No Aux Loss** shows the smallest mean degradation (Δ = -0.08, p = 0.629) with high variance (σ = 0.27) and inconsistent direction (2/5 seeds improve). The auxiliary loss may not contribute meaningfully to nominal reward.
+- These results use the same deterministic 100-episode protocol as the main comparison.
 
-#### Extended single-seed ablations (seed 42 only)
-
-Full 7-variant ablation sweep for architectural sensitivity analysis. **Single-seed results — interpret with caution.**
-
-| Variant | Eval Reward | Δ vs Full |
-|---|---|---|
-| DynaMITE (Full) | **-4.27** | — |
-| Depth 1 (1-layer encoder) | -4.32 | -0.06 |
-| Seq Len 4 | -4.35 | -0.08 |
-| Seq Len 16 | -4.35 | -0.08 |
-| No Latent | -4.49 | -0.22 |
-| Depth 4 (4-layer encoder) | -4.76 | -0.50 |
-| Single Latent (unfactored) | -5.03 | -0.76 |
-| No Aux Loss | -5.08 | -0.82 |
-
-A shallower encoder (depth 1, -0.06) barely changes performance, while a deeper one (depth 4, -0.50) degrades it — possibly overfitting with limited data. Sequence length in the 4–16 range has minimal effect (±0.08).
-
-### Latent Disentanglement Analysis
+### Latent Factor Alignment Analysis
 
 We measure whether DynaMITE's learned latent subspaces correlate with their intended ground-truth dynamics parameters using Pearson correlation (50 episodes per seed, 3 seeds).
 
@@ -258,13 +240,14 @@ We measure whether DynaMITE's learned latent subspaces correlate with their inte
 | 44 | 0.521 |
 | **Mean** | **0.500 ± 0.020** |
 
-- **Mean score: 0.500 ± 0.020** under our within-factor correlation metric (chance = 0.20 for 5 factors). This is a custom metric, not a standard disentanglement measure (see [Evaluation Protocol](#evaluation-protocol)).
-- The score exceeds chance by a wide margin. Whether 0.50 constitutes "good" disentanglement depends on the application; cross-talk between subspaces remains.
+- **Mean score: 0.500 ± 0.020** under our custom within-factor correlation metric (chance = 0.20 for 5 factors). This is not a standard disentanglement measure (see [Evaluation Protocol](#evaluation-protocol)).
+- The score exceeds chance, indicating partial factor alignment. However, the metric measures correlation only — not independence, causal alignment, or invariance. Cross-talk between subspaces remains, and whether 0.50 constitutes meaningful alignment depends on the application.
+- No intervention experiments (clamping or perturbing individual latent dimensions) have been performed, so the correlation evidence does not establish causal factor alignment.
 - Full analysis in `figures/latent_correlation_full.png`.
 
-### OOD Robustness Sweeps (3 seeds: 42, 43, 44)
+### OOD Sensitivity Sweeps (3 seeds: 42, 43, 44)
 
-We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomized task (50 episodes per level per seed). **Only DynaMITE and LSTM are compared** (the top-2 models by aggregate reward); MLP and Transformer were not included in multi-seed OOD sweeps.
+We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomized task (50 episodes per level per seed). **Only DynaMITE and LSTM are compared** (the top-2 models by aggregate reward); MLP and Transformer were not included in multi-seed OOD sweeps. With n = 3 seeds, statistical power is low and these results should be treated as directional evidence, not definitive conclusions.
 
 <p align="center">
   <img src="figures/sweep_robustness_combined.png" width="700" alt="OOD robustness sweep comparison">
@@ -304,25 +287,26 @@ We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomiz
 
 | Scenario | Recommended |
 |---|---|
-| Maximize nominal in-distribution reward | **LSTM** — wins all 4 tasks |
-| Expected dynamics mismatch at deployment (e.g., sim-to-real) | **DynaMITE** — lower OOD sensitivity |
-| Need to inspect what the policy "thinks" about dynamics | **DynaMITE** — factored latent is interpretable |
+| Maximize nominal in-distribution reward | **LSTM** — wins all 4 tasks significantly |
+| Expected dynamics mismatch at deployment (e.g., sim-to-real) | **DynaMITE** — lower sensitivity under tested perturbations (n = 3, directional evidence only) |
+| Need to inspect latent dynamics estimates | **DynaMITE** — factored latent shows partial factor alignment (correlational, not causal) |
 | Training budget is tight | **LSTM** — fewer parameters, no auxiliary loss overhead |
-| Deployment environment is well-characterized | **LSTM** — robustness advantage is not needed |
+| Deployment environment is well-characterized | **LSTM** — DynaMITE's sensitivity advantage is unnecessary |
 
 ---
 
 ## Limitations
 
-- **LSTM dominates aggregate reward.** LSTM achieves the best mean reward on all four tasks with the lowest seed variance. DynaMITE's value is in robustness and interpretability, not raw performance.
+- **LSTM dominates aggregate reward.** LSTM achieves the best mean reward on all four tasks with the lowest seed variance (p < 0.03 on all four, paired t-test). DynaMITE's potential value is a tradeoff — lower OOD sensitivity at the cost of worse nominal performance — not overall superiority.
 - **Narrow reward spread.** The top-2 models (LSTM, DynaMITE) fall within [-4.01, -4.60] across tasks — a range of ~0.6. Whether this is practically meaningful for a physical robot is unknown.
 - **No sim-to-real transfer.** All experiments are in simulation (Isaac Lab). Not validated on physical hardware.
-- **OOD sweep scope.** Multi-seed OOD sweeps cover DynaMITE and LSTM only. MLP and Transformer were excluded after the main comparison showed them to be weaker overall.
-- **Custom disentanglement metric.** The 0.500 ± 0.020 score uses a within-factor correlation ratio, not a standard disentanglement metric (MIG, DCI, SAP). Direct comparison to other work is not straightforward.
-- **No significance tests.** Results are mean ± std. We do not report confidence intervals, paired tests, or effect sizes. Differences < 0.3 between methods may not be statistically meaningful.
+- **OOD sweep scope.** Multi-seed OOD sweeps cover DynaMITE and LSTM only (n = 3 seeds). MLP and Transformer were excluded. Statistical power at n = 3 is low; sensitivity differences are directional evidence, not definitive.
+- **Custom factor alignment metric.** The 0.500 ± 0.020 score uses a within-factor correlation ratio, not a standard disentanglement metric (MIG, DCI, SAP). It measures correlation, not causal alignment. Direct comparison to other work is not possible.
+- **No causal latent evidence.** No intervention experiments (clamping or perturbing latent dimensions) have been performed. The factor alignment is correlational only.
 - **Reward is penalty-based.** A method achieving -4.18 vs -4.48 accumulates ~6% less penalty per step on average. Practical significance is unclear without real-world deployment.
-- **Ablation significance.** No ablation variant reaches statistical significance at p < 0.05 with n = 5, though all three show consistent degradation (Δ = 0.08–0.29). Architectural variants (depth 1/4, seq len 4/16) use a single seed.
+- **Ablation significance.** No ablation variant reaches statistical significance at p < 0.05 with n = 5, though all three show consistent directional degradation (Δ = 0.08–0.29).
 - **Sensitivity metric is coarse.** The max−min range metric for OOD sweeps ignores curve shape and may be sensitive to endpoint selection.
+- **No multiple-comparison correction.** Paired t-tests across four tasks are reported without Bonferroni or Holm correction.
 
 ---
 
@@ -402,9 +386,8 @@ bash scripts/reproduce_all.sh --dry-run
 | Main Comparison figure | `scripts/plot_results.py` | `figures/eval_bars.png` |
 | Training Curves figure | `scripts/plot_results.py` | `figures/training_curves.png` |
 | Ablation table | `scripts/generate_tables.py` | `figures/ablation_table.md` |
-| Ablation figure | `scripts/plot_results.py` | `figures/ablation.png` |
-| Disentanglement table | `scripts/run_latent_analysis.py` | `results/latent_analysis/` |
-| Disentanglement heatmap | `scripts/run_latent_analysis.py` | `figures/latent_correlation_heatmap.png` |
+| Factor alignment table | `scripts/run_latent_analysis.py` | `results/latent_analysis/` |
+| Factor alignment heatmap | `scripts/run_latent_analysis.py` | `figures/latent_correlation_heatmap.png` |
 | OOD Sweep tables | `scripts/eval_ood_validated.py` | `results/ood_sweeps/` |
 | OOD Sweep figure | `scripts/plot_sweeps.py` | `figures/sweep_robustness_combined.png` |
 
@@ -434,7 +417,7 @@ bash scripts/reproduce_all.sh --dry-run
 ```bibtex
 @article{dynamite2026,
   title   = {{DynaMITE}: Dynamic Mismatch Inference via Transformer Encoder
-             for Robust Humanoid Locomotion},
+             for Humanoid Locomotion},
   author  = {Chayanin Kraicharoen},
   year    = {2026},
   note    = {Preprint / under review}

@@ -1,26 +1,22 @@
-# DynaMITE: Dynamic Mismatch Inference via Transformer Encoder for Humanoid Locomotion
+# DynaMITE: Per-Factor Auxiliary Dynamics Losses Regularize but Do Not Identify Dynamics in Humanoid Locomotion
 
-We study whether a short-horizon transformer encoder can infer a factorized latent representation of hidden dynamics parameters — friction, mass, motor strength, contact properties, and actuation delay — from proprioceptive history alone.
-DynaMITE conditions both the policy and value function on this latent vector and trains per-factor auxiliary identification losses during PPO optimization.
-We evaluate on a Unitree G1 humanoid in Isaac Lab across four locomotion tasks with domain randomization.
+We study whether per-factor auxiliary dynamics losses, applied to a short-horizon transformer encoder during PPO training, produce a factorized latent representation that captures hidden dynamics parameters in humanoid locomotion. On a Unitree G1 humanoid in Isaac Lab across four tasks with domain randomization, **the answer is no**: linear and nonlinear probes show the resulting 24-d latent has R² ≈ 0 for all five dynamics factors (friction, mass, motor strength, contact, delay), and per-factor clamping produces negligible reward change (|Δ| < 0.05). An LSTM baseline with no auxiliary signal achieves higher probe R² (up to 0.10) from its hidden state alone.
 
-**DynaMITE does not beat LSTM on nominal locomotion, but it degrades less under severe hidden-dynamics mismatch and overtakes under strong combined perturbations.**
+Despite this failure of the intended inference mechanism, the auxiliary-loss architecture exhibits a consistent empirical tradeoff. Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best reward on all four tasks** (p < 0.03, paired t-test). However, under a combined-shift stress test (friction + push + delay simultaneously), LSTM reward degrades by 16.7% from ID baseline to severe OOD, while DynaMITE degrades by only 2.3%. LSTM's reward advantage diminishes and directionally inverts at combined-shift level 3. In a controlled push-recovery protocol, DynaMITE recovers command tracking in ~6 steps independent of push magnitude (1–8 m/s), while LSTM recovery time increases from 9 to 20 steps.
 
-Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best aggregate reward on all four tasks** (p < 0.03 on all, paired t-test). However, under a combined-shift stress test (friction + push + delay simultaneously), LSTM reward degrades by 16.7% from ID baseline to severe OOD, while DynaMITE degrades by only 2.3%. LSTM's reward advantage **inverts at combined-shift level 3**, where DynaMITE overtakes. In a controlled push-recovery protocol, DynaMITE recovers command tracking in ~6 steps independent of push magnitude (1–8 m/s), while LSTM recovery time increases from 9 to 20 steps.
-
-The factored latent shows partial correlational alignment with dynamics parameters (0.500 ± 0.020 on a custom within-factor correlation metric, chance = 0.20) but does **not** causally drive policy behavior: per-factor clamping produces |Δ reward| < 0.05 across all five factors. A latent probe analysis further shows that **LSTM's hidden state encodes ground-truth dynamics better** than DynaMITE's explicitly-trained latent (MLP probe R² = 0.044 vs ≈ 0). This is a **tradeoff architecture**: worse in-distribution performance for lower OOD sensitivity and faster perturbation response — but the factored latent is not a superior dynamics encoder.
+We present this as an empirical tradeoff result with negative mechanistic findings: per-factor auxiliary losses appear to act as a regularizer that reduces OOD sensitivity, but do not produce a decodable or causally separable dynamics representation.
 
 ---
 
 ## Contributions
 
-1. **Factorized latent dynamics inference architecture.** A transformer encoder maps an 8-step (160 ms) observation–action history to a 24-d latent vector decomposed into 5 subspaces, with per-factor auxiliary identification losses during PPO training. At deployment, no privileged information is required.
+1. **Architecture and negative mechanistic result.** A transformer encoder maps an 8-step (160 ms) observation–action history to a 24-d latent decomposed into 5 factor subspaces, trained with per-factor auxiliary dynamics losses during PPO. Probe analysis and latent intervention show this architecture **fails to produce a decodable or causally separable dynamics representation** (R² ≈ 0, all |Δ reward| < 0.05). An LSTM hidden state with no auxiliary training encodes dynamics better (R² up to 0.10). We report this failure in full.
 
-2. **Controlled ID vs OOD tradeoff quantification.** Under identical training and evaluation, LSTM wins all 4 tasks on nominal reward (p < 0.03). Under severe combined perturbation, LSTM degrades 7× more than DynaMITE (sensitivity 1.57 vs 0.25) and its advantage inverts at level 3–4. This establishes the tradeoff boundary precisely.
+2. **Empirical ID–OOD tradeoff quantification.** Under identical training and evaluation (5 seeds, deterministic 100-episode eval), LSTM achieves the best reward on all 4 in-distribution tasks (p < 0.03). Under combined OOD perturbation, LSTM degrades 7× more than DynaMITE (sensitivity 1.57 vs 0.25) and its advantage diminishes at level 3–4. We report exact crossover boundaries across 200+ evaluations.
 
-3. **Severe OOD benchmark suite.** Combined-shift stress test (friction + push + delay simultaneously), push-recovery behavioral protocol (controlled magnitude, recovery time measurement), and cross-task OOD sweeps across 3 tasks. 200+ evaluations total.
+3. **Controlled OOD evaluation suite.** Combined-shift stress test (friction + push + delay simultaneously, 5 severity levels), push-recovery behavioral protocol (7 magnitudes, recovery-time measurement), and cross-task OOD sweeps across 3 tasks. 200+ evaluations total. All evaluation code, configs, and raw results are released.
 
-4. **Representation analysis with negative results.** Latent probe analysis shows DynaMITE's factored latent has R² ≈ 0 for predicting ground-truth dynamics, while LSTM's hidden state achieves R² up to 0.10 — the explicitly-trained latent encodes *less* dynamics information than the implicit baseline. Factor-subspace clamping shows no causal separability (all |Δ| < 0.05). The custom correlation metric (0.50 vs 0.20 chance) detects structure, but probes and interventions show this structure is not functionally meaningful.
+4. **Comprehensive representation analysis (predominantly negative).** Latent probe (Ridge + MLP, 5-fold CV, ~36k samples per run), factor-subspace intervention (90 evaluations), and correlational alignment analysis. All three produce null or weak results for DynaMITE's latent. The custom correlation metric (0.50 vs 0.20 chance) detects structure, but probes and interventions show this structure is not functionally meaningful. These negative results constrain the space of viable explanations for the observed robustness benefit.
 
 ---
 
@@ -51,7 +47,7 @@ The factored latent shows partial correlational alignment with dynamics paramete
   │ z∈R²⁴  │    │concat  │
   │────────┼────┘        │
   │        ├─────────────┘
-  │ aux ID │
+  │ aux    │
   │ losses │ (train only)
   └────────┘
 ```
@@ -166,9 +162,9 @@ For the **main comparison** (n = 5 seeds), we report mean ± std, 95% CIs (t-dis
 
 </details>
 
-### 2. Combined-Shift Stress Test (Central Benchmark)
+### 2. Combined-Shift Stress Test (Primary OOD Evaluation)
 
-**This is the main robustness result.** We shift friction, push magnitude, and action delay simultaneously across 5 severity levels. This creates compounding dynamics mismatch — the most realistic proxy for sim-to-real gaps where multiple parameters diverge at once.
+We shift friction, push magnitude, and action delay simultaneously across 5 severity levels. This creates compounding dynamics mismatch that serves as a proxy for sim-to-real gaps where multiple parameters diverge at once.
 
 <p align="center">
   <img src="figures/combined_shift_main.png" width="700" alt="Combined-shift stress test: the central benchmark">
@@ -257,13 +253,13 @@ Controlled push-recovery protocol on flat terrain: robot walks for 30 steps (ste
 Recovery rate is ~100% for both models at all magnitudes (not discriminative).
 
 **Key findings:**
-- DynaMITE recovers command tracking in **~6 steps regardless of push magnitude** (5.6–6.2, nearly constant). This is consistent with rapid latent re-identification after perturbation.
+- DynaMITE recovers command tracking in **~6 steps regardless of push magnitude** (5.6–6.2, nearly constant). The mechanism underlying this constant recovery time is unclear — the latent does not encode dynamics in a probe-decodable way, so re-identification of dynamics parameters is unlikely to explain this behavior.
 - LSTM recovery time **increases from 9 to 20 steps** as push magnitude grows (1→3+ m/s), then plateaus at ~20 steps. It is the slowest of all four models.
 - Transformer (6.7–8.3 steps) and MLP (6.3–8.7) are intermediate, with mild magnitude-dependent degradation.
 - At 3+ m/s pushes, DynaMITE recovers **3.4× faster** than LSTM and 1.4× faster than Transformer/MLP.
 - However, LSTM achieves **lower peak tracking error** at all magnitudes — its nominal locomotion quality is better even during recovery.
 - Post-push reward is substantially better for LSTM (-3.2 to -4.8 vs DynaMITE's -9.5 to -9.8), reflecting LSTM's superior baseline locomotion.
-- **The tradeoff**: DynaMITE re-adapts fastest but walks worst; LSTM walks best but takes longest to re-adapt under perturbation.
+- **The tradeoff**: DynaMITE recovers tracking fastest but has worse locomotion quality; LSTM walks best but takes longest to recover tracking under perturbation.
 
 ### 5. Single-Axis OOD Sweeps
 
@@ -348,7 +344,7 @@ All models show sensitivity < 0.10 even at 3.3× the training range (delay = 10)
 
 Only 3 of 42 pairwise OOD comparisons survive Holm-Bonferroni correction (p_adj < 0.05). Most ranking claims are directional, not statistically confirmed at n = 5.
 
-### 6. Latent Representation Analysis
+### 6. Representation Analysis (Predominantly Negative Results)
 
 #### Factor Alignment (Correlational Only)
 
@@ -445,11 +441,11 @@ Single Latent (p = 0.063) comes closest: all 5 seeds degrade. Consistent trend b
 | Need to inspect latent dynamics estimates | **Neither** — DynaMITE's latent has R² ≈ 0 for dynamics; LSTM's hidden state is slightly better (R² ≤ 0.10) |
 | Deployment environment is well-characterized | **LSTM** — DynaMITE's robustness advantage is unnecessary |
 
-### Why Does LSTM Degrade More Under Combined Shift?
+### Why Does LSTM Degrade More Under Combined Shift? (Open Question)
 
-LSTM's hidden state implicitly encodes dynamics through accumulated experience — and our latent probe analysis confirms it: LSTM's hidden state predicts ground-truth dynamics parameters better than DynaMITE's explicitly-trained latent (R² = 0.044 vs ≈ 0). Under combined perturbation, the hidden state receives conflicting evidence from multiple shifted parameters, and because it more tightly couples to dynamics estimation, perturbation disruption propagates more directly to the policy.
+We observe that LSTM's hidden state encodes dynamics parameters weakly but measurably better than DynaMITE's latent (probe R² = 0.044 vs ≈ 0), and that LSTM degrades more under combined perturbation. One **speculative** interpretation is that tighter implicit dynamics coupling makes LSTM more sensitive to simultaneous multi-axis shifts — the hidden state receives conflicting evidence from multiple shifted parameters, and perturbation disruption propagates more directly to the policy. However, this is post-hoc reasoning from correlational evidence: we have not established that the hidden state's dynamics encoding causally mediates OOD sensitivity. The absolute R² values are low for both models (LSTM: 0.044), and confounding explanations exist (e.g., architectural capacity differences, optimization landscape effects).
 
-DynaMITE's explicit factored latent, trained with per-factor auxiliary losses, paradoxically appears to *not* encode dynamics in a decodable way (R² ≈ 0). Instead, the auxiliary loss may act as a regularizer that distributes representations more broadly, making the policy less sensitive to any single perturbation axis. This explanation is speculative — the mechanism by which DynaMITE achieves lower OOD sensitivity despite weaker dynamics encoding is not fully understood.
+DynaMITE's latent, trained with per-factor auxiliary losses, does not encode dynamics in a decodable way (R² ≈ 0). We speculate that the auxiliary loss may act as a representation regularizer rather than a dynamics identifier, but the mechanism by which DynaMITE achieves lower OOD sensitivity despite weaker dynamics encoding is not understood. We flag this as an open question for future work.
 
 ---
 
@@ -584,8 +580,8 @@ bash scripts/reproduce_all.sh --dry-run
 
 ```bibtex
 @article{dynamite2026,
-  title   = {{DynaMITE}: Dynamic Mismatch Inference via Transformer Encoder
-             for Humanoid Locomotion},
+  title   = {{DynaMITE}: Per-Factor Auxiliary Dynamics Losses Regularize
+             but Do Not Identify Dynamics in Humanoid Locomotion},
   author  = {Chayanin Kraicharoen},
   year    = {2026},
   note    = {Preprint / under review}

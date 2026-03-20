@@ -416,6 +416,7 @@ bash scripts/reproduce_all.sh --dry-run
 
 ```bibtex
 @article{dynamite2026,
+
   title   = {{DynaMITE}: Dynamic Mismatch Inference via Transformer Encoder
              for Humanoid Locomotion},
   author  = {Chayanin Kraicharoen},

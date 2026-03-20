@@ -1,0 +1,133 @@
+nohup: ignoring input
+══════════════════════════════════════════════════════════════
+  FULL OOD COMPARISON
+  Matrix: 4 models × 5 seeds × 3 sweeps = 60 total
+  Already done: 18  |  New runs: 42
+  Episodes per level: 50
+  Start: 2026-03-20T09:58:18+07:00
+══════════════════════════════════════════════════════════════
+
+[1/60] RUN #1/42: mlp seed42 friction
+════════════════════════════════════════════════════════════════
+  EVAL
+  CMD: python3 scripts/eval.py --checkpoint outputs/randomized/mlp_full/seed_42/20260319_035950/checkpoints/best.pt --sweep configs/sweeps/friction.yaml --num_episodes 50 --seed 42 --output_dir results/sweeps_multiseed/friction/mlp_seed42
+  TIME: 2026-03-20T09:58:18+07:00
+════════════════════════════════════════════════════════════════
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[Model] Built mlp with 361,547 parameters
+[Eval] Robustness sweep: friction (5 levels)
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[WARNING] SimulationApp not initialised — using mock env.
+  task.domain_randomization.friction_range=[1.0, 1.0]: reward=0.0
+  task.domain_randomization.friction_range=[0.7, 0.7]: reward=0.0
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=0.0
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=0.0
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=0.0
+[Eval] Sweep results saved to: results/sweeps_multiseed/friction/mlp_seed42/sweep_friction.json
+════════════════════════════════════════════════════════════════
+  EVAL DONE — exit 0
+════════════════════════════════════════════════════════════════
+
+[2/60] RUN #2/42: mlp seed42 push_magnitude
+════════════════════════════════════════════════════════════════
+  EVAL
+  CMD: python3 scripts/eval.py --checkpoint outputs/randomized/mlp_full/seed_42/20260319_035950/checkpoints/best.pt --sweep configs/sweeps/push_magnitude.yaml --num_episodes 50 --seed 42 --output_dir results/sweeps_multiseed/push_magnitude/mlp_seed42
+  TIME: 2026-03-20T09:58:24+07:00
+════════════════════════════════════════════════════════════════
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[Model] Built mlp with 361,547 parameters
+[Eval] Robustness sweep: push_magnitude (6 levels)
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[WARNING] SimulationApp not initialised — using mock env.
+  task.domain_randomization.push_vel_range=[0.0, 0.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[0.5, 1.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[1.0, 2.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=0.0
+[Eval] Sweep results saved to: results/sweeps_multiseed/push_magnitude/mlp_seed42/sweep_push_magnitude.json
+════════════════════════════════════════════════════════════════
+  EVAL DONE — exit 0
+════════════════════════════════════════════════════════════════
+
+[3/60] RUN #3/42: mlp seed42 action_delay
+════════════════════════════════════════════════════════════════
+  EVAL
+  CMD: python3 scripts/eval.py --checkpoint outputs/randomized/mlp_full/seed_42/20260319_035950/checkpoints/best.pt --sweep configs/sweeps/action_delay.yaml --num_episodes 50 --seed 42 --output_dir results/sweeps_multiseed/action_delay/mlp_seed42
+  TIME: 2026-03-20T09:58:28+07:00
+════════════════════════════════════════════════════════════════
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[Model] Built mlp with 361,547 parameters
+[Eval] Robustness sweep: action_delay (5 levels)
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[WARNING] SimulationApp not initialised — using mock env.
+  task.domain_randomization.action_delay_range=[0, 0]: reward=0.0
+  task.domain_randomization.action_delay_range=[1, 1]: reward=0.0
+  task.domain_randomization.action_delay_range=[2, 2]: reward=0.0
+  task.domain_randomization.action_delay_range=[3, 3]: reward=0.0
+  task.domain_randomization.action_delay_range=[5, 5]: reward=0.0
+[Eval] Sweep results saved to: results/sweeps_multiseed/action_delay/mlp_seed42/sweep_action_delay.json
+════════════════════════════════════════════════════════════════
+  EVAL DONE — exit 0
+════════════════════════════════════════════════════════════════
+
+[4/60] RUN #4/42: mlp seed43 friction
+════════════════════════════════════════════════════════════════
+  EVAL
+  CMD: python3 scripts/eval.py --checkpoint outputs/randomized/mlp_full/seed_43/20260319_041436/checkpoints/best.pt --sweep configs/sweeps/friction.yaml --num_episodes 50 --seed 42 --output_dir results/sweeps_multiseed/friction/mlp_seed43
+  TIME: 2026-03-20T09:58:33+07:00
+════════════════════════════════════════════════════════════════
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[Model] Built mlp with 361,547 parameters
+[Eval] Robustness sweep: friction (5 levels)
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[WARNING] SimulationApp not initialised — using mock env.
+  task.domain_randomization.friction_range=[1.0, 1.0]: reward=0.0
+  task.domain_randomization.friction_range=[0.7, 0.7]: reward=0.0
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=0.0
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=0.0
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=0.0
+[Eval] Sweep results saved to: results/sweeps_multiseed/friction/mlp_seed43/sweep_friction.json
+════════════════════════════════════════════════════════════════
+  EVAL DONE — exit 0
+════════════════════════════════════════════════════════════════
+
+[5/60] RUN #5/42: mlp seed43 push_magnitude
+════════════════════════════════════════════════════════════════
+  EVAL
+  CMD: python3 scripts/eval.py --checkpoint outputs/randomized/mlp_full/seed_43/20260319_041436/checkpoints/best.pt --sweep configs/sweeps/push_magnitude.yaml --num_episodes 50 --seed 42 --output_dir results/sweeps_multiseed/push_magnitude/mlp_seed43
+  TIME: 2026-03-20T09:58:37+07:00
+════════════════════════════════════════════════════════════════
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[Model] Built mlp with 361,547 parameters
+[Eval] Robustness sweep: push_magnitude (6 levels)
+[WARNING] Could not create SimulationApp: No module named 'isaacsim'
+          Falling back to mock environment.
+[WARNING] SimulationApp not initialised — using mock env.
+  task.domain_randomization.push_vel_range=[0.0, 0.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[0.5, 1.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[1.0, 2.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=0.0
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=0.0
+[Eval] Sweep results saved to: results/sweeps_multiseed/push_magnitude/mlp_seed43/sweep_push_magnitude.json
+════════════════════════════════════════════════════════════════
+  EVAL DONE — exit 0
+════════════════════════════════════════════════════════════════
+
+[6/60] RUN #6/42: mlp seed43 action_delay
+════════════════════════════════════════════════════════════════
+  EVAL
+  CMD: python3 scripts/eval.py --checkpoint outputs/randomized/mlp_full/seed_43/20260319_041436/checkpoints/best.pt --sweep configs/sweeps/action_delay.yaml --num_episodes 50 --seed 42 --output_dir results/sweeps_multiseed/action_delay/mlp_seed43
+  TIME: 2026-03-20T09:58:42+07:00
+════════════════════════════════════════════════════════════════
+Terminated

@@ -49,7 +49,9 @@ while [[ $# -gt 0 ]]; do
 done
 
 # ── Build command ──
-CMD="python3 scripts/eval.py"
+# Use PYTHON_CMD if set (e.g., Isaac Lab Python), otherwise default to python3
+PYTHON="${PYTHON_CMD:-python3}"
+CMD="$PYTHON scripts/eval.py"
 
 if [[ -n "$CHECKPOINT" ]]; then
     CMD="$CMD --checkpoint $CHECKPOINT"

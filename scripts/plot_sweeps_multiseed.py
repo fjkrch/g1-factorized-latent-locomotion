@@ -2,8 +2,8 @@
 """
 Regenerate sweep_robustness_combined.png from multi-seed data.
 
-Uses results/sweeps_multiseed/ (3 seeds × 2 models × 3 sweep types)
-to match README's OOD sweep tables exactly.
+Uses results/sweeps_multiseed/ (5 seeds × 4 models × 3 sweep types).
+Plots mean ± std shaded bands for each model.
 """
 
 import json
@@ -22,9 +22,24 @@ except ImportError:
     sys.exit(1)
 
 
-MODEL_LABELS = {"dynamite": "DynaMITE (Ours)", "lstm": "LSTM"}
-MODEL_COLORS = {"dynamite": "#d62728", "lstm": "#ff7f0e"}
-MODEL_MARKERS = {"dynamite": "D", "lstm": "s"}
+MODEL_LABELS = {
+    "dynamite": "DynaMITE (Ours)",
+    "lstm": "LSTM",
+    "transformer": "Transformer",
+    "mlp": "MLP",
+}
+MODEL_COLORS = {
+    "dynamite": "#d62728",
+    "lstm": "#ff7f0e",
+    "transformer": "#2ca02c",
+    "mlp": "#1f77b4",
+}
+MODEL_MARKERS = {
+    "dynamite": "D",
+    "lstm": "s",
+    "transformer": "^",
+    "mlp": "o",
+}
 
 SWEEP_TITLES = {
     "friction": "Friction Coefficient",
@@ -50,8 +65,8 @@ def main():
     output_dir.mkdir(exist_ok=True)
 
     sweep_order = ["friction", "action_delay", "push_magnitude"]
-    models = ["dynamite", "lstm"]
-    seeds = [42, 43, 44]
+    models = ["dynamite", "lstm", "transformer", "mlp"]
+    seeds = [42, 43, 44, 45, 46]
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
@@ -77,17 +92,19 @@ def main():
                 continue
 
             arr = np.array(all_means)
+            n_seeds = arr.shape[0]
             avg = np.mean(arr, axis=0)
-            std = np.std(arr, axis=0, ddof=1)
+            std = np.std(arr, axis=0, ddof=1) if n_seeds > 1 else np.zeros_like(avg)
 
-            label = MODEL_LABELS[model]
+            label = f"{MODEL_LABELS[model]} (n={n_seeds})"
             color = MODEL_COLORS[model]
             marker = MODEL_MARKERS[model]
 
             ax.plot(x_vals, avg, marker=marker, label=label, color=color,
                     linewidth=2, markersize=7, markeredgecolor="white",
                     markeredgewidth=0.5)
-            ax.fill_between(x_vals, avg - std, avg + std, alpha=0.15, color=color)
+            if n_seeds > 1:
+                ax.fill_between(x_vals, avg - std, avg + std, alpha=0.15, color=color)
 
         ax.set_xlabel(SWEEP_TITLES[sweep_name], fontsize=12)
         ax.set_ylabel("Eval Reward" if idx == 0 else "", fontsize=12)

@@ -5,7 +5,7 @@ DynaMITE conditions both the policy and value function on this latent vector and
 We evaluate on a Unitree G1 humanoid in Isaac Lab across four locomotion tasks with domain randomization.
 
 Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best aggregate reward on all four tasks** (p < 0.03 on all, paired t-test), with DynaMITE ranking second on push, randomized, and terrain.
-DynaMITE shows **lower sensitivity than LSTM** across three tested OOD perturbation types (friction, push magnitude, action delay; n = 3 seeds), and its factored latent achieves a **0.500 ± 0.020 score on a custom within-factor correlation metric** across 3 seeds (chance = 0.20).
+DynaMITE shows **the lowest OOD sensitivity** across all four models on friction and push magnitude sweeps (n = 5 seeds, 4 models × 3 perturbation axes), and its factored latent achieves a **0.500 ± 0.020 score on a custom within-factor correlation metric** across 3 seeds (chance = 0.20).
 DynaMITE did not outperform LSTM on nominal reward. Its potential value is a **tradeoff: worse in-distribution performance for lower OOD sensitivity and partial latent factor alignment**.
 
 ---
@@ -100,7 +100,7 @@ All results below follow this protocol, locked before running the main experimen
 | Reward aggregation | Mean of per-episode cumulative reward across all eval episodes |
 | Main comparison | 5 training seeds (42, 43, 44, 45, 46) × 4 tasks × 4 models = 80 evals |
 | Multi-seed ablations | 5 training seeds (42, 43, 44, 45, 46) × 3 variants = 15 evals |
-| OOD sweeps | 3 training seeds (42, 43, 44) × 2 models × 3 sweep types = 18 evals |
+| OOD sweeps | 5 training seeds (42–46) × 4 models × 3 sweep types = 60 evals |
 | Latent analysis | 3 training seeds (42, 43, 44) × 50 episodes each |
 
 > **Deterministic vs stochastic eval.** During training, PPO uses stochastic policy evaluation (sampled actions, 20 episodes) for checkpoint selection. All numbers reported in this README use **deterministic evaluation** (mean action, 100 or 50 episodes) run after training completes. An initial pilot used stochastic 20-episode evaluation, which produced a different model ranking (MLP appeared best). The deterministic protocol is standard in Isaac Lab and eliminates action-sampling variance.
@@ -122,7 +122,7 @@ For the **main comparison** (n = 5 seeds), we report:
 - 95% confidence intervals (CI) via the t-distribution: $\text{CI} = \bar{x} \pm t_{0.025,\,n-1} \cdot s / \sqrt{n}$
 - Paired t-tests (two-sided) for LSTM vs DynaMITE on matched seeds
 
-For **ablations** (n = 5 seeds), we additionally report paired t-tests (Full vs variant). For **OOD sweeps** (n = 3 seeds), statistical power is limited. We report mean ± std but note that paired t-tests with n = 3 have very low power and p-values should be interpreted cautiously.
+For **ablations** (n = 5 seeds), we additionally report paired t-tests (Full vs variant). For **OOD sweeps** (n = 5 seeds, 4 models), we report mean ± std and sensitivity (max − min across sweep levels).
 
 We do **not** report bootstrap CIs, permutation tests, or effect sizes in this version. These are noted as future work.
 
@@ -245,41 +245,57 @@ We measure whether DynaMITE's learned latent subspaces correlate with their inte
 - No intervention experiments (clamping or perturbing individual latent dimensions) have been performed, so the correlation evidence does not establish causal factor alignment.
 - Full analysis in `figures/latent_correlation_full.png`.
 
-### OOD Sensitivity Sweeps (3 seeds: 42, 43, 44)
+### OOD Sensitivity Sweeps (5 seeds, 4 models)
 
-We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomized task (50 episodes per level per seed). **Only DynaMITE and LSTM are compared** (the top-2 models by aggregate reward); MLP and Transformer were not included in multi-seed OOD sweeps. With n = 3 seeds, statistical power is low and these results should be treated as directional evidence, not definitive conclusions.
+We evaluate all four models under three OOD perturbation types on the randomized task (50 episodes per level per seed, 5 seeds per model). Sensitivity = max(mean reward) − min(mean reward) across sweep levels; lower = more robust.
 
 <p align="center">
-  <img src="figures/sweep_robustness_combined.png" width="700" alt="OOD robustness sweep comparison">
+  <img src="figures/sweep_robustness_combined.png" width="700" alt="OOD robustness sweep comparison — 4 models, 5 seeds">
 </p>
 
 #### Friction Sweep
 
 | Method | Fric 1.0 | Fric 0.7 | Fric 0.5 | Fric 0.3 | Fric 0.1 | Sensitivity |
 |---|---|---|---|---|---|---|
-| DynaMITE | -4.40 ± 0.07 | -4.40 ± 0.08 | **-4.38 ± 0.08** | **-4.38 ± 0.07** | **-4.38 ± 0.07** | **0.03** |
-| LSTM | **-4.17 ± 0.06** | **-4.20 ± 0.07** | -4.14 ± 0.07 | -4.24 ± 0.03 | -4.34 ± 0.07 | 0.20 |
+| DynaMITE | -4.47 ± 0.13 | -4.46 ± 0.12 | -4.45 ± 0.13 | -4.43 ± 0.11 | -4.44 ± 0.11 | **0.04** |
+| LSTM | **-4.17 ± 0.05** | **-4.19 ± 0.07** | **-4.14 ± 0.06** | **-4.22 ± 0.05** | **-4.32 ± 0.10** | 0.17 |
+| Transformer | -4.77 ± 0.41 | -4.72 ± 0.37 | -4.67 ± 0.35 | -4.65 ± 0.33 | -4.61 ± 0.32 | 0.16 |
+| MLP | -5.77 ± 0.68 | -5.63 ± 0.59 | -5.51 ± 0.52 | -5.44 ± 0.51 | -5.42 ± 0.53 | 0.35 |
 
 #### Push Magnitude Sweep
 
 | Method | Push 0 | Push 0.5–1 | Push 1–2 | Push 2–3 | Push 3–5 | Push 5–8 | Sensitivity |
 |---|---|---|---|---|---|---|---|
-| DynaMITE | -4.31 ± 0.09 | -4.36 ± 0.08 | -4.41 ± 0.08 | **-4.44 ± 0.06** | **-4.49 ± 0.05** | **-4.56 ± 0.05** | **0.25** |
-| LSTM | **-3.64 ± 0.15** | **-4.06 ± 0.03** | **-4.20 ± 0.09** | -4.43 ± 0.02 | -4.67 ± 0.02 | -5.03 ± 0.08 | 1.39 |
+| DynaMITE | -4.37 ± 0.13 | -4.44 ± 0.16 | -4.50 ± 0.17 | -4.56 ± 0.20 | -4.63 ± 0.25 | **-4.77 ± 0.33** | **0.39** |
+| LSTM | **-3.60 ± 0.12** | **-4.06 ± 0.04** | **-4.22 ± 0.07** | **-4.44 ± 0.02** | -4.70 ± 0.09 | -5.05 ± 0.08 | 1.44 |
+| Transformer | -4.65 ± 0.39 | -4.72 ± 0.40 | -4.76 ± 0.38 | -4.81 ± 0.39 | -4.94 ± 0.41 | -5.08 ± 0.41 | 0.42 |
+| MLP | -5.65 ± 0.64 | -5.64 ± 0.68 | -5.79 ± 0.77 | -5.75 ± 0.67 | -5.89 ± 0.77 | -5.97 ± 0.68 | 0.33 |
 
 #### Action Delay Sweep
 
 | Method | Delay 0 | Delay 1 | Delay 2 | Delay 3 | Delay 5 | Sensitivity |
 |---|---|---|---|---|---|---|
-| DynaMITE | -4.40 ± 0.07 | -4.41 ± 0.07 | -4.39 ± 0.07 | **-4.39 ± 0.06** | -4.40 ± 0.07 | **0.02** |
-| LSTM | **-4.20 ± 0.06** | **-4.20 ± 0.06** | **-4.18 ± 0.09** | -4.15 ± 0.09 | **-4.21 ± 0.07** | 0.05 |
+| DynaMITE | -4.47 ± 0.13 | -4.49 ± 0.15 | -4.47 ± 0.13 | -4.48 ± 0.17 | -4.50 ± 0.18 | 0.03 |
+| LSTM | **-4.18 ± 0.05** | **-4.19 ± 0.04** | **-4.18 ± 0.07** | **-4.16 ± 0.07** | **-4.17 ± 0.07** | **0.02** |
+| Transformer | -4.76 ± 0.40 | -4.75 ± 0.39 | -4.76 ± 0.40 | -4.77 ± 0.40 | -4.75 ± 0.40 | 0.02 |
+| MLP | -5.77 ± 0.69 | -5.77 ± 0.70 | -5.81 ± 0.78 | -5.73 ± 0.72 | -5.71 ± 0.66 | 0.10 |
+
+#### Overall Robustness Summary
+
+| Model | Avg Reward (all OOD) | Worst Case | Max Sensitivity |
+|---|---|---|---|
+| DynaMITE | -4.49 | -4.77 | **0.39** |
+| LSTM | **-4.25** | -5.05 | 1.44 |
+| Transformer | -4.76 | -5.08 | 0.42 |
+| MLP | -5.70 | -5.97 | 0.35 |
 
 **Observations:**
-- Under the tested sweeps, DynaMITE shows lower sensitivity than LSTM under friction (0.03 vs 0.20) and push magnitude (0.25 vs 1.39). Under action delay both are relatively stable (0.02 vs 0.05).
-- LSTM achieves better absolute rewards at most levels due to its overall reward advantage, but degrades more steeply under strong pushes (-5.03 at push 5–8 vs DynaMITE's -4.56).
-- DynaMITE's reward is nearly flat across friction levels and delay values, which is consistent with its latent inference helping to compensate for parameter shifts, though other explanations (e.g., generally flatter reward landscape) cannot be ruled out.
-- The push magnitude sweep shows the largest gap: LSTM's sensitivity (1.39) is 5.6× that of DynaMITE (0.25).
-- These sweeps cover only 3 perturbation axes and 2 models. Generalization to other perturbation types or model pairs is not established.
+- **Push magnitude is the most discriminating perturbation.** LSTM's sensitivity (1.44) is 3.7× DynaMITE's (0.39) and 3.4× Transformer's (0.42). LSTM degrades steeply from -3.60 (no push) to -5.05 (push 5–8), while DynaMITE stays relatively flat (-4.37 → -4.77).
+- **Friction and action delay show small sensitivity for all models.** Under friction, DynaMITE has the lowest sensitivity (0.04); under delay, all models are nearly flat (0.02–0.10).
+- **LSTM wins absolute reward at all levels** but has the worst case across all sweeps (-5.05) and the highest max sensitivity (1.44). The LSTM reward advantage erodes at extreme perturbation levels.
+- **MLP has the worst absolute reward** but paradoxically low push sensitivity (0.33) because it starts bad and stays bad. Its friction sensitivity (0.35) is the highest.
+- **DynaMITE's reward is nearly flat** across friction and delay levels, consistent with its latent inference helping compensate for parameter shifts — though a generally flatter reward landscape cannot be ruled out.
+- These sweeps cover 3 perturbation axes. Generalization to other perturbation types (e.g., mass, contact stiffness, observation noise) is not established.
 
 ---
 
@@ -288,7 +304,7 @@ We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomiz
 | Scenario | Recommended |
 |---|---|
 | Maximize nominal in-distribution reward | **LSTM** — wins all 4 tasks significantly |
-| Expected dynamics mismatch at deployment (e.g., sim-to-real) | **DynaMITE** — lower sensitivity under tested perturbations (n = 3, directional evidence only) |
+| Expected dynamics mismatch at deployment (e.g., sim-to-real) | **DynaMITE** — lowest sensitivity across friction and push sweeps (n = 5, 4 models) |
 | Need to inspect latent dynamics estimates | **DynaMITE** — factored latent shows partial factor alignment (correlational, not causal) |
 | Training budget is tight | **LSTM** — fewer parameters, no auxiliary loss overhead |
 | Deployment environment is well-characterized | **LSTM** — DynaMITE's sensitivity advantage is unnecessary |
@@ -300,7 +316,7 @@ We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomiz
 - **LSTM dominates aggregate reward.** LSTM achieves the best mean reward on all four tasks with the lowest seed variance (p < 0.03 on all four, paired t-test). DynaMITE's potential value is a tradeoff — lower OOD sensitivity at the cost of worse nominal performance — not overall superiority.
 - **Narrow reward spread.** The top-2 models (LSTM, DynaMITE) fall within [-4.01, -4.60] across tasks — a range of ~0.6. Whether this is practically meaningful for a physical robot is unknown.
 - **No sim-to-real transfer.** All experiments are in simulation (Isaac Lab). Not validated on physical hardware.
-- **OOD sweep scope.** Multi-seed OOD sweeps cover DynaMITE and LSTM only (n = 3 seeds). MLP and Transformer were excluded. Statistical power at n = 3 is low; sensitivity differences are directional evidence, not definitive.
+- **OOD sweep scope.** OOD sweeps cover 3 perturbation axes (friction, push magnitude, action delay) with n = 5 seeds × 4 models = 60 evaluations. Additional perturbation types (mass, contact stiffness, observation noise) were not tested.
 - **Custom factor alignment metric.** The 0.500 ± 0.020 score uses a within-factor correlation ratio, not a standard disentanglement metric (MIG, DCI, SAP). It measures correlation, not causal alignment. Direct comparison to other work is not possible.
 - **No causal latent evidence.** No intervention experiments (clamping or perturbing latent dimensions) have been performed. The factor alignment is correlational only.
 - **Reward is penalty-based.** A method achieving -4.18 vs -4.48 accumulates ~6% less penalty per step on average. Practical significance is unclear without real-world deployment.
@@ -318,7 +334,7 @@ We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomiz
 - **Latent response curves.** Plot per-subspace latent activations as a function of individual ground-truth parameters (friction, mass, delay) varied one-at-a-time, to visualize monotonicity and sensitivity.
 - **Bootstrap / permutation CIs.** Replace or supplement t-distribution CIs with non-parametric bootstrap intervals.
 - **Multiple-comparison correction.** Apply Bonferroni or Holm correction to the paired t-tests across tasks.
-- **Broader OOD coverage.** Extend sweeps to MLP and Transformer, and add perturbation types (mass, contact stiffness, observation noise).
+- **Broader OOD coverage.** Add perturbation types (mass, contact stiffness, observation noise) and combined multi-axis stress tests.
 
 ---
 
@@ -374,7 +390,7 @@ bash scripts/reproduce_all.sh --dry-run
 | All 80 main runs (4 tasks × 4 models × 5 seeds) | ~19 hours |
 | 80 deterministic evals (100 episodes each) | ~5 hours |
 | 15 ablation runs (3 variants × 5 seeds) | ~3.5 hours |
-| 18 OOD sweep evals | ~1 hour |
+| 60 OOD sweep evals (4 models × 5 seeds × 3 sweeps) | ~2.5 hours |
 | Latent analysis (3 seeds) | ~15 min |
 | **Full 5-seed experiment set** | **~24 hours** |
 

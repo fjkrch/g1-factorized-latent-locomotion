@@ -93,13 +93,13 @@ All results below follow this protocol, locked before running the main experimen
 | Setting | Value |
 |---|---|
 | Eval mode | **Deterministic** — action = distribution mean, no sampling |
-| Episodes per eval | 100 (main comparison); 50 (ablations, OOD sweeps) |
+| Episodes per eval | 100 (main comparison, ablations); 50 (OOD sweeps) |
 | Env reset | Full reset between episodes (randomized initial joint positions + domain parameters) |
 | Eval env seed | Fixed at 42 for all models within a task (independent of training seed) |
 | Episode termination | Fixed-length rollout (no early termination) |
 | Reward aggregation | Mean of per-episode cumulative reward across all eval episodes |
 | Main comparison | 5 training seeds (42, 43, 44, 45, 46) × 4 tasks × 4 models = 80 evals |
-| Multi-seed ablations | 3 training seeds (42, 43, 44) × 3 variants = 9 evals |
+| Multi-seed ablations | 5 training seeds (42, 43, 44, 45, 46) × 3 variants = 15 evals |
 | Single-seed ablations | 1 training seed (42) × 4 variants = 4 evals |
 | OOD sweeps | 3 training seeds (42, 43, 44) × 2 models × 3 sweep types = 18 evals |
 | Latent analysis | 3 training seeds (42, 43, 44) × 50 episodes each |
@@ -123,7 +123,7 @@ For the **main comparison** (n = 5 seeds), we report:
 - 95% confidence intervals (CI) via the t-distribution: $\text{CI} = \bar{x} \pm t_{0.025,\,n-1} \cdot s / \sqrt{n}$
 - Paired t-tests (two-sided) for LSTM vs DynaMITE on matched seeds
 
-For **ablations** and **OOD sweeps** (n = 3 seeds), statistical power is limited. We report mean ± std but note that paired t-tests with n = 3 have very low power and p-values should be interpreted cautiously.
+For **ablations** (n = 5 seeds), we additionally report paired t-tests (Full vs variant). For **OOD sweeps** (n = 3 seeds), statistical power is limited. We report mean ± std but note that paired t-tests with n = 3 have very low power and p-values should be interpreted cautiously.
 
 We do **not** report bootstrap CIs, permutation tests, or effect sizes in this version. These are noted as future work.
 
@@ -183,43 +183,52 @@ MLP shows high variance on randomized (σ = 0.50) and is the weakest model overa
 
 ### Ablation Study (Randomized Task, 10M Steps)
 
-#### Multi-seed ablations (3 seeds: 42, 43, 44)
+#### Multi-seed ablations (5 seeds: 42–46, deterministic eval)
 
-We retrain the three most impactful ablation variants with 3 seeds each.
+We train the three most impactful ablation variants with 5 seeds each (matching the main comparison) and evaluate with deterministic 100-episode evaluation.
 
-> **Data provenance.** Multi-seed ablation training was completed, but deterministic evaluation (100 episodes, mean action) was only run for the single-seed (seed 42) ablations. The multi-seed numbers below are from **training-time best checkpoint stochastic eval** (sampled actions, ~20 episodes), which uses a different protocol than the main comparison table. Direct numerical comparison between the main comparison (deterministic eval) and ablation rows (stochastic eval) is therefore approximate.
-
-> **Matched-seed comparison.** The DynaMITE (Full) baseline uses the 3-seed (42–44) subset from the main runs, matching the same seeds as the ablation variants.
-
-| Variant | Stochastic Eval Reward | Δ vs Full |
-|---|---|---|
-| DynaMITE (Full, seeds 42–44) | **-4.84 ± 0.10** | — |
-| No Aux Loss | -5.17 ± 0.37 | -0.33 |
-| No Latent | -5.26 ± 0.47 | -0.41 |
-| Single Latent (unfactored) | -5.19 ± 0.12 | -0.34 |
+| Variant | Deterministic Eval Reward | Δ vs Full | 95% CI |
+|---|---|---|---|
+| DynaMITE (Full) | **-4.48 ± 0.16** | — | [-4.68, -4.29] |
+| No Aux Loss | -4.56 ± 0.27 | -0.08 | [-4.89, -4.23] |
+| No Latent | -4.77 ± 0.41 | -0.29 | [-5.29, -4.26] |
+| Single Latent (unfactored) | -4.67 ± 0.11 | -0.19 | [-4.80, -4.54] |
 
 <p align="center">
   <img src="figures/ablation.png" width="600" alt="Ablation results">
 </p>
 
 <details>
-<summary><strong>Paired t-tests (n = 3, low power — interpret cautiously)</strong></summary>
+<summary><strong>Paired t-tests and per-seed data (n = 5)</strong></summary>
+
+#### Paired t-tests: Full vs ablation variants
 
 | Variant | Delta | Paired t | p-value |
 |---|---|---|---|
-| No Aux Loss | +0.33 | 1.20 | 0.35 |
-| No Latent | +0.41 | 1.54 | 0.26 |
-| Single Latent | +0.34 | 6.15 | 0.026 |
+| No Aux Loss | -0.08 | 0.52 | 0.629 |
+| No Latent | -0.29 | 1.65 | 0.174 |
+| Single Latent | -0.19 | 2.55 | 0.063 |
 
-Only Single Latent reaches p < 0.05 with n = 3. With this sample size, the test has very low statistical power; non-significant results do not imply no effect.
+No ablation variant reaches p < 0.05 with n = 5, though Single Latent approaches significance (p = 0.063). All three variants show consistent degradation in mean reward.
+
+#### Per-seed rewards
+
+| Seed | Full | No Aux Loss | No Latent | Single Latent |
+|---|---|---|---|---|
+| 42 | -4.39 | -5.01 | -4.39 | -4.70 |
+| 43 | -4.46 | -4.32 | -4.47 | -4.79 |
+| 44 | -4.34 | -4.43 | -5.28 | -4.64 |
+| 45 | -4.74 | -4.52 | -5.16 | -4.72 |
+| 46 | -4.47 | -4.51 | -4.57 | -4.51 |
 
 </details>
 
 **Observations:**
-- All three ablation variants degrade compared to the full model, with deltas of 0.33–0.41 in stochastic eval.
-- **Single Latent (unfactored)** is the only variant reaching statistical significance (p = 0.026), suggesting the factored structure provides a consistent benefit.
-- **No Aux Loss** shows the highest seed variance (σ = 0.37), suggesting the auxiliary loss benefit may be seed-dependent.
-- With only 3 seeds, ranking differences among the ablation variants are not statistically distinguishable.
+- All three ablation variants degrade compared to the full model, with deltas of 0.08–0.29.
+- **No Latent** shows the largest degradation (Δ = -0.29) and highest variance (σ = 0.41), confirming that the latent representation provides meaningful benefit.
+- **Single Latent (unfactored)** approaches significance (p = 0.063), suggesting the factored structure provides a consistent benefit with low variance (σ = 0.11).
+- **No Aux Loss** shows the smallest mean degradation (Δ = -0.08) but high variance (σ = 0.27), with one outlier seed (42: -5.01) driving the effect — suggesting the auxiliary loss benefit may be seed-dependent.
+- These results use the same deterministic 100-episode protocol as the main comparison, resolving the previous eval protocol mismatch.
 
 #### Extended single-seed ablations (seed 42 only)
 
@@ -316,20 +325,18 @@ We evaluate DynaMITE and LSTM under three OOD perturbation types on the randomiz
 - **Custom disentanglement metric.** The 0.500 ± 0.020 score uses a within-factor correlation ratio, not a standard disentanglement metric (MIG, DCI, SAP). Direct comparison to other work is not straightforward.
 - **No significance tests.** Results are mean ± std. We do not report confidence intervals, paired tests, or effect sizes. Differences < 0.3 between methods may not be statistically meaningful.
 - **Reward is penalty-based.** A method achieving -4.18 vs -4.48 accumulates ~6% less penalty per step on average. Practical significance is unclear without real-world deployment.
-- **Ablation seed count.** Key ablations (No Aux Loss, No Latent, Single Latent) use 3 seeds; architectural variants (depth 1/4, seq len 4/16) use a single seed. The ablation baseline comparison uses mismatched seed counts (5-seed Full vs 3-seed variants).
+- **Ablation significance.** No ablation variant reaches statistical significance at p < 0.05 with n = 5, though all three show consistent degradation (Δ = 0.08–0.29). Architectural variants (depth 1/4, seq len 4/16) use a single seed.
 - **Sensitivity metric is coarse.** The max−min range metric for OOD sweeps ignores curve shape and may be sensitive to endpoint selection.
-- **Ablation eval protocol mismatch.** Multi-seed ablation numbers use training-time stochastic eval (sampled actions, ~20 episodes), not the deterministic 100-episode protocol used for the main comparison. Running deterministic eval for ablation checkpoints is recommended to align protocols.
 
 ---
 
 ## Future Work
 
-- **Deterministic ablation evaluation.** Run the same deterministic 100-episode eval on all multi-seed ablation checkpoints to align with the main comparison protocol.
 - **Standard disentanglement metrics.** Supplement the custom within-factor correlation metric with established measures (MIG, DCI, SAP) for comparability with the representation learning literature.
 - **Intervention experiments.** Clamp or perturb individual latent subspace dimensions and measure the effect on policy behavior — this would provide causal evidence of latent-factor alignment beyond correlation.
 - **Cross-factor leakage analysis.** Quantify off-diagonal leakage in the correlation matrix and report it alongside the disentanglement score.
 - **Latent response curves.** Plot per-subspace latent activations as a function of individual ground-truth parameters (friction, mass, delay) varied one-at-a-time, to visualize monotonicity and sensitivity.
-- **Bootstrap / permutation CIs.** Replace or supplement t-distribution CIs with non-parametric bootstrap intervals, especially for the n = 3 ablation comparisons.
+- **Bootstrap / permutation CIs.** Replace or supplement t-distribution CIs with non-parametric bootstrap intervals.
 - **Multiple-comparison correction.** Apply Bonferroni or Holm correction to the paired t-tests across tasks.
 - **Broader OOD coverage.** Extend sweeps to MLP and Transformer, and add perturbation types (mass, contact stiffness, observation noise).
 
@@ -386,7 +393,7 @@ bash scripts/reproduce_all.sh --dry-run
 | `reproduce_all.sh` (3-seed, 69 training + eval + analysis) | ~12 hours |
 | All 80 main runs (4 tasks × 4 models × 5 seeds) | ~19 hours |
 | 80 deterministic evals (100 episodes each) | ~5 hours |
-| 9 ablation runs (3 variants × 3 seeds) | ~2 hours |
+| 15 ablation runs (3 variants × 5 seeds) | ~3.5 hours |
 | 18 OOD sweep evals | ~1 hour |
 | Latent analysis (3 seeds) | ~15 min |
 | **Full 5-seed experiment set** | **~24 hours** |

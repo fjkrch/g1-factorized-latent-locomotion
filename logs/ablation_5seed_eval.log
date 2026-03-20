@@ -1,0 +1,107 @@
+nohup: ignoring input
+[1/15] EVAL no_aux_loss seed 42 → results/ablation_5seed/no_aux_loss/seed_42
+  checkpoint: outputs/randomized/dynamite_no_aux_no_aux_loss/seed_42/20260319_151806/checkpoints/best.pt
+
+[Eval] Wall time: 20.2s
+[Eval] Saved to: results/ablation_5seed/no_aux_loss/seed_42/eval_metrics.json
+[1/15] DONE no_aux_loss seed 42
+
+[2/15] EVAL no_aux_loss seed 43 → results/ablation_5seed/no_aux_loss/seed_43
+  checkpoint: outputs/randomized/dynamite_no_aux_no_aux_loss/seed_43/20260319_162240/checkpoints/best.pt
+
+[Eval] Wall time: 14.0s
+[Eval] Saved to: results/ablation_5seed/no_aux_loss/seed_43/eval_metrics.json
+[2/15] DONE no_aux_loss seed 43
+
+[3/15] EVAL no_aux_loss seed 44 → results/ablation_5seed/no_aux_loss/seed_44
+  checkpoint: outputs/randomized/dynamite_no_aux_no_aux_loss/seed_44/20260319_164049/checkpoints/best.pt
+
+[Eval] Wall time: 12.2s
+[Eval] Saved to: results/ablation_5seed/no_aux_loss/seed_44/eval_metrics.json
+[3/15] DONE no_aux_loss seed 44
+
+[4/15] EVAL no_aux_loss seed 45 → results/ablation_5seed/no_aux_loss/seed_45
+  checkpoint: outputs/randomized/dynamite_no_aux_no_aux_loss/seed_45/20260320_000843/checkpoints/best.pt
+
+[Eval] Wall time: 12.5s
+[Eval] Saved to: results/ablation_5seed/no_aux_loss/seed_45/eval_metrics.json
+[4/15] DONE no_aux_loss seed 45
+
+[5/15] EVAL no_aux_loss seed 46 → results/ablation_5seed/no_aux_loss/seed_46
+  checkpoint: outputs/randomized/dynamite_no_aux_no_aux_loss/seed_46/20260320_002755/checkpoints/best.pt
+
+[Eval] Wall time: 12.9s
+[Eval] Saved to: results/ablation_5seed/no_aux_loss/seed_46/eval_metrics.json
+[5/15] DONE no_aux_loss seed 46
+
+[6/15] EVAL no_latent seed 42 → results/ablation_5seed/no_latent/seed_42
+  checkpoint: outputs/randomized/dynamite_no_latent_no_latent/seed_42/20260319_165908/checkpoints/best.pt
+
+[Eval] Wall time: 11.7s
+[Eval] Saved to: results/ablation_5seed/no_latent/seed_42/eval_metrics.json
+[6/15] DONE no_latent seed 42
+
+[7/15] EVAL no_latent seed 43 → results/ablation_5seed/no_latent/seed_43
+  checkpoint: outputs/randomized/dynamite_no_latent_no_latent/seed_43/20260319_171710/checkpoints/best.pt
+
+[Eval] Wall time: 11.7s
+[Eval] Saved to: results/ablation_5seed/no_latent/seed_43/eval_metrics.json
+[7/15] DONE no_latent seed 43
+
+[8/15] EVAL no_latent seed 44 → results/ablation_5seed/no_latent/seed_44
+  checkpoint: outputs/randomized/dynamite_no_latent_no_latent/seed_44/20260319_173530/checkpoints/best.pt
+
+[Eval] Wall time: 12.8s
+[Eval] Saved to: results/ablation_5seed/no_latent/seed_44/eval_metrics.json
+[8/15] DONE no_latent seed 44
+
+[9/15] EVAL no_latent seed 45 → results/ablation_5seed/no_latent/seed_45
+  checkpoint: outputs/randomized/dynamite_no_latent_no_latent/seed_45/20260320_004709/checkpoints/best.pt
+
+[Eval] Wall time: 12.7s
+[Eval] Saved to: results/ablation_5seed/no_latent/seed_45/eval_metrics.json
+[9/15] DONE no_latent seed 45
+
+[10/15] EVAL no_latent seed 46 → results/ablation_5seed/no_latent/seed_46
+  checkpoint: outputs/randomized/dynamite_no_latent_no_latent/seed_46/20260320_010608/checkpoints/best.pt
+
+[Eval] Wall time: 13.4s
+[Eval] Saved to: results/ablation_5seed/no_latent/seed_46/eval_metrics.json
+[10/15] DONE no_latent seed 46
+
+[11/15] EVAL single_latent seed 42 → results/ablation_5seed/single_latent/seed_42
+  checkpoint: outputs/randomized/dynamite_single_latent_single_latent/seed_42/20260319_175416/checkpoints/best.pt
+
+[Eval] Wall time: 12.1s
+[Eval] Saved to: results/ablation_5seed/single_latent/seed_42/eval_metrics.json
+[11/15] DONE single_latent seed 42
+
+[12/15] EVAL single_latent seed 43 → results/ablation_5seed/single_latent/seed_43
+  checkpoint: outputs/randomized/dynamite_single_latent_single_latent/seed_43/20260319_181329/checkpoints/best.pt
+
+[Eval] Wall time: 14.5s
+[Eval] Saved to: results/ablation_5seed/single_latent/seed_43/eval_metrics.json
+[12/15] DONE single_latent seed 43
+
+[13/15] EVAL single_latent seed 44 → results/ablation_5seed/single_latent/seed_44
+  checkpoint: outputs/randomized/dynamite_single_latent_single_latent/seed_44/20260319_183138/checkpoints/best.pt
+
+[Eval] Wall time: 11.3s
+[Eval] Saved to: results/ablation_5seed/single_latent/seed_44/eval_metrics.json
+[13/15] DONE single_latent seed 44
+
+[14/15] EVAL single_latent seed 45 → results/ablation_5seed/single_latent/seed_45
+  checkpoint: outputs/randomized/dynamite_single_latent_single_latent/seed_45/20260320_012521/checkpoints/best.pt
+
+[Eval] Wall time: 12.5s
+[Eval] Saved to: results/ablation_5seed/single_latent/seed_45/eval_metrics.json
+[14/15] DONE single_latent seed 45
+
+[15/15] EVAL single_latent seed 46 → results/ablation_5seed/single_latent/seed_46
+  checkpoint: outputs/randomized/dynamite_single_latent_single_latent/seed_46/20260320_014425/checkpoints/best.pt
+
+[Eval] Wall time: 11.6s
+[Eval] Saved to: results/ablation_5seed/single_latent/seed_46/eval_metrics.json
+[15/15] DONE single_latent seed 46
+
+=== ALL 15 EVALS COMPLETE ===

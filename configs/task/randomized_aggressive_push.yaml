@@ -1,0 +1,20 @@
+# Batch 2 V3: Aggressive push (maximum push coverage)
+# Covers the full evaluation push range during training with more frequent pushes.
+# Risk: May degrade nominal performance from training under extreme perturbations.
+task:
+  name: randomized
+  domain_randomization:
+    enabled: true
+    friction_range: [0.3, 2.0]       # unchanged
+    restitution_range: [0.0, 0.8]    # unchanged
+    added_mass_range: [-2.0, 5.0]    # unchanged
+    com_displacement_range: [-0.08, 0.08]  # unchanged
+    motor_strength_range: [0.7, 1.3] # unchanged
+    kp_range: [0.8, 1.2]             # unchanged
+    kd_range: [0.8, 1.2]             # unchanged
+    action_delay_range: [0, 3]        # unchanged
+    push_vel_range: [0.5, 8.0]       # WIDENED: was [0.5, 2.0] — covers full eval range!
+    push_steps: [3, 5, 8, 10, 15]   # MORE FREQUENT: 5 pushes/episode vs 3
+  terrain:
+    type: flat
+    curriculum: false

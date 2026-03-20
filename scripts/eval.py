@@ -79,6 +79,13 @@ def evaluate_checkpoint(
 ) -> dict:
     """Run evaluation and return metrics.
 
+    Collects:
+      - episode_reward      : cumulative reward (penalty-based, higher = better)
+      - episode_length      : steps per episode
+      - tracking_error      : mean per-step velocity tracking error (||v_actual - v_cmd||)
+      - failure             : 1 if episode terminated early (fall/out-of-bounds), 0 otherwise
+      - survival_steps      : steps survived before termination (= episode_length if completed)
+
     Args:
         cfg: Config dict.
         model: Model to evaluate.
@@ -107,9 +114,14 @@ def evaluate_checkpoint(
             device=device,
         )
 
+    # Determine max episode length from config for completion detection
+    max_ep_len = cfg["task"].get("episode_length", 1000)
+
     tracker = MetricsTracker()
     episode_rewards = torch.zeros(env.num_envs, device=device)
     episode_lengths = torch.zeros(env.num_envs, device=device)
+    # Per-env accumulators for tracking error
+    episode_tracking_error_sum = torch.zeros(env.num_envs, device=device)
     completed = 0
 
     reset_data = env.reset()
@@ -139,6 +151,16 @@ def evaluate_checkpoint(
             episode_rewards += step_data["reward"]
             episode_lengths += 1
 
+            # ── Compute per-step tracking error ──
+            # Isaac Lab obs bundles [base_lin_vel(3), base_ang_vel(3),
+            # projected_gravity(3), velocity_commands(3), joint_pos, ...]
+            # velocity_commands are at indices 9:12, base_lin_vel at 0:3
+            if obs.shape[-1] >= 12:
+                base_vel = obs[:, 0:3]       # actual base linear velocity
+                cmd_vel = obs[:, 9:12]       # commanded velocity
+                step_track_err = torch.norm(base_vel - cmd_vel, dim=-1)
+                episode_tracking_error_sum += step_track_err
+
             if uses_history and history_buf is not None:
                 history_buf.insert(obs, action)
                 reset_ids = step_data.get("reset_ids", torch.tensor([], device=device))
@@ -148,20 +170,52 @@ def evaluate_checkpoint(
                     history_buf.obs_buf[reset_ids, -1] = obs[reset_ids]
                     history_buf.lengths[reset_ids] = 1
 
+            # ── Detect termination vs truncation ──
+            # Isaac Lab: terminated=True means early termination (fall),
+            # truncated=True means time limit reached (success/completion).
+            # The wrapper now provides these directly in step_data.
+            _terminated = step_data.get("terminated", None)
+            _truncated = step_data.get("truncated", None)
+
             done_ids = done.nonzero(as_tuple=False).squeeze(-1)
             for idx in done_ids:
+                ep_len = episode_lengths[idx].item()
+                ep_reward = episode_rewards[idx].item()
+                mean_track_err = (episode_tracking_error_sum[idx].item() / max(ep_len, 1))
+
+                # Determine if this was a failure (early termination)
+                if _terminated is not None and isinstance(_terminated, torch.Tensor):
+                    is_failure = bool(_terminated[idx].item())
+                elif ep_len < max_ep_len - 1:
+                    # Heuristic: episode ended before time limit → likely a fall
+                    is_failure = True
+                else:
+                    is_failure = False
+
                 tracker.update({
-                    "episode_reward": episode_rewards[idx].item(),
-                    "episode_length": episode_lengths[idx].item(),
+                    "episode_reward": ep_reward,
+                    "episode_length": ep_len,
+                    "tracking_error": mean_track_err,
+                    "failure": 1.0 if is_failure else 0.0,
+                    "survival_steps": ep_len,
                 })
                 episode_rewards[idx] = 0
                 episode_lengths[idx] = 0
+                episode_tracking_error_sum[idx] = 0
                 completed += 1
 
             prev_action = action
 
     # Collect results BEFORE closing (SimulationApp.close() may terminate the process)
     results = tracker.summarize()
+
+    # ── Add derived behavioral metrics ──
+    # failure_rate = mean of per-episode failure indicator
+    # completion_rate = 1 - failure_rate
+    failure_rate = results.get("failure/mean", 0.0)
+    results["failure_rate"] = failure_rate
+    results["completion_rate"] = 1.0 - failure_rate
+
     # Don't close env here — caller saves results first, then closes
     return results, env
 
@@ -219,6 +273,8 @@ def main():
         sweep_name = sweep_cfg["sweep"]["name"]
         variable = sweep_cfg["sweep"]["variable"]
         values = sweep_cfg["sweep"]["values"]
+        # Combined shift: multiple params change per level
+        combined_params = sweep_cfg["sweep"].get("combined_params", None)
 
         print(f"[Eval] Robustness sweep: {sweep_name} ({len(values)} levels)")
         sweep_results = {
@@ -237,20 +293,34 @@ def main():
         # Create env ONCE and reuse for all sweep values
         # (Isaac Lab can only have one env per SimulationApp session)
         sweep_env = None
-        for val in values:
-            # Apply sweep variable to config
-            keys = variable.split(".")
-            d = cfg
-            for k in keys[:-1]:
-                d = d[k]
-            d[keys[-1]] = val
+        for i, val in enumerate(values):
+            if combined_params is not None:
+                # Combined shift: apply multiple DR params for this level
+                params = combined_params[i]
+                dr = cfg["task"]["domain_randomization"]
+                for param_key, param_val in params.items():
+                    dr[param_key] = param_val
+                label = f"level={val}"
+            else:
+                # Single-variable sweep
+                keys = variable.split(".")
+                d = cfg
+                for k in keys[:-1]:
+                    d = d[k]
+                d[keys[-1]] = val
+                label = f"{variable}={val}"
 
             metrics, sweep_env = evaluate_checkpoint(
                 cfg, model, device, args.num_episodes, existing_env=sweep_env
             )
             entry = {"value": val, **metrics}
+            if combined_params is not None:
+                entry["combined_params"] = combined_params[i]
             sweep_results["results"].append(entry)
-            print(f"  {variable}={val}: reward={metrics.get('episode_reward/mean', 0):.1f}")
+            reward_val = metrics.get('episode_reward/mean', 0)
+            fail_val = metrics.get('failure_rate', 0)
+            track_val = metrics.get('tracking_error/mean', 0)
+            print(f"  {label}: reward={reward_val:.1f}  fail={fail_val:.2f}  track_err={track_val:.2f}")
 
         # Save results BEFORE closing env (SimulationApp.close may exit)
         with open(output_dir / f"sweep_{sweep_name}.json", "w") as f:

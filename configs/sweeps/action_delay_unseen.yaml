@@ -1,0 +1,11 @@
+# Sweep: Unseen-range action delay
+# Training range was [0, 3] — these go beyond to [7, 10]
+sweep:
+  name: action_delay_unseen
+  variable: task.domain_randomization.action_delay_range
+  values:
+    - [0, 0]       # nominal (in-distribution)
+    - [3, 3]       # boundary of training range
+    - [5, 5]       # mild extrapolation
+    - [7, 7]       # moderate extrapolation
+    - [10, 10]     # severe extrapolation

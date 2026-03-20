@@ -264,12 +264,16 @@ class G1EnvWrapper:
                 obs = obs_dict
             obs = obs.to(self.device)
             rewards = rewards.to(self.device)
-            done = (terminated | truncated).to(self.device)
+            terminated = terminated.to(self.device)
+            truncated = truncated.to(self.device)
+            done = terminated | truncated
         else:
             # Mock
             obs = torch.randn(self.num_envs, self.obs_dim, device=self.device) * 0.1
             rewards = torch.zeros(self.num_envs, device=self.device)
             done = self._step_count >= self.task_cfg["episode_length"]
+            terminated = done.clone() if isinstance(done, torch.Tensor) else torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+            truncated = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
             info = {}
 
         # Apply deterministic push disturbances at configured steps.
@@ -291,6 +295,8 @@ class G1EnvWrapper:
             "cmd": cmd,
             "reward": rewards,
             "done": done,
+            "terminated": terminated,
+            "truncated": truncated,
             "info": info,
             "reset_ids": reset_ids,
             "push_applied": push_applied,  # bool tensor indicating which envs got pushed

@@ -1,0 +1,717 @@
+nohup: ignoring input
+══════════════════════════════════════════════════════════════
+  OOD EVALUATION CAMPAIGN
+  Start: 2026-03-20T11:16:45+07:00
+══════════════════════════════════════════════════════════════
+
+── MUST-DO 1: Behavioral metrics on existing sweeps (randomized) ──
+  [RUN] M1: mlp s42 friction
+  [OK]  M1: mlp s42 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-5.9  fail=1.00  track_err=2.55
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-5.8  fail=1.00  track_err=2.59
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-5.6  fail=1.00  track_err=2.54
+  [RUN] M1: mlp s42 push_magnitude
+  [OK]  M1: mlp s42 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-6.3  fail=1.00  track_err=3.34
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-6.6  fail=1.00  track_err=4.63
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-6.8  fail=1.00  track_err=6.88
+  [RUN] M1: mlp s42 action_delay
+  [OK]  M1: mlp s42 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-6.3  fail=1.00  track_err=2.55
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-6.2  fail=1.00  track_err=2.52
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-6.3  fail=1.00  track_err=2.50
+  [RUN] M1: mlp s43 friction
+  [OK]  M1: mlp s43 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.7  fail=1.00  track_err=2.58
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.6  fail=1.00  track_err=2.65
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.6  fail=1.00  track_err=2.57
+  [RUN] M1: mlp s43 push_magnitude
+  [OK]  M1: mlp s43 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.7  fail=1.00  track_err=3.27
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.30
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.56
+  [RUN] M1: mlp s43 action_delay
+  [OK]  M1: mlp s43 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.7  fail=1.00  track_err=2.51
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.6  fail=1.00  track_err=2.62
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.7  fail=1.00  track_err=2.53
+  [RUN] M1: mlp s44 friction
+  [OK]  M1: mlp s44 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-5.9  fail=1.00  track_err=2.66
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-5.9  fail=1.00  track_err=2.77
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-5.9  fail=1.00  track_err=2.87
+  [RUN] M1: mlp s44 push_magnitude
+  [OK]  M1: mlp s44 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-6.2  fail=1.00  track_err=3.56
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-6.2  fail=1.00  track_err=4.76
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.8  fail=1.00  track_err=6.22
+  [RUN] M1: mlp s44 action_delay
+  [OK]  M1: mlp s44 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-5.9  fail=1.00  track_err=2.75
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-6.0  fail=1.00  track_err=2.72
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-6.0  fail=1.00  track_err=2.64
+  [RUN] M1: mlp s45 friction
+  [OK]  M1: mlp s45 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-5.4  fail=1.00  track_err=2.62
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-5.2  fail=1.00  track_err=2.74
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-5.2  fail=1.00  track_err=2.70
+  [RUN] M1: mlp s45 push_magnitude
+  [OK]  M1: mlp s45 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.4  fail=1.00  track_err=3.26
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.6  fail=1.00  track_err=4.29
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.8  fail=1.00  track_err=6.20
+  [RUN] M1: mlp s45 action_delay
+  [OK]  M1: mlp s45 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-5.4  fail=1.00  track_err=2.61
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-5.4  fail=1.00  track_err=2.60
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-5.3  fail=1.00  track_err=2.60
+  [RUN] M1: mlp s46 friction
+  [OK]  M1: mlp s46 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-5.8  fail=1.00  track_err=2.60
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-5.7  fail=1.00  track_err=2.60
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-5.8  fail=1.00  track_err=2.66
+  [RUN] M1: mlp s46 push_magnitude
+  [OK]  M1: mlp s46 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-6.1  fail=1.00  track_err=3.19
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-6.4  fail=1.00  track_err=4.42
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-6.4  fail=1.00  track_err=6.46
+  [RUN] M1: mlp s46 action_delay
+  [OK]  M1: mlp s46 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-6.7  fail=1.00  track_err=2.51
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-6.4  fail=1.00  track_err=2.54
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-6.2  fail=1.00  track_err=2.64
+  [RUN] M1: lstm s42 friction
+  [OK]  M1: lstm s42 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.1  fail=1.00  track_err=2.04
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.2  fail=1.00  track_err=2.26
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.3  fail=1.00  track_err=1.89
+  [RUN] M1: lstm s42 push_magnitude
+  [OK]  M1: lstm s42 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=2.96
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.22
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.67
+  [RUN] M1: lstm s42 action_delay
+  [OK]  M1: lstm s42 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.1  fail=1.00  track_err=2.00
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.1  fail=1.00  track_err=1.99
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.2  fail=1.00  track_err=1.98
+  [RUN] M1: lstm s43 friction
+  [OK]  M1: lstm s43 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.1  fail=1.00  track_err=2.03
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.1  fail=1.00  track_err=2.02
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.2  fail=1.00  track_err=2.01
+  [RUN] M1: lstm s43 push_magnitude
+  [OK]  M1: lstm s43 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.03
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.23
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.36
+  [RUN] M1: lstm s43 action_delay
+  [OK]  M1: lstm s43 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.2  fail=1.00  track_err=1.93
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.2  fail=1.00  track_err=1.95
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.1  fail=1.00  track_err=2.06
+  [RUN] M1: lstm s44 friction
+  [OK]  M1: lstm s44 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.3  fail=1.00  track_err=2.06
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.3  fail=1.00  track_err=2.13
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.4  fail=1.00  track_err=2.12
+  [RUN] M1: lstm s44 push_magnitude
+  [OK]  M1: lstm s44 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.10
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.27
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.3  fail=1.00  track_err=6.07
+  [RUN] M1: lstm s44 action_delay
+  [OK]  M1: lstm s44 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.2  fail=1.00  track_err=2.05
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.2  fail=1.00  track_err=2.06
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.3  fail=1.00  track_err=1.95
+  [RUN] M1: lstm s45 friction
+  [OK]  M1: lstm s45 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.1  fail=1.00  track_err=2.11
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.1  fail=1.00  track_err=2.02
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.2  fail=1.00  track_err=2.06
+  [RUN] M1: lstm s45 push_magnitude
+  [OK]  M1: lstm s45 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.21
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.38
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.1  fail=1.00  track_err=6.33
+  [RUN] M1: lstm s45 action_delay
+  [OK]  M1: lstm s45 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.1  fail=1.00  track_err=2.02
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.1  fail=1.00  track_err=2.02
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.1  fail=1.00  track_err=1.98
+  [RUN] M1: lstm s46 friction
+  [OK]  M1: lstm s46 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.2  fail=1.00  track_err=2.10
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.2  fail=1.00  track_err=2.19
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.4  fail=1.00  track_err=2.05
+  [RUN] M1: lstm s46 push_magnitude
+  [OK]  M1: lstm s46 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=2.92
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.9  fail=1.00  track_err=4.25
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.28
+  [RUN] M1: lstm s46 action_delay
+  [OK]  M1: lstm s46 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.2  fail=1.00  track_err=2.04
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.2  fail=1.00  track_err=2.02
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.1  fail=1.00  track_err=2.04
+  [RUN] M1: transformer s42 friction
+  [OK]  M1: transformer s42 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.4  fail=1.00  track_err=2.68
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.4  fail=1.00  track_err=2.63
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.4  fail=1.00  track_err=2.52
+  [RUN] M1: transformer s42 push_magnitude
+  [OK]  M1: transformer s42 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.21
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.23
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.8  fail=1.00  track_err=6.04
+  [RUN] M1: transformer s42 action_delay
+  [OK]  M1: transformer s42 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.4  fail=1.00  track_err=2.67
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.4  fail=1.00  track_err=2.45
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.4  fail=1.00  track_err=2.49
+  [RUN] M1: transformer s43 friction
+  [OK]  M1: transformer s43 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.4  fail=1.00  track_err=2.52
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.4  fail=1.00  track_err=2.58
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.4  fail=1.00  track_err=2.64
+  [RUN] M1: transformer s43 push_magnitude
+  [OK]  M1: transformer s43 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.26
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.17
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=5.84
+  [RUN] M1: transformer s43 action_delay
+  [OK]  M1: transformer s43 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.5  fail=1.00  track_err=2.49
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.5  fail=1.00  track_err=2.55
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.5  fail=1.00  track_err=2.61
+  [RUN] M1: transformer s44 friction
+  [OK]  M1: transformer s44 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-5.2  fail=1.00  track_err=2.33
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-5.2  fail=1.00  track_err=2.47
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-5.2  fail=1.00  track_err=2.54
+  [RUN] M1: transformer s44 push_magnitude
+  [OK]  M1: transformer s44 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.3  fail=1.00  track_err=3.11
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.4  fail=1.00  track_err=4.01
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.6  fail=1.00  track_err=6.03
+  [RUN] M1: transformer s44 action_delay
+  [OK]  M1: transformer s44 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-5.3  fail=1.00  track_err=2.38
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-5.3  fail=1.00  track_err=2.35
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-5.3  fail=1.00  track_err=2.40
+  [RUN] M1: transformer s45 friction
+  [OK]  M1: transformer s45 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.7  fail=1.00  track_err=2.34
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.7  fail=1.00  track_err=2.50
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.5  fail=1.00  track_err=2.44
+  [RUN] M1: transformer s45 push_magnitude
+  [OK]  M1: transformer s45 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.2  fail=1.00  track_err=2.83
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.4  fail=1.00  track_err=4.16
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.5  fail=1.00  track_err=5.84
+  [RUN] M1: transformer s45 action_delay
+  [OK]  M1: transformer s45 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-5.1  fail=1.00  track_err=2.25
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-5.1  fail=1.00  track_err=2.26
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-5.1  fail=1.00  track_err=2.25
+  [RUN] M1: transformer s46 friction
+  [OK]  M1: transformer s46 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.6  fail=1.00  track_err=2.71
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.6  fail=1.00  track_err=2.57
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.5  fail=1.00  track_err=2.64
+  [RUN] M1: transformer s46 push_magnitude
+  [OK]  M1: transformer s46 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.6  fail=1.00  track_err=3.32
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.29
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.7  fail=1.00  track_err=5.89
+  [RUN] M1: transformer s46 action_delay
+  [OK]  M1: transformer s46 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.6  fail=1.00  track_err=2.72
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.6  fail=1.00  track_err=2.58
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.6  fail=1.00  track_err=2.65
+  [RUN] M1: dynamite s42 friction
+  [OK]  M1: dynamite s42 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.4  fail=1.00  track_err=2.74
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.4  fail=1.00  track_err=2.64
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.4  fail=1.00  track_err=2.60
+  [RUN] M1: dynamite s42 push_magnitude
+  [OK]  M1: dynamite s42 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.41
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.5  fail=1.00  track_err=4.45
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.5  fail=1.00  track_err=6.12
+  [RUN] M1: dynamite s42 action_delay
+  [OK]  M1: dynamite s42 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.4  fail=1.00  track_err=2.74
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.4  fail=1.00  track_err=2.64
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.4  fail=1.00  track_err=2.60
+  [RUN] M1: dynamite s43 friction
+  [OK]  M1: dynamite s43 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.5  fail=1.00  track_err=2.62
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.5  fail=1.00  track_err=2.53
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.5  fail=1.00  track_err=2.70
+  [RUN] M1: dynamite s43 push_magnitude
+  [OK]  M1: dynamite s43 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.30
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.5  fail=1.00  track_err=4.41
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.6  fail=1.00  track_err=6.33
+  [RUN] M1: dynamite s43 action_delay
+  [OK]  M1: dynamite s43 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.5  fail=1.00  track_err=2.62
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.5  fail=1.00  track_err=2.53
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.5  fail=1.00  track_err=2.71
+  [RUN] M1: dynamite s44 friction
+  [OK]  M1: dynamite s44 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.3  fail=1.00  track_err=2.55
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.3  fail=1.00  track_err=2.66
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.3  fail=1.00  track_err=2.56
+  [RUN] M1: dynamite s44 push_magnitude
+  [OK]  M1: dynamite s44 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.22
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.5  fail=1.00  track_err=4.39
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.6  fail=1.00  track_err=6.27
+  [RUN] M1: dynamite s44 action_delay
+  [OK]  M1: dynamite s44 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.4  fail=1.00  track_err=2.58
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.3  fail=1.00  track_err=2.57
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.4  fail=1.00  track_err=2.64
+  [RUN] M1: dynamite s45 friction
+  [OK]  M1: dynamite s45 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.7  fail=1.00  track_err=2.23
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.6  fail=1.00  track_err=2.32
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.6  fail=1.00  track_err=2.48
+  [RUN] M1: dynamite s45 push_magnitude
+  [OK]  M1: dynamite s45 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.9  fail=1.00  track_err=2.94
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.1  fail=1.00  track_err=4.04
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.3  fail=1.00  track_err=6.17
+  [RUN] M1: dynamite s45 action_delay
+  [OK]  M1: dynamite s45 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.7  fail=1.00  track_err=2.31
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.8  fail=1.00  track_err=2.21
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.8  fail=1.00  track_err=2.15
+  [RUN] M1: dynamite s46 friction
+  [OK]  M1: dynamite s46 friction
+  task.domain_randomization.friction_range=[0.5, 0.5]: reward=-4.5  fail=1.00  track_err=2.53
+  task.domain_randomization.friction_range=[0.3, 0.3]: reward=-4.4  fail=1.00  track_err=2.55
+  task.domain_randomization.friction_range=[0.1, 0.1]: reward=-4.5  fail=1.00  track_err=2.62
+  [RUN] M1: dynamite s46 push_magnitude
+  [OK]  M1: dynamite s46 push_magnitude
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.6  fail=1.00  track_err=3.20
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.04
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=5.88
+  [RUN] M1: dynamite s46 action_delay
+  [OK]  M1: dynamite s46 action_delay
+  task.domain_randomization.action_delay_range=[2, 2]: reward=-4.5  fail=1.00  track_err=2.50
+  task.domain_randomization.action_delay_range=[3, 3]: reward=-4.5  fail=1.00  track_err=2.47
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.5  fail=1.00  track_err=2.56
+
+── MUST-DO 2: Cross-task OOD — push_magnitude on push + terrain ──
+  [RUN] M2: push/mlp s42 push_mag
+  [OK]  M2: push/mlp s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.4  fail=1.00  track_err=3.26
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.5  fail=1.00  track_err=4.52
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.7  fail=1.00  track_err=6.74
+  [RUN] M2: push/mlp s43 push_mag
+  [OK]  M2: push/mlp s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.1  fail=1.00  track_err=3.40
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.1  fail=1.00  track_err=4.36
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.2  fail=1.00  track_err=6.40
+  [RUN] M2: push/mlp s44 push_mag
+  [OK]  M2: push/mlp s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-6.1  fail=1.00  track_err=3.38
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.9  fail=1.00  track_err=4.48
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-6.4  fail=1.00  track_err=6.42
+  [RUN] M2: push/mlp s45 push_mag
+  [OK]  M2: push/mlp s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.3  fail=1.00  track_err=3.39
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.2  fail=1.00  track_err=4.22
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.5  fail=1.00  track_err=6.52
+  [RUN] M2: push/mlp s46 push_mag
+  [OK]  M2: push/mlp s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.4  fail=1.00  track_err=3.35
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.4  fail=1.00  track_err=4.22
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.5  fail=1.00  track_err=6.16
+  [RUN] M2: push/lstm s42 push_mag
+  [OK]  M2: push/lstm s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=2.91
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.27
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=6.33
+  [RUN] M2: push/lstm s43 push_mag
+  [OK]  M2: push/lstm s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.00
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.36
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.72
+  [RUN] M2: push/lstm s44 push_mag
+  [OK]  M2: push/lstm s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.25
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.05
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.1  fail=1.00  track_err=6.42
+  [RUN] M2: push/lstm s45 push_mag
+  [OK]  M2: push/lstm s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=2.96
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.24
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.45
+  [RUN] M2: push/lstm s46 push_mag
+  [OK]  M2: push/lstm s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.04
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.09
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.13
+  [RUN] M2: push/transformer s42 push_mag
+  [OK]  M2: push/transformer s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.17
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.5  fail=1.00  track_err=4.16
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.7  fail=1.00  track_err=5.57
+  [RUN] M2: push/transformer s43 push_mag
+  [OK]  M2: push/transformer s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=2.99
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.26
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.8  fail=1.00  track_err=6.13
+  [RUN] M2: push/transformer s44 push_mag
+  [OK]  M2: push/transformer s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.6  fail=1.00  track_err=3.20
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.12
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.8  fail=1.00  track_err=6.45
+  [RUN] M2: push/transformer s45 push_mag
+  [OK]  M2: push/transformer s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.6  fail=1.00  track_err=3.25
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.43
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=5.81
+  [RUN] M2: push/transformer s46 push_mag
+  [OK]  M2: push/transformer s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-6.6  fail=1.00  track_err=3.85
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-6.7  fail=1.00  track_err=5.17
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-6.6  fail=1.00  track_err=6.98
+  [RUN] M2: push/dynamite s42 push_mag
+  [OK]  M2: push/dynamite s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.34
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.20
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.7  fail=1.00  track_err=6.29
+  [RUN] M2: push/dynamite s43 push_mag
+  [OK]  M2: push/dynamite s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.31
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.5  fail=1.00  track_err=4.38
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.6  fail=1.00  track_err=6.31
+  [RUN] M2: push/dynamite s44 push_mag
+  [OK]  M2: push/dynamite s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.7  fail=1.00  track_err=3.41
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.8  fail=1.00  track_err=4.31
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.01
+  [RUN] M2: push/dynamite s45 push_mag
+  [OK]  M2: push/dynamite s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.8  fail=1.00  track_err=3.00
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.1  fail=1.00  track_err=4.15
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.2  fail=1.00  track_err=6.02
+  [RUN] M2: push/dynamite s46 push_mag
+  [OK]  M2: push/dynamite s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.6  fail=1.00  track_err=3.08
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.31
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=6.18
+  [RUN] M2: terrain/mlp s42 push_mag
+  [OK]  M2: terrain/mlp s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.6  fail=1.00  track_err=3.56
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.9  fail=1.00  track_err=4.96
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-6.1  fail=1.00  track_err=5.91
+  [RUN] M2: terrain/mlp s43 push_mag
+  [OK]  M2: terrain/mlp s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.8  fail=1.00  track_err=3.43
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.0  fail=1.00  track_err=4.45
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.38
+  [RUN] M2: terrain/mlp s44 push_mag
+  [OK]  M2: terrain/mlp s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-5.8  fail=1.00  track_err=3.44
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.9  fail=1.00  track_err=4.30
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-6.1  fail=1.00  track_err=6.57
+  [RUN] M2: terrain/mlp s45 push_mag
+  [OK]  M2: terrain/mlp s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.7  fail=1.00  track_err=3.38
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.8  fail=1.00  track_err=4.23
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.13
+  [RUN] M2: terrain/mlp s46 push_mag
+  [OK]  M2: terrain/mlp s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.9  fail=1.00  track_err=3.33
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.9  fail=1.00  track_err=4.37
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.0  fail=1.00  track_err=6.20
+  [RUN] M2: terrain/lstm s42 push_mag
+  [OK]  M2: terrain/lstm s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=2.97
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.15
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.1  fail=1.00  track_err=6.15
+  [RUN] M2: terrain/lstm s43 push_mag
+  [OK]  M2: terrain/lstm s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.15
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.43
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.2  fail=1.00  track_err=6.54
+  [RUN] M2: terrain/lstm s44 push_mag
+  [OK]  M2: terrain/lstm s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.23
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=3.96
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.1  fail=1.00  track_err=5.99
+  [RUN] M2: terrain/lstm s45 push_mag
+  [OK]  M2: terrain/lstm s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=2.85
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.45
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.2  fail=1.00  track_err=6.23
+  [RUN] M2: terrain/lstm s46 push_mag
+  [OK]  M2: terrain/lstm s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=2.91
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.53
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.3  fail=1.00  track_err=6.19
+  [RUN] M2: terrain/transformer s42 push_mag
+  [OK]  M2: terrain/transformer s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.6  fail=1.00  track_err=3.33
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=3.95
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=5.81
+  [RUN] M2: terrain/transformer s43 push_mag
+  [OK]  M2: terrain/transformer s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.32
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.25
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=6.04
+  [RUN] M2: terrain/transformer s44 push_mag
+  [OK]  M2: terrain/transformer s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.8  fail=1.00  track_err=3.35
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.8  fail=1.00  track_err=4.39
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=6.17
+  [RUN] M2: terrain/transformer s45 push_mag
+  [OK]  M2: terrain/transformer s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.16
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.23
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=6.19
+  [RUN] M2: terrain/transformer s46 push_mag
+  [OK]  M2: terrain/transformer s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.30
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.5  fail=1.00  track_err=4.30
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.5  fail=1.00  track_err=6.36
+  [RUN] M2: terrain/dynamite s42 push_mag
+  [OK]  M2: terrain/dynamite s42 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.45
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.6  fail=1.00  track_err=4.40
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.6  fail=1.00  track_err=6.43
+  [RUN] M2: terrain/dynamite s43 push_mag
+  [OK]  M2: terrain/dynamite s43 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.5  fail=1.00  track_err=3.08
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.03
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=6.08
+  [RUN] M2: terrain/dynamite s44 push_mag
+  [OK]  M2: terrain/dynamite s44 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.9  fail=1.00  track_err=3.04
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-5.2  fail=1.00  track_err=4.67
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-5.4  fail=1.00  track_err=6.99
+  [RUN] M2: terrain/dynamite s45 push_mag
+  [OK]  M2: terrain/dynamite s45 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.4  fail=1.00  track_err=3.38
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.4  fail=1.00  track_err=4.37
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.5  fail=1.00  track_err=6.09
+  [RUN] M2: terrain/dynamite s46 push_mag
+  [OK]  M2: terrain/dynamite s46 push_mag
+  task.domain_randomization.push_vel_range=[2.0, 3.0]: reward=-4.6  fail=1.00  track_err=3.16
+  task.domain_randomization.push_vel_range=[3.0, 5.0]: reward=-4.7  fail=1.00  track_err=4.35
+  task.domain_randomization.push_vel_range=[5.0, 8.0]: reward=-4.9  fail=1.00  track_err=5.80
+
+── MUST-DO 3: Unseen range + combined shift (randomized) ──
+  [RUN] M3: mlp s42 delay_unseen
+  [OK]  M3: mlp s42 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-6.3  fail=1.00  track_err=2.55
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-6.2  fail=1.00  track_err=2.52
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-6.3  fail=1.00  track_err=2.50
+  [RUN] M3: mlp s42 combined
+  [OK]  M3: mlp s42 combined
+  level=2: reward=-6.0  fail=1.00  track_err=3.40
+  level=3: reward=-6.0  fail=1.00  track_err=4.56
+  level=4: reward=-5.9  fail=1.00  track_err=6.50
+  [RUN] M3: mlp s43 delay_unseen
+  [OK]  M3: mlp s43 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.7  fail=1.00  track_err=2.51
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.6  fail=1.00  track_err=2.62
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.7  fail=1.00  track_err=2.53
+  [RUN] M3: mlp s43 combined
+  [OK]  M3: mlp s43 combined
+  level=2: reward=-4.7  fail=1.00  track_err=3.18
+  level=3: reward=-4.7  fail=1.00  track_err=4.46
+  level=4: reward=-4.7  fail=1.00  track_err=6.09
+  [RUN] M3: mlp s44 delay_unseen
+  [OK]  M3: mlp s44 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-5.9  fail=1.00  track_err=2.75
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-6.0  fail=1.00  track_err=2.72
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-6.0  fail=1.00  track_err=2.64
+  [RUN] M3: mlp s44 combined
+  [OK]  M3: mlp s44 combined
+  level=2: reward=-5.8  fail=1.00  track_err=3.50
+  level=3: reward=-5.8  fail=1.00  track_err=4.75
+  level=4: reward=-6.0  fail=1.00  track_err=6.72
+  [RUN] M3: mlp s45 delay_unseen
+  [OK]  M3: mlp s45 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-5.4  fail=1.00  track_err=2.61
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-5.4  fail=1.00  track_err=2.60
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-5.3  fail=1.00  track_err=2.60
+  [RUN] M3: mlp s45 combined
+  [OK]  M3: mlp s45 combined
+  level=2: reward=-5.3  fail=1.00  track_err=3.41
+  level=3: reward=-5.4  fail=1.00  track_err=4.40
+  level=4: reward=-5.4  fail=1.00  track_err=6.16
+  [RUN] M3: mlp s46 delay_unseen
+  [OK]  M3: mlp s46 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-6.7  fail=1.00  track_err=2.51
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-6.4  fail=1.00  track_err=2.54
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-6.2  fail=1.00  track_err=2.64
+  [RUN] M3: mlp s46 combined
+  [OK]  M3: mlp s46 combined
+  level=2: reward=-5.8  fail=1.00  track_err=3.52
+  level=3: reward=-5.9  fail=1.00  track_err=4.15
+  level=4: reward=-6.3  fail=1.00  track_err=6.04
+  [RUN] M3: lstm s42 delay_unseen
+  [OK]  M3: lstm s42 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.1  fail=1.00  track_err=2.00
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.1  fail=1.00  track_err=1.99
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.2  fail=1.00  track_err=1.98
+  [RUN] M3: lstm s42 combined
+  [OK]  M3: lstm s42 combined
+  level=2: reward=-4.4  fail=1.00  track_err=2.83
+  level=3: reward=-4.7  fail=1.00  track_err=4.80
+  level=4: reward=-5.2  fail=1.00  track_err=6.99
+  [RUN] M3: lstm s43 delay_unseen
+  [OK]  M3: lstm s43 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.2  fail=1.00  track_err=1.93
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.2  fail=1.00  track_err=1.95
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.1  fail=1.00  track_err=2.06
+  [RUN] M3: lstm s43 combined
+  [OK]  M3: lstm s43 combined
+  level=2: reward=-4.4  fail=1.00  track_err=3.27
+  level=3: reward=-4.6  fail=1.00  track_err=4.63
+  level=4: reward=-5.1  fail=1.00  track_err=6.71
+  [RUN] M3: lstm s44 delay_unseen
+  [OK]  M3: lstm s44 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.2  fail=1.00  track_err=2.05
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.2  fail=1.00  track_err=2.06
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.3  fail=1.00  track_err=1.95
+  [RUN] M3: lstm s44 combined
+  [OK]  M3: lstm s44 combined
+  level=2: reward=-4.4  fail=1.00  track_err=2.90
+  level=3: reward=-4.7  fail=1.00  track_err=4.50
+  level=4: reward=-5.1  fail=1.00  track_err=7.09
+  [RUN] M3: lstm s45 delay_unseen
+  [OK]  M3: lstm s45 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.1  fail=1.00  track_err=2.02
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.1  fail=1.00  track_err=2.02
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.1  fail=1.00  track_err=1.98
+  [RUN] M3: lstm s45 combined
+  [OK]  M3: lstm s45 combined
+  level=2: reward=-4.4  fail=1.00  track_err=2.91
+  level=3: reward=-4.5  fail=1.00  track_err=4.44
+  level=4: reward=-5.0  fail=1.00  track_err=6.90
+  [RUN] M3: lstm s46 delay_unseen
+  [OK]  M3: lstm s46 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.2  fail=1.00  track_err=2.04
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.2  fail=1.00  track_err=2.02
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.1  fail=1.00  track_err=2.04
+  [RUN] M3: lstm s46 combined
+  [OK]  M3: lstm s46 combined
+  level=2: reward=-4.4  fail=1.00  track_err=3.15
+  level=3: reward=-4.7  fail=1.00  track_err=4.59
+  level=4: reward=-5.3  fail=1.00  track_err=6.99
+  [RUN] M3: transformer s42 delay_unseen
+  [OK]  M3: transformer s42 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.4  fail=1.00  track_err=2.67
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.4  fail=1.00  track_err=2.45
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.4  fail=1.00  track_err=2.49
+  [RUN] M3: transformer s42 combined
+  [OK]  M3: transformer s42 combined
+  level=2: reward=-4.4  fail=1.00  track_err=3.26
+  level=3: reward=-4.5  fail=1.00  track_err=4.39
+  level=4: reward=-4.6  fail=1.00  track_err=6.54
+  [RUN] M3: transformer s43 delay_unseen
+  [OK]  M3: transformer s43 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.5  fail=1.00  track_err=2.49
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.5  fail=1.00  track_err=2.55
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.5  fail=1.00  track_err=2.61
+  [RUN] M3: transformer s43 combined
+  [OK]  M3: transformer s43 combined
+  level=2: reward=-4.5  fail=1.00  track_err=3.23
+  level=3: reward=-4.5  fail=1.00  track_err=4.42
+  level=4: reward=-4.7  fail=1.00  track_err=6.11
+  [RUN] M3: transformer s44 delay_unseen
+  [OK]  M3: transformer s44 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-5.3  fail=1.00  track_err=2.38
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-5.3  fail=1.00  track_err=2.35
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-5.3  fail=1.00  track_err=2.40
+  [RUN] M3: transformer s44 combined
+  [OK]  M3: transformer s44 combined
+  level=2: reward=-5.3  fail=1.00  track_err=3.17
+  level=3: reward=-5.3  fail=1.00  track_err=4.26
+  level=4: reward=-5.5  fail=1.00  track_err=6.68
+  [RUN] M3: transformer s45 delay_unseen
+  [OK]  M3: transformer s45 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-5.1  fail=1.00  track_err=2.25
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-5.1  fail=1.00  track_err=2.26
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-5.1  fail=1.00  track_err=2.25
+  [RUN] M3: transformer s45 combined
+  [OK]  M3: transformer s45 combined
+  level=2: reward=-4.8  fail=1.00  track_err=2.92
+  level=3: reward=-4.8  fail=1.00  track_err=4.30
+  level=4: reward=-5.0  fail=1.00  track_err=6.58
+  [RUN] M3: transformer s46 delay_unseen
+  [OK]  M3: transformer s46 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.6  fail=1.00  track_err=2.72
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.6  fail=1.00  track_err=2.58
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.6  fail=1.00  track_err=2.65
+  [RUN] M3: transformer s46 combined
+  [OK]  M3: transformer s46 combined
+  level=2: reward=-4.6  fail=1.00  track_err=3.27
+  level=3: reward=-4.6  fail=1.00  track_err=4.41
+  level=4: reward=-4.7  fail=1.00  track_err=6.50
+  [RUN] M3: dynamite s42 delay_unseen
+  [OK]  M3: dynamite s42 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.4  fail=1.00  track_err=2.74
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.4  fail=1.00  track_err=2.64
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.4  fail=1.00  track_err=2.60
+  [RUN] M3: dynamite s42 combined
+  [OK]  M3: dynamite s42 combined
+  level=2: reward=-4.4  fail=1.00  track_err=3.27
+  level=3: reward=-4.4  fail=1.00  track_err=3.99
+  level=4: reward=-4.4  fail=1.00  track_err=6.17
+  [RUN] M3: dynamite s43 delay_unseen
+  [OK]  M3: dynamite s43 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.5  fail=1.00  track_err=2.62
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.5  fail=1.00  track_err=2.53
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.5  fail=1.00  track_err=2.71
+  [RUN] M3: dynamite s43 combined
+  [OK]  M3: dynamite s43 combined
+  level=2: reward=-4.5  fail=1.00  track_err=3.25
+  level=3: reward=-4.5  fail=1.00  track_err=4.29
+  level=4: reward=-4.6  fail=1.00  track_err=6.24
+  [RUN] M3: dynamite s44 delay_unseen
+  [OK]  M3: dynamite s44 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.4  fail=1.00  track_err=2.58
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.3  fail=1.00  track_err=2.57
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.4  fail=1.00  track_err=2.64
+  [RUN] M3: dynamite s44 combined
+  [OK]  M3: dynamite s44 combined
+  level=2: reward=-4.3  fail=1.00  track_err=3.28
+  level=3: reward=-4.4  fail=1.00  track_err=4.36
+  level=4: reward=-4.5  fail=1.00  track_err=5.95
+  [RUN] M3: dynamite s45 delay_unseen
+  [OK]  M3: dynamite s45 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.7  fail=1.00  track_err=2.31
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.8  fail=1.00  track_err=2.21
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.8  fail=1.00  track_err=2.15
+  [RUN] M3: dynamite s45 combined
+  [OK]  M3: dynamite s45 combined
+  level=2: reward=-4.8  fail=1.00  track_err=2.91
+  level=3: reward=-4.8  fail=1.00  track_err=4.31
+  level=4: reward=-5.0  fail=1.00  track_err=6.33
+  [RUN] M3: dynamite s46 delay_unseen
+  [OK]  M3: dynamite s46 delay_unseen
+  task.domain_randomization.action_delay_range=[5, 5]: reward=-4.5  fail=1.00  track_err=2.50
+  task.domain_randomization.action_delay_range=[7, 7]: reward=-4.5  fail=1.00  track_err=2.47
+  task.domain_randomization.action_delay_range=[10, 10]: reward=-4.5  fail=1.00  track_err=2.56
+  [RUN] M3: dynamite s46 combined
+  [OK]  M3: dynamite s46 combined
+  level=2: reward=-4.5  fail=1.00  track_err=3.20
+  level=3: reward=-4.6  fail=1.00  track_err=4.18
+  level=4: reward=-4.7  fail=1.00  track_err=5.95
+
+══════════════════════════════════════════════════════════════
+  OOD CAMPAIGN COMPLETE
+  Total: 140  |  Skipped: 0  |  Ran: 140  |  Failed: 0
+  End: 2026-03-20T12:16:14+07:00
+══════════════════════════════════════════════════════════════

@@ -1,0 +1,337 @@
+{
+  "severe_analysis": {
+    "combined_shift_randomized": {
+      "task": "randomized",
+      "sweep": "combined_shift",
+      "models": {
+        "dynamite": {
+          "id_reward": -4.48,
+          "severe_mean": -4.582687991472884,
+          "worst_case": -4.628095615552119,
+          "sensitivity": 0.2506287082005372,
+          "auc": -4.502747935031012,
+          "degradation": 0.10268799147288377,
+          "degradation_pct": 2.2921426668054408,
+          "retention_ratio": 1.0229214266680544,
+          "worst_retention": 1.0330570570428836,
+          "track_err_severe": 5.175486531861383,
+          "track_err_worst": 6.125567340470998
+        },
+        "lstm": {
+          "id_reward": -4.18,
+          "severe_mean": -4.876546037241704,
+          "worst_case": -5.122058026702156,
+          "sensitivity": 1.5668963836667351,
+          "auc": -4.399119948367005,
+          "degradation": 0.6965460372417045,
+          "degradation_pct": 16.663780795256088,
+          "retention_ratio": 1.166637807952561,
+          "worst_retention": 1.225372733660803,
+          "track_err_severe": 5.763482681811057,
+          "track_err_worst": 6.935372061685714
+        },
+        "transformer": {
+          "id_reward": -4.77,
+          "severe_mean": -4.80702904547813,
+          "worst_case": -4.861014138113653,
+          "sensitivity": 0.19572366794860852,
+          "auc": -4.741488853858808,
+          "degradation": 0.03702904547813013,
+          "degradation_pct": 0.7762902615960195,
+          "retention_ratio": 1.0077629026159602,
+          "worst_retention": 1.0190805320992984,
+          "track_err_severe": 5.416585123265087,
+          "track_err_worst": 6.479659851572379
+        },
+        "mlp": {
+          "id_reward": -5.32,
+          "severe_mean": -5.660877951301952,
+          "worst_case": -5.684820553911938,
+          "sensitivity": 0.13275290832239506,
+          "auc": -5.597957671872274,
+          "degradation": 0.34087795130195175,
+          "degradation_pct": 6.407480287630672,
+          "retention_ratio": 1.0640748028763067,
+          "worst_retention": 1.0685752920887102,
+          "track_err_severe": 5.383997614917419,
+          "track_err_worst": 6.302361787101082
+        }
+      },
+      "crossover_dynamite_beats_lstm": {
+        "level_index": 3,
+        "x_value": 3.0
+      }
+    },
+    "push_magnitude_randomized": {
+      "task": "randomized",
+      "sweep": "push_magnitude",
+      "models": {
+        "dynamite": {
+          "id_reward": -4.48,
+          "severe_mean": -4.708566801113312,
+          "worst_case": -4.782551786593174,
+          "sensitivity": 0.4104699381292125,
+          "auc": -4.5924598548525815,
+          "degradation": 0.2285668011133115,
+          "degradation_pct": 5.101937524850703,
+          "retention_ratio": 1.051019375248507,
+          "worst_retention": 1.0675338809359762,
+          "track_err_severe": 5.208420163617557,
+          "track_err_worst": 6.152084522082134
+        },
+        "lstm": {
+          "id_reward": -4.18,
+          "severe_mean": -4.896812285262778,
+          "worst_case": -5.0923850784606275,
+          "sensitivity": 1.5154136675515733,
+          "auc": -4.5238416819583325,
+          "degradation": 0.7168122852627778,
+          "degradation_pct": 17.148619264659757,
+          "retention_ratio": 1.1714861926465976,
+          "worst_retention": 1.2182739422154611,
+          "track_err_severe": 5.306003686088983,
+          "track_err_worst": 6.341219475737509
+        },
+        "transformer": {
+          "id_reward": -4.77,
+          "severe_mean": -5.008955983131498,
+          "worst_case": -5.076516738281268,
+          "sensitivity": 0.4224718876952096,
+          "auc": -4.8772334243826965,
+          "degradation": 0.23895598313149868,
+          "degradation_pct": 5.009559394790329,
+          "retention_ratio": 1.0500955939479033,
+          "worst_retention": 1.0642592742728025,
+          "track_err_severe": 5.049892038106043,
+          "track_err_worst": 5.9288031457968735
+        },
+        "mlp": {
+          "id_reward": -5.32,
+          "severe_mean": -5.931136952700566,
+          "worst_case": -5.967351481804481,
+          "sensitivity": 0.3267483147072321,
+          "auc": -5.823440784586763,
+          "degradation": 0.6111369527005657,
+          "degradation_pct": 11.48753670489785,
+          "retention_ratio": 1.1148753670489786,
+          "worst_retention": 1.1216826093617445,
+          "track_err_severe": 5.473664300220058,
+          "track_err_worst": 6.463868585371867
+        }
+      },
+      "crossover_dynamite_beats_lstm": {
+        "level_index": 4,
+        "x_value": 4.0
+      }
+    },
+    "push_magnitude_push": {
+      "task": "push",
+      "sweep": "push_magnitude",
+      "models": {
+        "dynamite": {
+          "id_reward": -4.6,
+          "severe_mean": -4.80405753746617,
+          "worst_case": -4.869400680484508,
+          "sensitivity": 0.38719075462731833,
+          "auc": -4.681390872799991,
+          "degradation": 0.20405753746616995,
+          "degradation_pct": 4.436033423177608,
+          "retention_ratio": 1.044360334231776,
+          "worst_retention": 1.0585653653227192,
+          "track_err_severe": 5.216571268210581,
+          "track_err_worst": 6.1635096334294905
+        },
+        "lstm": {
+          "id_reward": -4.3,
+          "severe_mean": -4.825926716411815,
+          "worst_case": -5.011757625916426,
+          "sensitivity": 1.405019593104396,
+          "auc": -4.482772147551046,
+          "degradation": 0.5259267164118153,
+          "degradation_pct": 12.230853870042218,
+          "retention_ratio": 1.1223085387004221,
+          "worst_retention": 1.1655250292828898,
+          "track_err_severe": 5.3061666412296775,
+          "track_err_worst": 6.409710297439597
+        },
+        "transformer": {
+          "id_reward": -4.83,
+          "severe_mean": -5.099650090747221,
+          "worst_case": -5.156848666783411,
+          "sensitivity": 0.42308539148505986,
+          "auc": -4.982902736445532,
+          "degradation": 0.2696500907472208,
+          "degradation_pct": 5.582817613814095,
+          "retention_ratio": 1.055828176138141,
+          "worst_retention": 1.067670531425137,
+          "track_err_severe": 5.3092805445231654,
+          "track_err_worst": 6.188247232850987
+        },
+        "mlp": {
+          "id_reward": -5.01,
+          "severe_mean": -5.555592207582428,
+          "worst_case": -5.655048307616527,
+          "sensitivity": 0.39453248091906357,
+          "auc": -5.4376359103562955,
+          "degradation": 0.5455922075824287,
+          "degradation_pct": 10.890064023601372,
+          "retention_ratio": 1.1089006402360138,
+          "worst_retention": 1.1287521572088877,
+          "track_err_severe": 5.404574662784601,
+          "track_err_worst": 6.449538181776947
+        }
+      },
+      "crossover_dynamite_beats_lstm": {
+        "level_index": 5,
+        "x_value": 6.5
+      }
+    },
+    "push_magnitude_terrain": {
+      "task": "terrain",
+      "sweep": "push_magnitude",
+      "models": {
+        "dynamite": {
+          "id_reward": -4.49,
+          "severe_mean": -4.785122787841125,
+          "worst_case": -4.842860778060195,
+          "sensitivity": 0.45675996122265694,
+          "auc": -4.647992999469681,
+          "degradation": 0.2951227878411249,
+          "degradation_pct": 6.5728905977978815,
+          "retention_ratio": 1.0657289059779789,
+          "worst_retention": 1.0785881465612905,
+          "track_err_severe": 5.319746307166829,
+          "track_err_worst": 6.276379501026169
+        },
+        "lstm": {
+          "id_reward": -4.06,
+          "severe_mean": -4.932793876113806,
+          "worst_case": -5.18910405189825,
+          "sensitivity": 1.6102718584465516,
+          "auc": -4.521324658368024,
+          "degradation": 0.8727938761138061,
+          "degradation_pct": 21.49738611117749,
+          "retention_ratio": 1.2149738611117749,
+          "worst_retention": 1.2781044462803572,
+          "track_err_severe": 5.261394815087525,
+          "track_err_worst": 6.218818941440583
+        },
+        "transformer": {
+          "id_reward": -4.46,
+          "severe_mean": -4.732852402487763,
+          "worst_case": -4.822653239086799,
+          "sensitivity": 0.41877030505282065,
+          "auc": -4.612989591599414,
+          "degradation": 0.27285240248776343,
+          "degradation_pct": 6.117766871922948,
+          "retention_ratio": 1.0611776687192294,
+          "worst_retention": 1.0813123854454707,
+          "track_err_severe": 5.170164141028758,
+          "track_err_worst": 6.1144955496726
+        },
+        "mlp": {
+          "id_reward": -4.82,
+          "severe_mean": -5.368910646363849,
+          "worst_case": -5.436439895358129,
+          "sensitivity": 0.3739907267961655,
+          "auc": -5.243921630512532,
+          "degradation": 0.5489106463638489,
+          "degradation_pct": 11.388187683897279,
+          "retention_ratio": 1.1138818768389729,
+          "worst_retention": 1.1278920944726407,
+          "track_err_severe": 5.349620154182368,
+          "track_err_worst": 6.236722737944189
+        }
+      },
+      "crossover_dynamite_beats_lstm": {
+        "level_index": 5,
+        "x_value": 6.5
+      }
+    },
+    "friction_randomized": {
+      "task": "randomized",
+      "sweep": "friction",
+      "models": {
+        "dynamite": {
+          "id_reward": -4.48,
+          "severe_mean": -4.462670399697645,
+          "worst_case": -4.470253525229758,
+          "sensitivity": 0.035331421037765764,
+          "auc": -4.450743650319841,
+          "degradation": -0.01732960030235553,
+          "degradation_pct": -0.3868214353204359,
+          "retention_ratio": 0.9961317856467956,
+          "worst_retention": 0.997824447595928,
+          "track_err_severe": 2.585750409377784,
+          "track_err_worst": 2.5916422321403147
+        },
+        "lstm": {
+          "id_reward": -4.18,
+          "severe_mean": -4.244180919401124,
+          "worst_case": -4.30045849169337,
+          "sensitivity": 0.13414236722464334,
+          "auc": -4.190226691519945,
+          "degradation": 0.06418091940112447,
+          "degradation_pct": 1.5354286938068056,
+          "retention_ratio": 1.015354286938068,
+          "worst_retention": 1.0288178209792753,
+          "track_err_severe": 2.09635321585641,
+          "track_err_worst": 2.1242455099830666
+        },
+        "transformer": {
+          "id_reward": -4.77,
+          "severe_mean": -4.742465769659595,
+          "worst_case": -4.768554018708476,
+          "sensitivity": 0.15748370652830523,
+          "auc": -4.688672016786872,
+          "degradation": -0.027534230340404697,
+          "degradation_pct": -0.5772375333418176,
+          "retention_ratio": 0.9942276246665819,
+          "worst_retention": 0.9996968592680243,
+          "track_err_severe": 2.5521383349392055,
+          "track_err_worst": 2.5549231310264338
+        },
+        "mlp": {
+          "id_reward": -5.32,
+          "severe_mean": -5.699776202457243,
+          "worst_case": -5.770649904691256,
+          "sensitivity": 0.3524819260873624,
+          "auc": -5.560110704232681,
+          "degradation": 0.37977620245724264,
+          "degradation_pct": 7.13865042212862,
+          "retention_ratio": 1.0713865042212862,
+          "worst_retention": 1.0847086287013639,
+          "track_err_severe": 2.670126873598252,
+          "track_err_worst": 2.6722413573260573
+        }
+      },
+      "crossover_dynamite_beats_lstm": null
+    }
+  },
+  "pareto_aggregate": {
+    "dynamite": {
+      "id_reward": -4.612500000000001,
+      "severe_ood_mean": -4.58464173076128,
+      "worst_case": -4.782551786593174,
+      "label": "DynaMITE"
+    },
+    "lstm": {
+      "id_reward": -4.137499999999999,
+      "severe_ood_mean": -4.672513080635202,
+      "worst_case": -5.122058026702156,
+      "label": "LSTM"
+    },
+    "transformer": {
+      "id_reward": -4.77,
+      "severe_ood_mean": -4.852816932756408,
+      "worst_case": -5.076516738281268,
+      "label": "Transformer"
+    },
+    "mlp": {
+      "id_reward": -4.995,
+      "severe_ood_mean": -5.763930368819921,
+      "worst_case": -5.967351481804481,
+      "label": "MLP"
+    }
+  }
+}

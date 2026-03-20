@@ -1,0 +1,56 @@
+nohup: ignoring input
+══════════════════════════════════════════════════════════════
+  OOD EVALUATION CAMPAIGN
+  Start: 2026-03-20T10:43:53+07:00
+══════════════════════════════════════════════════════════════
+
+── MUST-DO 1: Behavioral metrics on existing sweeps (randomized) ──
+  [RUN] M1: mlp s42 friction
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s42 friction
+  [RUN] M1: mlp s42 push_magnitude
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s42 push_magnitude
+  [RUN] M1: mlp s42 action_delay
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s42 action_delay
+  [RUN] M1: mlp s43 friction
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s43 friction
+  [RUN] M1: mlp s43 push_magnitude
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s43 push_magnitude
+  [RUN] M1: mlp s43 action_delay
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s43 action_delay
+  [RUN] M1: mlp s44 friction
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s44 friction
+  [RUN] M1: mlp s44 push_magnitude
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s44 push_magnitude
+  [RUN] M1: mlp s44 action_delay
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s44 action_delay
+  [RUN] M1: mlp s45 friction
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s45 friction
+  [RUN] M1: mlp s45 push_magnitude
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s45 push_magnitude
+  [RUN] M1: mlp s45 action_delay
+[INFO]: Completed setting up the environment...
+  EVAL DONE — exit 0
+  [OK]  M1: mlp s45 action_delay
+  [RUN] M1: mlp s46 friction

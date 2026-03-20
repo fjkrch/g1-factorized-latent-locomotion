@@ -1,0 +1,91 @@
+{
+  "model": "dynamite",
+  "checkpoint": "outputs/randomized/dynamite_full/seed_46/20260319_085324/checkpoints/best.pt",
+  "seed": 46,
+  "num_episodes": 50,
+  "warmup_steps": 30,
+  "post_push_window": 40,
+  "recovery_threshold": 1.5,
+  "timestamp": "2026-03-20T13:11:32.159364",
+  "push_magnitudes": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    8.0
+  ],
+  "results": {
+    "1.0": {
+      "non_fall_rate": 0.0,
+      "recovery_rate": 1.0,
+      "mean_steps_to_recover": 5.24,
+      "median_steps_to_recover": 5.0,
+      "peak_tracking_error_mean": 3.8613155698776245,
+      "peak_tracking_error_std": 0.24936411639850797,
+      "post_push_reward_mean": -8.820809154510497,
+      "post_push_reward_std": 0.12865294476339603
+    },
+    "2.0": {
+      "non_fall_rate": 0.0,
+      "recovery_rate": 1.0,
+      "mean_steps_to_recover": 5.32,
+      "median_steps_to_recover": 5.0,
+      "peak_tracking_error_mean": 3.90034113407135,
+      "peak_tracking_error_std": 0.34547041445063265,
+      "post_push_reward_mean": -8.85698184967041,
+      "post_push_reward_std": 0.12337864163267485
+    },
+    "3.0": {
+      "non_fall_rate": 0.0,
+      "recovery_rate": 0.98,
+      "mean_steps_to_recover": 5.285714285714286,
+      "median_steps_to_recover": 5.0,
+      "peak_tracking_error_mean": 4.151052484512329,
+      "peak_tracking_error_std": 0.4759388316923735,
+      "post_push_reward_mean": -8.873636760711669,
+      "post_push_reward_std": 0.15600654756136623
+    },
+    "4.0": {
+      "non_fall_rate": 0.0,
+      "recovery_rate": 1.0,
+      "mean_steps_to_recover": 5.34,
+      "median_steps_to_recover": 5.0,
+      "peak_tracking_error_mean": 4.81139979839325,
+      "peak_tracking_error_std": 0.5667885229902514,
+      "post_push_reward_mean": -8.93848518371582,
+      "post_push_reward_std": 0.13875563904750554
+    },
+    "5.0": {
+      "non_fall_rate": 0.0,
+      "recovery_rate": 1.0,
+      "mean_steps_to_recover": 5.72,
+      "median_steps_to_recover": 5.0,
+      "peak_tracking_error_mean": 5.528857822418213,
+      "peak_tracking_error_std": 0.5691364189830048,
+      "post_push_reward_mean": -8.966140537261962,
+      "post_push_reward_std": 0.20024581451495588
+    },
+    "6.0": {
+      "non_fall_rate": 0.0,
+      "recovery_rate": 1.0,
+      "mean_steps_to_recover": 5.58,
+      "median_steps_to_recover": 5.0,
+      "peak_tracking_error_mean": 6.520521049499512,
+      "peak_tracking_error_std": 0.4535484563695897,
+      "post_push_reward_mean": -8.98764102935791,
+      "post_push_reward_std": 0.15646812918153793
+    },
+    "8.0": {
+      "non_fall_rate": 0.0,
+      "recovery_rate": 1.0,
+      "mean_steps_to_recover": 6.22,
+      "median_steps_to_recover": 5.0,
+      "peak_tracking_error_mean": 8.404366703033448,
+      "peak_tracking_error_std": 0.6265500033939081,
+      "post_push_reward_mean": -9.003649234771729,
+      "post_push_reward_std": 0.5418461017741621
+    }
+  }
+}

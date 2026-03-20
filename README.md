@@ -389,7 +389,7 @@ bash scripts/reproduce_all.sh --dry-run
 | Factor alignment table | `scripts/run_latent_analysis.py` | `results/latent_analysis/` |
 | Factor alignment heatmap | `scripts/run_latent_analysis.py` | `figures/latent_correlation_heatmap.png` |
 | OOD Sweep tables | `scripts/eval_ood_validated.py` | `results/ood_sweeps/` |
-| OOD Sweep figure | `scripts/plot_sweeps.py` | `figures/sweep_robustness_combined.png` |
+| OOD Sweep figure | `scripts/plot_sweeps_multiseed.py` | `figures/sweep_robustness_combined.png` |
 
 ---
 

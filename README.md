@@ -8,7 +8,7 @@ We evaluate on a Unitree G1 humanoid in Isaac Lab across four locomotion tasks w
 
 Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best aggregate reward on all four tasks** (p < 0.03 on all, paired t-test). However, under a combined-shift stress test (friction + push + delay simultaneously), LSTM reward degrades by 16.7% from ID baseline to severe OOD, while DynaMITE degrades by only 2.3%. LSTM's reward advantage **inverts at combined-shift level 3**, where DynaMITE overtakes. In a controlled push-recovery protocol, DynaMITE recovers command tracking in ~6 steps independent of push magnitude (1–8 m/s), while LSTM recovery time increases from 9 to 20 steps.
 
-The factored latent shows partial correlational alignment with dynamics parameters (0.500 ± 0.020 on a custom within-factor correlation metric, chance = 0.20) but does **not** causally drive policy behavior: per-factor clamping produces |Δ reward| < 0.05 across all five factors. This is a **tradeoff architecture**: worse in-distribution performance for lower OOD sensitivity and faster perturbation response.
+The factored latent shows partial correlational alignment with dynamics parameters (0.500 ± 0.020 on a custom within-factor correlation metric, chance = 0.20) but does **not** causally drive policy behavior: per-factor clamping produces |Δ reward| < 0.05 across all five factors. A latent probe analysis further shows that **LSTM's hidden state encodes ground-truth dynamics better** than DynaMITE's explicitly-trained latent (MLP probe R² = 0.044 vs ≈ 0). This is a **tradeoff architecture**: worse in-distribution performance for lower OOD sensitivity and faster perturbation response — but the factored latent is not a superior dynamics encoder.
 
 ---
 
@@ -20,7 +20,7 @@ The factored latent shows partial correlational alignment with dynamics paramete
 
 3. **Severe OOD benchmark suite.** Combined-shift stress test (friction + push + delay simultaneously), push-recovery behavioral protocol (controlled magnitude, recovery time measurement), and cross-task OOD sweeps across 3 tasks. 200+ evaluations total.
 
-4. **Representation analysis with negative results.** The factored latent correlates with intended parameters (0.50 vs 0.20 chance) but factor-subspace clamping shows no causal separability (all |Δ| < 0.05). Ablations show consistent but non-significant degradation (p = 0.06–0.63, n = 5). We present these as partial, correlational evidence — not proof of clean factorization.
+4. **Representation analysis with negative results.** Latent probe analysis shows DynaMITE's factored latent has R² ≈ 0 for predicting ground-truth dynamics, while LSTM's hidden state achieves R² up to 0.10 — the explicitly-trained latent encodes *less* dynamics information than the implicit baseline. Factor-subspace clamping shows no causal separability (all |Δ| < 0.05). The custom correlation metric (0.50 vs 0.20 chance) detects structure, but probes and interventions show this structure is not functionally meaningful.
 
 ---
 
@@ -104,6 +104,7 @@ All results below follow this protocol, locked before running the main experimen
 | Push recovery | 5 training seeds × 4 models × 7 magnitudes × 50 episodes = 7,000 episodes |
 | Latent analysis | 3 training seeds (42, 43, 44) × 50 episodes each |
 | Latent intervention | 3 training seeds (42, 43, 44) × 5 factors × 3 DR levels = 90 evaluations |
+| Latent probe | 3 training seeds (42, 43, 44) × 2 models × 200 episodes × 32 envs = ~216,000 samples |
 
 > **Deterministic vs stochastic eval.** During training, PPO uses stochastic policy evaluation (sampled actions, 20 episodes) for checkpoint selection. All numbers reported in this README use **deterministic evaluation** (mean action, 100 or 50 episodes) run after training completes.
 
@@ -380,6 +381,23 @@ All |Δ reward| < 0.05 across 3 seeds × 5 factors × 3 DR levels. **The factore
   <img src="figures/latent_intervention_results.png" width="600" alt="Latent intervention: reward delta by factor">
 </p>
 
+#### Latent Probe Analysis (DynaMITE vs LSTM)
+
+We train Ridge regression (linear) and MLP (non-linear) probes to predict ground-truth dynamics parameters from each model's internal representation: DynaMITE's 24-d factored latent vs LSTM's 128-d hidden state. 3 seeds × 200 episodes × 32 envs = ~36,000 samples per run, 5-fold cross-validation.
+
+| Factor | DynaMITE Linear R² | DynaMITE MLP R² | LSTM Linear R² | LSTM MLP R² |
+|---|---|---|---|---|
+| Friction | -0.000 ± 0.000 | -0.001 ± 0.000 | 0.026 ± 0.009 | **0.101 ± 0.034** |
+| Mass | 0.000 ± 0.000 | -0.002 ± 0.001 | 0.012 ± 0.003 | **0.018 ± 0.001** |
+| Motor | 0.000 ± 0.000 | -0.002 ± 0.000 | 0.010 ± 0.002 | **0.015 ± 0.003** |
+| Contact | 0.000 ± 0.000 | -0.000 ± 0.000 | 0.006 ± 0.001 | **0.045 ± 0.008** |
+| Delay | 0.000 ± 0.000 | -0.000 ± 0.000 | 0.011 ± 0.004 | **0.041 ± 0.013** |
+| **Overall** | **0.000** | **-0.001** | **0.013** | **0.044** |
+
+**Key finding: LSTM's hidden state encodes dynamics parameters better than DynaMITE's explicitly-trained latent.** Despite being trained with per-factor auxiliary losses, DynaMITE's latent shows R² ≈ 0 for both linear and non-linear probes across all five factors. LSTM's hidden state, with no auxiliary training signal, achieves R² up to 0.101 (friction, MLP probe).
+
+However, absolute R² values are low for both models (LSTM overall: 0.044). Neither representation is a strong dynamics identifier — both primarily encode control-relevant features. The auxiliary loss may serve as a regularizer that improves OOD robustness without creating a genuinely decodable dynamics representation.
+
 ### 7. Ablation Study (Weak Supportive Evidence)
 
 All three variants show consistent directional degradation but **none reaches statistical significance** at p < 0.05 with n = 5.
@@ -424,12 +442,14 @@ Single Latent (p = 0.063) comes closest: all 5 seeds degrade. Consistent trend b
 | Moderate dynamics mismatch (single-axis shift) | **LSTM** — retains absolute reward advantage under friction and moderate push |
 | Severe or multi-axis dynamics mismatch (sim-to-real gap) | **DynaMITE** — sensitivity 0.25 vs LSTM's 1.57 under combined shift; LSTM advantage inverts at level 3–4 |
 | Need fast re-adaptation after perturbation | **DynaMITE** — recovers command tracking in ~6 steps vs LSTM's 20 steps at high push magnitudes |
-| Need to inspect latent dynamics estimates | **DynaMITE** — factored latent shows correlational alignment (not causal) |
+| Need to inspect latent dynamics estimates | **Neither** — DynaMITE's latent has R² ≈ 0 for dynamics; LSTM's hidden state is slightly better (R² ≤ 0.10) |
 | Deployment environment is well-characterized | **LSTM** — DynaMITE's robustness advantage is unnecessary |
 
 ### Why Does LSTM Degrade More Under Combined Shift?
 
-LSTM's hidden state implicitly encodes dynamics through accumulated experience. Under combined perturbation, the hidden state receives conflicting evidence from multiple shifted parameters, leading to compounding estimation error. DynaMITE's explicit factored latent, trained with per-factor auxiliary losses, may be more robust to multi-axis shifts because each subspace focuses on one parameter family. However, this explanation is speculative — our intervention analysis shows the factored structure is not cleanly separable, so the mechanism may be more subtle.
+LSTM's hidden state implicitly encodes dynamics through accumulated experience — and our latent probe analysis confirms it: LSTM's hidden state predicts ground-truth dynamics parameters better than DynaMITE's explicitly-trained latent (R² = 0.044 vs ≈ 0). Under combined perturbation, the hidden state receives conflicting evidence from multiple shifted parameters, and because it more tightly couples to dynamics estimation, perturbation disruption propagates more directly to the policy.
+
+DynaMITE's explicit factored latent, trained with per-factor auxiliary losses, paradoxically appears to *not* encode dynamics in a decodable way (R² ≈ 0). Instead, the auxiliary loss may act as a regularizer that distributes representations more broadly, making the policy less sensitive to any single perturbation axis. This explanation is speculative — the mechanism by which DynaMITE achieves lower OOD sensitivity despite weaker dynamics encoding is not fully understood.
 
 ---
 
@@ -444,6 +464,7 @@ LSTM's hidden state implicitly encodes dynamics through accumulated experience. 
 - **Action delay is not a meaningful perturbation.** All models show near-zero sensitivity at 3.3× training range. This limits the combined-shift to effectively being friction + push only.
 - **Custom factor alignment metric.** The 0.500 ± 0.020 score uses a within-factor correlation ratio, not standard disentanglement metrics. Direct comparison to other work is not possible.
 - **Latent is correlational, not causal.** Factor-subspace clamping (all |Δ reward| < 0.05) shows the factored latent does not individually drive policy behavior. The representation analysis is partial evidence, not proof of factorization.
+- **Latent probe: LSTM > DynaMITE.** Despite auxiliary training, DynaMITE's latent has R² ≈ 0 for predicting ground-truth dynamics via linear or MLP probes. LSTM's hidden state achieves R² up to 0.10 (friction). The explicit factorization does not produce a better dynamics encoder.
 - **Ablation significance.** No ablation variant reaches p < 0.05 with n = 5 (Single Latent: p = 0.063). Direction is consistent but effect is unconfirmed.
 - **Few OOD comparisons reach significance.** Only 3 of 42 pairwise tests survive Holm-Bonferroni correction. Most ranking claims are directional.
 - **Push-recovery reward.** While DynaMITE recovers tracking faster, its post-push reward is substantially worse (-9.5 vs -3.2). The quality of locomotion during/after recovery favors LSTM.
@@ -453,8 +474,8 @@ LSTM's hidden state implicitly encodes dynamics through accumulated experience. 
 ## Future Work
 
 - **Standard disentanglement metrics.** Supplement the custom metric with MIG, DCI, SAP for comparability.
-- **Latent probe analysis.** Compare DynaMITE latent (24-d) vs LSTM hidden state (128-d) for predicting ground-truth dynamics parameters via linear probes. If LSTM's hidden state can predict dynamics equally well, DynaMITE's explicit factorization confers no representational advantage.
-- **Why is the latent not causal?** Investigate whether this is due to distributed encoding, policy robustness, or redundancy with the observation history. Gradient-based attribution could help.
+- **Why is the latent not decodable?** The latent probe shows R² ≈ 0 despite auxiliary training. Investigate whether this is due to the tanh bottleneck, distributed encoding across factor subspaces, or redundancy with the observation history. Gradient-based attribution or information-theoretic measures could help.
+- **Why does LSTM's hidden state decode dynamics better?** LSTM implicitly encodes dynamics through accumulated experience without any auxiliary signal. Understanding this implicit identification mechanism may inform better explicit approaches.
 - **Bootstrap / permutation CIs.** Replace or supplement t-distribution CIs with non-parametric bootstrap intervals, given n = 5.
 - **Increase seed count.** n = 10–20 would improve statistical power for ablation and OOD comparisons.
 - **Additional perturbation axes.** Mass, contact stiffness, observation noise.
@@ -536,6 +557,7 @@ bash scripts/reproduce_all.sh --dry-run
 | OOD Sweep tables | `scripts/analyze_ood_v2.py` | `results/aggregated/ood_analysis_v2.json` |
 | OOD Sweep figures | `scripts/plot_ood_v2.py` | `figures/ood_v2_*.png` |
 | Latent intervention table | `scripts/latent_intervention.py` | `results/latent_intervention/` |
+| Latent probe table | `scripts/latent_probe.py` | `results/latent_probe/` |
 
 ---
 

@@ -4,7 +4,7 @@ We study whether per-factor auxiliary dynamics losses, applied to a short-horizo
 
 Despite this failure of the intended inference mechanism, the auxiliary-loss architecture exhibits a consistent empirical tradeoff. Across 5 seeds with deterministic 100-episode evaluation, **LSTM achieves the best reward on all four tasks** (p < 0.03, paired t-test). However, under a combined-shift stress test (friction + push + delay simultaneously), LSTM reward degrades by 16.7% from ID baseline to severe OOD, while DynaMITE degrades by only 2.3%. LSTM's reward advantage diminishes and directionally inverts at combined-shift level 3. In a controlled push-recovery protocol, DynaMITE recovers command tracking in ~6 steps independent of push magnitude (1–8 m/s), while LSTM recovery time increases from 9 to 20 steps.
 
-We present this as an empirical tradeoff result with negative mechanistic findings: per-factor auxiliary losses appear to act as a regularizer that reduces OOD sensitivity, but do not produce a decodable or causally separable dynamics representation.
+Mechanistic analysis provides partial evidence for a **gradient regularization** explanation: auxiliary and PPO gradients are orthogonal throughout training (|cos| < 0.01), the latent is severely compressed (effective rank ~5 of 24), and it contains 8× more mutual information with dynamics parameters than LSTM (0.23 vs 0.03 nats) despite lower probe R². We present this as an empirical tradeoff result with negative mechanistic findings: per-factor auxiliary losses appear to act as a representation regularizer that reduces OOD sensitivity, but do not produce a decodable or causally separable dynamics representation.
 
 ---
 
@@ -16,7 +16,7 @@ We present this as an empirical tradeoff result with negative mechanistic findin
 
 3. **Controlled OOD evaluation suite.** Combined-shift stress test (friction + push + delay simultaneously, 5 severity levels), push-recovery behavioral protocol (7 magnitudes, recovery-time measurement), and cross-task OOD sweeps across 3 tasks. 200+ evaluations total. All evaluation code, configs, and raw results are released.
 
-4. **Comprehensive representation analysis (predominantly negative).** Latent probe (Ridge + MLP, 5-fold CV, ~36k samples per run), factor-subspace intervention (90 evaluations), and correlational alignment analysis. All three produce null or weak results for DynaMITE's latent. The custom correlation metric (0.50 vs 0.20 chance) detects structure, but probes and interventions show this structure is not functionally meaningful. These negative results constrain the space of viable explanations for the observed robustness benefit.
+4. **Comprehensive representation analysis (predominantly negative).** Latent probe (Ridge + MLP, 5-fold CV, ~36k samples per run), factor-subspace intervention (90 evaluations), correlational alignment analysis, gradient flow instrumentation, representation geometry (SVD), and mutual information estimation (KNN). All produce null or weak results for dynamics identification. The custom correlation metric (0.50 vs 0.20 chance) detects structure, but probes and interventions show this structure is not functionally meaningful. Gradient analysis shows auxiliary and PPO gradients are orthogonal (|cos| < 0.01); mutual information estimation shows DynaMITE's latent contains 8× more MI with dynamics than LSTM (0.23 vs 0.03 nats) but absolute values are very low. These results constrain the space of viable explanations: the auxiliary losses regularize the representation rather than enabling dynamics identification.
 
 ---
 
@@ -96,6 +96,8 @@ All results below follow this protocol, locked before running the main experimen
 | Reward aggregation | Mean of per-episode cumulative reward across all eval episodes |
 | Main comparison | 5 training seeds (42, 43, 44, 45, 46) × 4 tasks × 4 models = 80 evals |
 | Multi-seed ablations | 5 training seeds (42, 43, 44, 45, 46) × 3 variants = 15 evals |
+| Mechanistic: gradient flow | 3 training seeds (42, 43, 44) × 10M steps each |
+| Mechanistic: geometry + MINE | 5 training seeds (42–46) × 2 models × 200 episodes × 32 envs |
 | OOD sweeps | 5 training seeds (42–46) × 4 models × 5 sweep types × 3 tasks = 140 evals |
 | Push recovery | 5 training seeds × 4 models × 7 magnitudes × 50 episodes = 7,000 episodes |
 | Latent analysis | 3 training seeds (42, 43, 44) × 50 episodes each |
@@ -426,6 +428,81 @@ Single Latent (p = 0.063) comes closest: all 5 seeds degrade. Consistent trend b
   <img src="figures/training_curves.png" width="700" alt="Training curves — randomized task, 5-seed mean ± std">
 </p>
 
+### 8. Mechanistic Analysis
+
+To understand *why* DynaMITE's auxiliary losses improve OOD robustness despite failing to produce a decodable dynamics representation, we conduct three mechanistic analyses: gradient flow instrumentation during training, representation geometry comparison (SVD), and mutual information estimation (KNN).
+
+#### Gradient Flow Analysis
+
+We retrain DynaMITE (3 seeds, 10M steps each) with gradient instrumentation, computing separate gradient vectors for the PPO objective and each of the 5 auxiliary factor losses at every 10th iteration (~81 data points per seed).
+
+<p align="center">
+  <img src="figures/gradient_norms.png" width="700" alt="Gradient norms over training">
+</p>
+
+##### Cosine Similarity: PPO vs Auxiliary Gradients
+
+| Factor | Mean cos(PPO, aux) | Std |
+|---|---|---|
+| Friction | −0.001 | 0.005 |
+| Mass | −0.002 | 0.010 |
+| Motor | −0.005 | 0.016 |
+| Contact | −0.008 | 0.026 |
+| Delay | −0.002 | 0.009 |
+
+<p align="center">
+  <img src="figures/cosine_similarity.png" width="700" alt="Cosine similarity between PPO and aux gradients">
+</p>
+
+**All cosine similarities are indistinguishable from zero** (|cos| < 0.01). The auxiliary gradients are *orthogonal* to the PPO gradient throughout training — they do not directly help or hinder the RL objective. The auxiliary losses contribute ~20–40% of the total gradient norm but in orthogonal directions, consistent with a **gradient regularization** effect.
+
+#### Representation Geometry
+
+We collect ~36,000 representations per model/seed (200 episodes × 32 envs) from trained checkpoints and compute SVD-based geometry metrics.
+
+| Metric | DynaMITE (24-d) | LSTM (128-d) |
+|---|---|---|
+| Effective rank | **4.78 ± 0.72** | 32.20 ± 3.85 |
+| Participation ratio | **2.27 ± 0.15** | 4.96 ± 1.52 |
+| Condition number | 315.9 ± 204.1 | **108.4 ± 19.9** |
+
+<p align="center">
+  <img src="figures/geometry_comparison.png" width="600" alt="Representation geometry comparison">
+</p>
+
+**DynaMITE's latent is much lower-dimensional in practice** — effective rank ~5 out of 24 possible dimensions. LSTM uses more of its capacity (effective rank ~32 out of 128). The high condition number for DynaMITE (316 vs 108) indicates a highly anisotropic structure: a few dimensions dominate while most are nearly unused. This is consistent with the auxiliary losses forcing severe compression through the tanh bottleneck.
+
+#### Mutual Information (KNN Estimation)
+
+We estimate mutual information between learned representations and ground-truth dynamics parameters using KNN estimation (sklearn `mutual_info_regression`, k=5). MINE with 3-layer MLP critic was attempted first but fell back to KNN for all runs, indicating the signal is near the noise floor of the neural estimator.
+
+| Factor | DynaMITE MI (nats) | LSTM MI (nats) |
+|---|---|---|
+| **Overall** | **0.233 ± 0.052** | 0.028 ± 0.033 |
+| Friction | **0.054 ± 0.021** | 0.024 ± 0.020 |
+| Mass | **0.091 ± 0.010** | 0.011 ± 0.013 |
+| Motor | **0.037 ± 0.031** | 0.013 ± 0.015 |
+| Contact | **0.026 ± 0.011** | 0.010 ± 0.015 |
+| Delay | 0.007 ± 0.004 | 0.005 ± 0.003 |
+
+<p align="center">
+  <img src="figures/mi_comparison.png" width="500" alt="Mutual information comparison">
+</p>
+
+**DynaMITE's latent contains ~8× more mutual information with dynamics parameters** than LSTM's hidden state (0.233 vs 0.028 nats overall). However, all MI values are very small in absolute terms (< 0.25 nats). If the latent perfectly encoded all dynamics factors, MI would be several nats. The measured values suggest at most a few bits of dynamics information mixed with substantial task-relevant features.
+
+This creates an apparent paradox with the probe results (R² ≈ 0): the latent contains *some* information about dynamics (per MI), but this information is not linearly or nonlinearly decodable by standard probes. The most likely explanation is that the dynamics signal is distributed and entangled with task-relevant features in a way that prevents factor-by-factor decoding.
+
+#### Mechanistic Synthesis
+
+Combining all three analyses:
+
+1. **Gradient orthogonality** — The aux losses push the gradient in directions orthogonal to PPO, imposing structural constraints without directly improving the RL objective.
+2. **Low effective rank** — The bottleneck forces severe compression (effective rank ~5 of 24), creating a low-dimensional information highway between the history encoder and policy head.
+3. **Weak but nonzero MI** — The compressed representation contains some dynamics information (8× more than LSTM) but far less than needed for system identification.
+
+**Revised mechanistic story:** The auxiliary losses act as a *representation regularizer* that forces adaptive-control-relevant features into a low-dimensional subspace. This compression is beneficial not because it enables dynamics identification, but because it prevents the history encoder from developing a diffuse, overfittable representation (as suggested by LSTM's higher effective rank but lower MI). The improved OOD robustness likely comes from this forced compression creating a more structured representation — not from inferring dynamics parameters.
+
 ---
 
 ## Discussion
@@ -445,7 +522,7 @@ Single Latent (p = 0.063) comes closest: all 5 seeds degrade. Consistent trend b
 
 We observe that LSTM's hidden state encodes dynamics parameters weakly but measurably better than DynaMITE's latent (probe R² = 0.044 vs ≈ 0), and that LSTM degrades more under combined perturbation. One **speculative** interpretation is that tighter implicit dynamics coupling makes LSTM more sensitive to simultaneous multi-axis shifts — the hidden state receives conflicting evidence from multiple shifted parameters, and perturbation disruption propagates more directly to the policy. However, this is post-hoc reasoning from correlational evidence: we have not established that the hidden state's dynamics encoding causally mediates OOD sensitivity. The absolute R² values are low for both models (LSTM: 0.044), and confounding explanations exist (e.g., architectural capacity differences, optimization landscape effects).
 
-DynaMITE's latent, trained with per-factor auxiliary losses, does not encode dynamics in a decodable way (R² ≈ 0). We speculate that the auxiliary loss may act as a representation regularizer rather than a dynamics identifier, but the mechanism by which DynaMITE achieves lower OOD sensitivity despite weaker dynamics encoding is not understood. We flag this as an open question for future work.
+DynaMITE's latent, trained with per-factor auxiliary losses, does not encode dynamics in a decodable way (R² ≈ 0). Mechanistic analysis (Section 8) provides partial evidence for a **gradient regularization hypothesis**: auxiliary gradients are orthogonal to PPO (|cos| < 0.01), the latent is severely compressed (effective rank ~5 of 24), and it contains 8× more MI with dynamics than LSTM despite lower probe R². We hypothesize that the auxiliary losses force compression of adaptive-control-relevant features into a low-dimensional subspace, creating a more structured representation that is less sensitive to OOD perturbation. However, this remains a post-hoc interpretation — we have not established that compression *causally* mediates OOD robustness.
 
 ---
 
@@ -464,13 +541,16 @@ DynaMITE's latent, trained with per-factor auxiliary losses, does not encode dyn
 - **Ablation significance.** No ablation variant reaches p < 0.05 with n = 5 (Single Latent: p = 0.063). Direction is consistent but effect is unconfirmed.
 - **Few OOD comparisons reach significance.** Only 3 of 42 pairwise tests survive Holm-Bonferroni correction. Most ranking claims are directional.
 - **Push-recovery reward.** While DynaMITE recovers tracking faster, its post-push reward is substantially worse (-9.5 vs -3.2). The quality of locomotion during/after recovery favors LSTM.
+- **MI estimation.** All MINE runs fell back to KNN, indicating the dynamics signal is near the noise floor of neural MI estimators. KNN estimates are more robust but potentially biased for high-dimensional inputs. The 8× MI advantage for DynaMITE is directionally consistent across seeds but absolute values are very low.
+- **Gradient flow analysis.** Gradient instrumentation adds overhead and may subtly alter optimization dynamics. The orthogonality finding (|cos| < 0.01) is averaged over training; transient alignment/conflict episodes within individual updates are not captured.
 
 ---
 
 ## Future Work
 
 - **Standard disentanglement metrics.** Supplement the custom metric with MIG, DCI, SAP for comparability.
-- **Why is the latent not decodable?** The latent probe shows R² ≈ 0 despite auxiliary training. Investigate whether this is due to the tanh bottleneck, distributed encoding across factor subspaces, or redundancy with the observation history. Gradient-based attribution or information-theoretic measures could help.
+- **Why is the latent not decodable despite nonzero MI?** MI estimation shows DynaMITE's latent contains 8× more dynamics information than LSTM, yet probes show R² ≈ 0. This suggests dynamics information is encoded in a distributed, entangled form that resists factor-by-factor linear/nonlinear decoding. Disentangling *how* this information is embedded (e.g., via nonlinear ICA or manifold probing) could clarify the failure mode.
+- **Does compression causally mediate OOD robustness?** The gradient regularization hypothesis (Section 8) is correlational — compression and robustness co-occur but causality is unestablished. Controlled experiments varying bottleneck width while holding auxiliary loss weight constant could test this.
 - **Why does LSTM's hidden state decode dynamics better?** LSTM implicitly encodes dynamics through accumulated experience without any auxiliary signal. Understanding this implicit identification mechanism may inform better explicit approaches.
 - **Bootstrap / permutation CIs.** Replace or supplement t-distribution CIs with non-parametric bootstrap intervals, given n = 5.
 - **Increase seed count.** n = 10–20 would improve statistical power for ablation and OOD comparisons.
@@ -534,7 +614,9 @@ bash scripts/reproduce_all.sh --dry-run
 | 140 OOD sweep evals v2 (5 sweeps × 3 tasks) | ~6 hours |
 | 20 push-recovery evals (4 models × 5 seeds × 7 magnitudes) | ~2 hours |
 | Latent intervention (3 seeds × 5 factors × 3 levels) | ~45 min |
-| **Full 5-seed experiment set (all benchmarks)** | **~34 hours** |
+| Mechanistic: gradient flow (3 seeds × 10M steps) | ~45 min |
+| Mechanistic: geometry + MINE (10 runs) | ~25 min |
+| **Full 5-seed experiment set (all benchmarks)** | **~35 hours** |
 
 ### Artifact Mapping
 
@@ -554,6 +636,10 @@ bash scripts/reproduce_all.sh --dry-run
 | OOD Sweep figures | `scripts/plot_ood_v2.py` | `figures/ood_v2_*.png` |
 | Latent intervention table | `scripts/latent_intervention.py` | `results/latent_intervention/` |
 | Latent probe table | `scripts/latent_probe.py` | `results/latent_probe/` |
+| Gradient flow figures | `scripts/gradient_flow_analysis.py` → `scripts/plot_mechanistic.py` | `figures/gradient_norms.png`, `figures/cosine_similarity.png` |
+| Geometry comparison figure | `scripts/representation_analysis.py` → `scripts/plot_mechanistic.py` | `figures/geometry_comparison.png` |
+| MI comparison figure | `scripts/representation_analysis.py` → `scripts/plot_mechanistic.py` | `figures/mi_comparison.png` |
+| Mechanistic summary | `scripts/representation_analysis.py --aggregate` | `results/mechanistic/summary.md` |
 
 ---
 

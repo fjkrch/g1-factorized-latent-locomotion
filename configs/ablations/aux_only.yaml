@@ -1,0 +1,35 @@
+# Ablation: Auxiliary losses active but NO bottleneck in policy pathway
+#
+# 2×2 factorial design — this is the "Aux Only" cell:
+#   - Latent head + aux head exist and are trained (gradient regularization)
+#   - condition_on_latent: false → policy/value heads see only full d_model
+#   - The 24-d tanh bottleneck does NOT constrain the policy information pathway
+#   - Isolates the gradient regularization effect of auxiliary losses
+#     from the information bottleneck effect
+model:
+  name: dynamite_aux_only
+  latent:
+    total_dim: 24
+    factorized: true
+    factors:
+      friction: 4
+      mass: 6
+      motor: 6
+      contact: 4
+      delay: 4
+    bottleneck_activation: tanh
+    aggregation: mean
+  auxiliary:
+    enabled: true
+    loss_weight: 0.5
+    targets:
+      friction: 2
+      mass: 2
+      motor: 2
+      contact: 1
+      delay: 1
+    head_hidden_dim: 32
+  policy_head:
+    condition_on_latent: false    # KEY: policy does NOT receive bottleneck latent
+  value_head:
+    condition_on_latent: false    # KEY: value does NOT receive bottleneck latent

@@ -1,0 +1,291 @@
+nohup: ignoring input
+============================================
+ 2×2 Factorial OOD Evaluation
+ Combined-Shift Severe (Levels 3 & 4)
+ 4 variants × 10 seeds = 40 runs
+ 50 episodes per level
+============================================
+[1/40] EVAL full/seed_42 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.30
+  level=4: reward=-4.5  fail=1.00  track_err=6.12
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_42/sweep_combined_shift_severe.json
+  -> OK
+[2/40] EVAL full/seed_43 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.47
+  level=4: reward=-4.6  fail=1.00  track_err=5.75
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_43/sweep_combined_shift_severe.json
+  -> OK
+[3/40] EVAL full/seed_44 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.33
+  level=4: reward=-4.5  fail=1.00  track_err=6.14
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_44/sweep_combined_shift_severe.json
+  -> OK
+[4/40] EVAL full/seed_45 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.8  fail=1.00  track_err=4.22
+  level=4: reward=-5.0  fail=1.00  track_err=5.90
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_45/sweep_combined_shift_severe.json
+  -> OK
+[5/40] EVAL full/seed_46 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.23
+  level=4: reward=-4.8  fail=1.00  track_err=6.13
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_46/sweep_combined_shift_severe.json
+  -> OK
+[6/40] EVAL full/seed_47 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.2  fail=1.00  track_err=4.31
+  level=4: reward=-4.3  fail=1.00  track_err=5.95
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_47/sweep_combined_shift_severe.json
+  -> OK
+[7/40] EVAL full/seed_48 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.9  fail=1.00  track_err=4.53
+  level=4: reward=-5.0  fail=1.00  track_err=6.56
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_48/sweep_combined_shift_severe.json
+  -> OK
+[8/40] EVAL full/seed_49 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.46
+  level=4: reward=-4.4  fail=1.00  track_err=6.27
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_49/sweep_combined_shift_severe.json
+  -> OK
+[9/40] EVAL full/seed_50 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.38
+  level=4: reward=-4.4  fail=1.00  track_err=6.44
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_50/sweep_combined_shift_severe.json
+  -> OK
+[10/40] EVAL full/seed_51 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.17
+  level=4: reward=-4.5  fail=1.00  track_err=5.91
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/full/seed_51/sweep_combined_shift_severe.json
+  -> OK
+[11/40] EVAL no_aux_loss/seed_42 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-5.0  fail=1.00  track_err=4.41
+  level=4: reward=-5.1  fail=1.00  track_err=6.36
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_42/sweep_combined_shift_severe.json
+  -> OK
+[12/40] EVAL no_aux_loss/seed_43 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.34
+  level=4: reward=-4.5  fail=1.00  track_err=6.00
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_43/sweep_combined_shift_severe.json
+  -> OK
+[13/40] EVAL no_aux_loss/seed_44 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.23
+  level=4: reward=-4.7  fail=1.00  track_err=6.26
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_44/sweep_combined_shift_severe.json
+  -> OK
+[14/40] EVAL no_aux_loss/seed_45 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.7  fail=1.00  track_err=4.28
+  level=4: reward=-4.8  fail=1.00  track_err=6.17
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_45/sweep_combined_shift_severe.json
+  -> OK
+[15/40] EVAL no_aux_loss/seed_46 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.06
+  level=4: reward=-4.7  fail=1.00  track_err=6.52
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_46/sweep_combined_shift_severe.json
+  -> OK
+[16/40] EVAL no_aux_loss/seed_47 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.24
+  level=4: reward=-4.5  fail=1.00  track_err=6.79
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_47/sweep_combined_shift_severe.json
+  -> OK
+[17/40] EVAL no_aux_loss/seed_48 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.51
+  level=4: reward=-4.5  fail=1.00  track_err=5.88
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_48/sweep_combined_shift_severe.json
+  -> OK
+[18/40] EVAL no_aux_loss/seed_49 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.3  fail=1.00  track_err=4.55
+  level=4: reward=-4.4  fail=1.00  track_err=6.24
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_49/sweep_combined_shift_severe.json
+  -> OK
+[19/40] EVAL no_aux_loss/seed_50 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.53
+  level=4: reward=-4.5  fail=1.00  track_err=6.62
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_50/sweep_combined_shift_severe.json
+  -> OK
+[20/40] EVAL no_aux_loss/seed_51 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.30
+  level=4: reward=-4.6  fail=1.00  track_err=6.47
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_aux_loss/seed_51/sweep_combined_shift_severe.json
+  -> OK
+[21/40] EVAL no_latent/seed_42 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.36
+  level=4: reward=-4.7  fail=1.00  track_err=6.70
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_42/sweep_combined_shift_severe.json
+  -> OK
+[22/40] EVAL no_latent/seed_43 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.37
+  level=4: reward=-4.7  fail=1.00  track_err=6.13
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_43/sweep_combined_shift_severe.json
+  -> OK
+[23/40] EVAL no_latent/seed_44 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-5.4  fail=1.00  track_err=4.45
+  level=4: reward=-5.5  fail=1.00  track_err=6.72
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_44/sweep_combined_shift_severe.json
+  -> OK
+[24/40] EVAL no_latent/seed_45 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.8  fail=1.00  track_err=4.46
+  level=4: reward=-4.8  fail=1.00  track_err=6.44
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_45/sweep_combined_shift_severe.json
+  -> OK
+[25/40] EVAL no_latent/seed_46 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.43
+  level=4: reward=-4.7  fail=1.00  track_err=6.05
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_46/sweep_combined_shift_severe.json
+  -> OK
+[26/40] EVAL no_latent/seed_47 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.32
+  level=4: reward=-4.7  fail=1.00  track_err=6.61
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_47/sweep_combined_shift_severe.json
+  -> OK
+[27/40] EVAL no_latent/seed_48 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.40
+  level=4: reward=-4.4  fail=1.00  track_err=6.13
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_48/sweep_combined_shift_severe.json
+  -> OK
+[28/40] EVAL no_latent/seed_49 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.01
+  level=4: reward=-4.8  fail=1.00  track_err=6.07
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_49/sweep_combined_shift_severe.json
+  -> OK
+[29/40] EVAL no_latent/seed_50 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.46
+  level=4: reward=-4.6  fail=1.00  track_err=6.45
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_50/sweep_combined_shift_severe.json
+  -> OK
+[30/40] EVAL no_latent/seed_51 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.31
+  level=4: reward=-4.5  fail=1.00  track_err=5.93
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/no_latent/seed_51/sweep_combined_shift_severe.json
+  -> OK
+[31/40] EVAL aux_only/seed_42 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.38
+  level=4: reward=-4.6  fail=1.00  track_err=6.24
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_42/sweep_combined_shift_severe.json
+  -> OK
+[32/40] EVAL aux_only/seed_43 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.18
+  level=4: reward=-4.9  fail=1.00  track_err=6.46
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_43/sweep_combined_shift_severe.json
+  -> OK
+[33/40] EVAL aux_only/seed_44 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.27
+  level=4: reward=-4.6  fail=1.00  track_err=6.51
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_44/sweep_combined_shift_severe.json
+  -> OK
+[34/40] EVAL aux_only/seed_45 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.50
+  level=4: reward=-4.6  fail=1.00  track_err=6.24
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_45/sweep_combined_shift_severe.json
+  -> OK
+[35/40] EVAL aux_only/seed_46 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-5.1  fail=1.00  track_err=4.63
+  level=4: reward=-5.2  fail=1.00  track_err=6.76
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_46/sweep_combined_shift_severe.json
+  -> OK
+[36/40] EVAL aux_only/seed_47 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.29
+  level=4: reward=-4.5  fail=1.00  track_err=6.18
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_47/sweep_combined_shift_severe.json
+  -> OK
+[37/40] EVAL aux_only/seed_48 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.5  fail=1.00  track_err=4.45
+  level=4: reward=-4.6  fail=1.00  track_err=6.37
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_48/sweep_combined_shift_severe.json
+  -> OK
+[38/40] EVAL aux_only/seed_49 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.6  fail=1.00  track_err=4.20
+  level=4: reward=-4.6  fail=1.00  track_err=5.65
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_49/sweep_combined_shift_severe.json
+  -> OK
+[39/40] EVAL aux_only/seed_50 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.8  fail=1.00  track_err=4.26
+  level=4: reward=-4.9  fail=1.00  track_err=5.91
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_50/sweep_combined_shift_severe.json
+  -> OK
+[40/40] EVAL aux_only/seed_51 ...
+[Env] Created Isaac-Velocity-Rough-G1-v0  (num_envs=32)
+[Env] Auto-detected dims: obs=310, act=37 (cmd & prev_action already in obs)
+  level=3: reward=-4.4  fail=1.00  track_err=4.25
+  level=4: reward=-4.5  fail=1.00  track_err=5.90
+[Eval] Sweep results saved to: /home/chyanin/robotpaper/results/factorial_ood/combined_shift_severe/aux_only/seed_51/sweep_combined_shift_severe.json
+  -> OK
+
+============================================
+ DONE: 40/40 successful
+============================================

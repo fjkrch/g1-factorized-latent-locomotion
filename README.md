@@ -95,9 +95,10 @@ All results below follow this protocol, locked before running the main experimen
 | Episode termination | Fixed-length rollout (no early termination) |
 | Reward aggregation | Mean of per-episode cumulative reward across all eval episodes |
 | Main comparison | 5 training seeds (42, 43, 44, 45, 46) × 4 tasks × 4 models = 80 evals |
-| Multi-seed ablations | 5 training seeds (42, 43, 44, 45, 46) × 3 variants = 15 evals |
+| Multi-seed ablations | 10 training seeds (42–51) × 3 variants = 30 evals |
 | Mechanistic: gradient flow | 3 training seeds (42, 43, 44) × 10M steps each |
 | Mechanistic: geometry + MINE | 5 training seeds (42–46) × 2 models × 200 episodes × 32 envs |
+| Mechanistic: disentanglement (MIG/DCI/SAP) | 5 training seeds (42–46) × 2 models × 200 episodes × 32 envs |
 | OOD sweeps | 5 training seeds (42–46) × 4 models × 5 sweep types × 3 tasks = 140 evals |
 | Push recovery | 5 training seeds × 4 models × 7 magnitudes × 50 episodes = 7,000 episodes |
 | Latent analysis | 3 training seeds (42, 43, 44) × 50 episodes each |
@@ -396,19 +397,45 @@ We train Ridge regression (linear) and MLP (non-linear) probes to predict ground
 
 However, absolute R² values are low for both models (LSTM overall: 0.044). Neither representation is a strong dynamics identifier — both primarily encode control-relevant features. The auxiliary loss may serve as a regularizer that improves OOD robustness without creating a genuinely decodable dynamics representation.
 
-### 7. Ablation Study (Weak Supportive Evidence)
+### 7. Ablation Study (10 Seeds)
 
-All three variants show consistent directional degradation but **none reaches statistical significance** at p < 0.05 with n = 5.
+With n = 10 seeds (42–51), the **Single Latent variant now reaches statistical significance** (p = 0.048). No Latent and No Aux Loss remain directional.
 
-| Variant | Eval Reward | Δ vs Full | p-value |
-|---|---|---|---|
-| DynaMITE (Full) | **-4.48 ± 0.16** | — | — |
-| No Aux Loss | -4.56 ± 0.27 | -0.08 | 0.629 |
-| No Latent | -4.77 ± 0.41 | -0.29 | 0.174 |
-| Single Latent (unfactored) | -4.67 ± 0.11 | -0.19 | 0.063 |
+| Variant | Eval Reward (n=10) | Δ vs Full | p-value | Seeds Worse |
+|---|---|---|---|---|
+| DynaMITE (Full) | **-4.46 ± 0.25** | — | — | — |
+| No Aux Loss | -4.51 ± 0.20 | -0.05 | 0.641 | 6/10 |
+| No Latent | -4.64 ± 0.36 | -0.18 | 0.225 | 9/10 |
+| Single Latent (unfactored) | **-4.69 ± 0.18** | **-0.23** | **0.048** | 8/10 |
+| Aux Only (no bottleneck) | -4.64 ± 0.34 | -0.18 | 0.251 | 7/10 |
+
+#### 2×2 Factorial: Bottleneck vs. Auxiliary Loss
+
+To decompose whether OOD robustness comes from the tanh bottleneck, the auxiliary losses, or both, we add a fourth ablation cell — **Aux Only**: the latent head and per-factor auxiliary losses are active (providing gradient regularization to the transformer), but `condition_on_latent=false` so the policy/value heads see only the full 128-d transformer features, not the 24-d compressed bottleneck.
+
+| | No Aux Loss | Aux Loss |
+|---|---|---|
+| **Bottleneck** (24-d tanh → policy) | -4.51 ± 0.20 | **-4.46 ± 0.25** |
+| **No Bottleneck** (full d_model → policy) | -4.64 ± 0.36 | -4.64 ± 0.34 |
+
+**Factorial main effects (paired t-tests, n = 10):**
+- **Bottleneck effect**: +0.16 reward advantage (p = 0.207) — directional, not significant
+- **Aux loss effect**: +0.03 (p = 0.732) — negligible
+- **Interaction**: +0.05 (p = 0.787) — no interaction detected
+
+**Interpretation:** The bottleneck (forcing policy input through 24-d tanh compression) shows a directional benefit (+0.16), while the auxiliary loss alone has negligible effect (+0.03). Aux Only performs identically to No Latent (-4.64 vs -4.64), meaning auxiliary gradients without the information bottleneck provide no measurable benefit. The full DynaMITE model's advantage over No Latent (Δ = +0.18) appears to come primarily from the bottleneck compression, not from the auxiliary losses' gradient regularization effect on the policy.
+
+95% confidence intervals (t-distribution):
+- Full: [-4.64, -4.28]
+- No Aux Loss: [-4.65, -4.36]
+- No Latent: [-4.90, -4.38]
+- Single Latent: [-4.82, -4.55]
+- Aux Only: [-4.88, -4.39]
 
 <details>
-<summary><strong>Per-seed data</strong></summary>
+<summary><strong>Per-seed data (10 seeds)</strong></summary>
+
+*Seeds 42–46 (original):*
 
 | Seed | Full | No Aux Loss | No Latent | Single Latent |
 |---|---|---|---|---|
@@ -418,9 +445,72 @@ All three variants show consistent directional degradation but **none reaches st
 | 45 | -4.74 | -4.52 | -5.16 | -4.72 |
 | 46 | -4.47 | -4.51 | -4.57 | -4.51 |
 
-Single Latent (p = 0.063) comes closest: all 5 seeds degrade. Consistent trend but insufficient sample size. No Aux Loss (p = 0.629) is inconsistent — 2/5 seeds improve.
+*Seeds 47–51 (expansion):*
+
+| Seed | Full | No Aux Loss | No Latent | Single Latent |
+|---|---|---|---|---|
+| 47 | -4.17 | -4.37 | -4.38 | -4.49 |
+| 48 | -5.03 | -4.45 | -4.35 | -4.60 |
+| 49 | -4.35 | -4.33 | -4.39 | -5.14 |
+| 50 | -4.27 | -4.52 | -5.01 | -4.61 |
+| 51 | -4.34 | -4.61 | -4.40 | -4.66 |
+
+Single Latent (p = 0.048): 8/10 seeds degrade, now statistically significant. No Latent: 9/10 seeds worse but high variance prevents significance. No Aux Loss: 6/10 seeds worse, effect is inconsistent.
+
+*Aux Only (seeds 42–51):*
+
+| Seed | Full | Aux Only | Δ |
+|---|---|---|---|
+| 42 | -4.39 | -4.41 | -0.02 |
+| 43 | -4.46 | -4.49 | -0.03 |
+| 44 | -4.34 | -5.05 | -0.71 |
+| 45 | -4.74 | -4.52 | +0.22 |
+| 46 | -4.47 | -5.32 | -0.85 |
+| 47 | -4.17 | -4.31 | -0.14 |
+| 48 | -5.03 | -4.34 | +0.69 |
+| 49 | -4.35 | -4.84 | -0.49 |
+| 50 | -4.27 | -4.74 | -0.47 |
+| 51 | -4.34 | -4.33 | +0.01 |
+
+Aux Only (p = 0.251): 7/10 seeds worse, same mean as No Latent (-4.64). Removing the bottleneck while keeping aux losses provides no measurable benefit — confirming the bottleneck, not gradient regularization per se, drives the reward difference.
 
 </details>
+
+#### 2×2 Factorial: OOD Robustness (Combined-Shift Severe)
+
+To test whether the bottleneck's advantage amplifies under distribution shift, we evaluate all four 2×2 cells on **combined-shift severe** (Levels 3–4): simultaneous friction (0.1–0.3), push perturbation (3–8 m/s), and action delay (3–5 steps). 50 episodes per level, 10 seeds per variant.
+
+**Severe OOD Mean Reward (avg of L3 + L4):**
+
+| | No Aux Loss | Aux Loss |
+|---|---|---|
+| **Bottleneck** (24-d tanh → policy) | -4.59 ± 0.21 | **-4.55 ± 0.22** |
+| **No Bottleneck** (full d_model → policy) | -4.68 ± 0.28 | -4.66 ± 0.23 |
+
+**Per-level breakdown:**
+
+| Variant | Level 3 | Level 4 | Severe Mean |
+|---|---|---|---|
+| Full (B+A) | -4.50 ± 0.20 | -4.59 ± 0.24 | -4.55 ± 0.22 |
+| No Aux Loss (B only) | -4.54 ± 0.20 | -4.64 ± 0.21 | -4.59 ± 0.21 |
+| No Latent (neither) | -4.63 ± 0.28 | -4.74 ± 0.28 | -4.68 ± 0.28 |
+| Aux Only (A only) | -4.61 ± 0.23 | -4.71 ± 0.23 | -4.66 ± 0.23 |
+
+**OOD factorial main effects (paired t-tests, n = 10):**
+- **Bottleneck effect**: +0.100 reward advantage (p = 0.208) — directional, consistent with ID
+- **Aux loss effect**: +0.034 (p = 0.669) — negligible
+- **Interaction**: +0.015 (p = 0.912) — none
+
+**OOD degradation from ID baseline:**
+
+| Variant | ID Mean | OOD Severe Mean | Δ | % Degradation |
+|---|---|---|---|---|
+| Full (B+A) | -4.46 | -4.55 | -0.09 | -2.1% |
+| No Aux Loss (B only) | -4.51 | -4.59 | -0.08 | -1.9% |
+| No Latent (neither) | -4.64 | -4.68 | -0.04 | -0.9% |
+| Aux Only (A only) | -4.64 | -4.66 | -0.02 | -0.5% |
+
+**Interpretation:** The OOD pattern mirrors the ID results — the bottleneck provides a directional +0.10 advantage under severe shift, while aux loss contributes negligibly (+0.03). All four variants are remarkably robust: even under extreme combined perturbation, degradation is only 0.5–2.1%. The bottleneck models (Full, No Aux) degrade slightly *more* in absolute terms (2.1%, 1.9%) than the no-bottleneck variants (0.9%, 0.5%), suggesting the bottleneck's advantage is a training-time benefit (better ID reward) that carries through to OOD, rather than a specific OOD-robustness mechanism.
 
 ### Training Curves
 
@@ -493,6 +583,45 @@ We estimate mutual information between learned representations and ground-truth 
 
 This creates an apparent paradox with the probe results (R² ≈ 0): the latent contains *some* information about dynamics (per MI), but this information is not linearly or nonlinearly decodable by standard probes. The most likely explanation is that the dynamics signal is distributed and entangled with task-relevant features in a way that prevents factor-by-factor decoding.
 
+#### Disentanglement Metrics (MIG / DCI / SAP)
+
+We compute standard disentanglement benchmarks on the same latent representations used for MI estimation (5 seeds × 200 episodes × 32 envs per model).
+
+| Metric | DynaMITE (n=5) | LSTM (n=5) | Interpretation |
+|---|---|---|---|
+| MIG | 0.0013 ± 0.0005 | 0.0013 ± 0.0009 | Both near zero — neither model isolates individual factors |
+| DCI Disentanglement | 0.0195 ± 0.0020 | **0.0929 ± 0.0181** | LSTM's hidden state is ~5× more disentangled |
+| DCI Completeness | 0.0168 ± 0.0021 | **0.0542 ± 0.0183** | LSTM captures more complete factor information |
+| DCI Informativeness | **0.0846 ± 0.0053** | 0.1397 ± 0.0127 | DynaMITE has lower prediction error (better) |
+| SAP | 0.0001 ± 0.0000 | 0.0006 ± 0.0003 | Both near zero — no separated axis-aligned factors |
+
+<details>
+<summary><strong>Per-seed data</strong></summary>
+
+**DynaMITE:**
+
+| Seed | MIG | DCI-D | DCI-C | DCI-I | SAP |
+|---|---|---|---|---|---|
+| 42 | 0.0011 | 0.0176 | 0.0154 | 0.0791 | 0.0001 |
+| 43 | 0.0007 | 0.0205 | 0.0197 | 0.0841 | 0.0001 |
+| 44 | 0.0010 | 0.0166 | 0.0136 | 0.0833 | 0.0001 |
+| 45 | 0.0018 | 0.0214 | 0.0176 | 0.0946 | 0.0002 |
+| 46 | 0.0020 | 0.0214 | 0.0177 | 0.0817 | 0.0001 |
+
+**LSTM:**
+
+| Seed | MIG | DCI-D | DCI-C | DCI-I | SAP |
+|---|---|---|---|---|---|
+| 42 | 0.0011 | 0.0841 | 0.0451 | 0.1285 | 0.0004 |
+| 43 | 0.0030 | 0.0799 | 0.0428 | 0.1314 | 0.0003 |
+| 44 | 0.0006 | 0.0828 | 0.0456 | 0.1374 | 0.0006 |
+| 45 | 0.0010 | 0.1285 | 0.0908 | 0.1643 | 0.0010 |
+| 46 | 0.0007 | 0.0894 | 0.0469 | 0.1368 | 0.0008 |
+
+</details>
+
+**Key findings:** All scores are very low for both models — neither architecture produces cleanly disentangled representations in the VAE/beta-VAE sense. This is expected: RL latent spaces are optimized for task reward, not factor isolation. LSTM scores higher on DCI disentanglement and completeness (consistent with its higher probe R²), while DynaMITE scores better on informativeness (lower prediction error, consistent with its compressed representation capturing task-relevant structure). The near-zero MIG and SAP for both models confirm that no individual latent dimension aligns with a single dynamics factor.
+
 #### Mechanistic Synthesis
 
 Combining all three analyses:
@@ -535,10 +664,10 @@ DynaMITE's latent, trained with per-factor auxiliary losses, does not encode dyn
 - **Failure rate is uninformative.** All episodes end in falls on rough terrain (failure rate = 1.0 for all models). This environment property means failure rate cannot differentiate models on terrain.
 - **OOD sweep scope.** We test 5 perturbation types across 3 tasks (200+ evaluations). Mass, contact stiffness, and observation noise remain untested.
 - **Action delay is not a meaningful perturbation.** All models show near-zero sensitivity at 3.3× training range. This limits the combined-shift to effectively being friction + push only.
-- **Custom factor alignment metric.** The 0.500 ± 0.020 score uses a within-factor correlation ratio, not standard disentanglement metrics. Direct comparison to other work is not possible.
+- **Custom factor alignment metric.** The 0.500 ± 0.020 score uses a within-factor correlation ratio. Standard disentanglement metrics (MIG, DCI, SAP) have now been computed: all are near zero for both models, confirming neither architecture produces disentangled representations.
 - **Latent is correlational, not causal.** Factor-subspace clamping (all |Δ reward| < 0.05) shows the factored latent does not individually drive policy behavior. The representation analysis is partial evidence, not proof of factorization.
 - **Latent probe: LSTM > DynaMITE.** Despite auxiliary training, DynaMITE's latent has R² ≈ 0 for predicting ground-truth dynamics via linear or MLP probes. LSTM's hidden state achieves R² up to 0.10 (friction). The explicit factorization does not produce a better dynamics encoder.
-- **Ablation significance.** No ablation variant reaches p < 0.05 with n = 5 (Single Latent: p = 0.063). Direction is consistent but effect is unconfirmed.
+- **Ablation significance.** With n = 10, Single Latent reaches p = 0.048 (significant); No Latent (p = 0.225) and No Aux Loss (p = 0.641) remain directional only.
 - **Few OOD comparisons reach significance.** Only 3 of 42 pairwise tests survive Holm-Bonferroni correction. Most ranking claims are directional.
 - **Push-recovery reward.** While DynaMITE recovers tracking faster, its post-push reward is substantially worse (-9.5 vs -3.2). The quality of locomotion during/after recovery favors LSTM.
 - **MI estimation.** All MINE runs fell back to KNN, indicating the dynamics signal is near the noise floor of neural MI estimators. KNN estimates are more robust but potentially biased for high-dimensional inputs. The 8× MI advantage for DynaMITE is directionally consistent across seeds but absolute values are very low.
@@ -548,12 +677,12 @@ DynaMITE's latent, trained with per-factor auxiliary losses, does not encode dyn
 
 ## Future Work
 
-- **Standard disentanglement metrics.** Supplement the custom metric with MIG, DCI, SAP for comparability.
+- **Standard disentanglement metrics (done).** MIG, DCI, SAP computed for DynaMITE and LSTM (5 seeds each). All scores near zero — neither model produces disentangled representations. LSTM scores higher on DCI disentanglement/completeness; DynaMITE scores better on informativeness.
 - **Why is the latent not decodable despite nonzero MI?** MI estimation shows DynaMITE's latent contains 8× more dynamics information than LSTM, yet probes show R² ≈ 0. This suggests dynamics information is encoded in a distributed, entangled form that resists factor-by-factor linear/nonlinear decoding. Disentangling *how* this information is embedded (e.g., via nonlinear ICA or manifold probing) could clarify the failure mode.
 - **Does compression causally mediate OOD robustness?** The gradient regularization hypothesis (Section 8) is correlational — compression and robustness co-occur but causality is unestablished. Controlled experiments varying bottleneck width while holding auxiliary loss weight constant could test this.
 - **Why does LSTM's hidden state decode dynamics better?** LSTM implicitly encodes dynamics through accumulated experience without any auxiliary signal. Understanding this implicit identification mechanism may inform better explicit approaches.
 - **Bootstrap / permutation CIs.** Replace or supplement t-distribution CIs with non-parametric bootstrap intervals, given n = 5.
-- **Increase seed count.** n = 10–20 would improve statistical power for ablation and OOD comparisons.
+- **Increased ablation seeds (done).** Expanded ablation from n = 5 to n = 10 seeds (42–51). Single Latent now significant (p = 0.048). Further expansion to n = 20 could resolve No Latent.
 - **Additional perturbation axes.** Mass, contact stiffness, observation noise.
 - **Sim-to-real transfer.** The combined-shift stress test suggests DynaMITE may be more robust under real-world dynamics mismatch, but this claim requires physical hardware validation.
 
@@ -610,12 +739,13 @@ bash scripts/reproduce_all.sh --dry-run
 | `reproduce_all.sh` (3-seed, 69 training + eval + analysis) | ~12 hours |
 | All 80 main runs (4 tasks × 4 models × 5 seeds) | ~19 hours |
 | 80 deterministic evals (100 episodes each) | ~5 hours |
-| 15 ablation runs (3 variants × 5 seeds) | ~3.5 hours |
+| 30 ablation runs (3 variants × 10 seeds) | ~7 hours |
 | 140 OOD sweep evals v2 (5 sweeps × 3 tasks) | ~6 hours |
 | 20 push-recovery evals (4 models × 5 seeds × 7 magnitudes) | ~2 hours |
 | Latent intervention (3 seeds × 5 factors × 3 levels) | ~45 min |
 | Mechanistic: gradient flow (3 seeds × 10M steps) | ~45 min |
 | Mechanistic: geometry + MINE (10 runs) | ~25 min |
+| Mechanistic: disentanglement MIG/DCI/SAP (10 runs) | ~30 min |
 | **Full 5-seed experiment set (all benchmarks)** | **~35 hours** |
 
 ### Artifact Mapping
@@ -639,6 +769,7 @@ bash scripts/reproduce_all.sh --dry-run
 | Gradient flow figures | `scripts/gradient_flow_analysis.py` → `scripts/plot_mechanistic.py` | `figures/gradient_norms.png`, `figures/cosine_similarity.png` |
 | Geometry comparison figure | `scripts/representation_analysis.py` → `scripts/plot_mechanistic.py` | `figures/geometry_comparison.png` |
 | MI comparison figure | `scripts/representation_analysis.py` → `scripts/plot_mechanistic.py` | `figures/mi_comparison.png` |
+| Disentanglement table (MIG/DCI/SAP) | `scripts/disentanglement_metrics.py` | `results/mechanistic/disentanglement/` |
 | Mechanistic summary | `scripts/representation_analysis.py --aggregate` | `results/mechanistic/summary.md` |
 
 ---

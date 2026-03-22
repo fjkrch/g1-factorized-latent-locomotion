@@ -277,6 +277,10 @@ def main():
         combined_params = sweep_cfg["sweep"].get("combined_params", None)
 
         print(f"[Eval] Robustness sweep: {sweep_name} ({len(values)} levels)")
+        # Extract training seed from checkpoint path
+        _ts_match = re.search(r'seed_(\d+)', str(ckpt_path))
+        _training_seed = int(_ts_match.group(1)) if _ts_match else None
+
         sweep_results = {
             "sweep_name": sweep_name,
             "parameter": variable,
@@ -284,7 +288,8 @@ def main():
             "checkpoint": str(ckpt_path),
             "task": cfg["task"]["name"],
             "model": cfg["model"]["name"],
-            "seed": args.seed,
+            "eval_seed": args.seed,
+            "training_seed": _training_seed,
             "num_episodes": args.num_episodes,
             "timestamp": datetime.now().isoformat(),
             "results": [],
@@ -341,11 +346,15 @@ def main():
         wall_time = time.time() - start_time
 
         # Enrich output with metadata
+        _ts_match = re.search(r'seed_(\d+)', str(ckpt_path))
+        _training_seed = int(_ts_match.group(1)) if _ts_match else None
+
         result = {
             "checkpoint": str(ckpt_path),
             "task": cfg["task"]["name"],
             "model": cfg["model"]["name"],
-            "seed": args.seed,
+            "eval_seed": args.seed,
+            "training_seed": _training_seed,
             "num_episodes": args.num_episodes,
             "timestamp": datetime.now().isoformat(),
             "wall_time_s": round(wall_time, 2),

@@ -30,7 +30,8 @@
   "checkpoint": "outputs/randomized/mlp_full/seed_43/20260319_041436/checkpoints/best.pt",
   "task": "randomized",
   "model": "mlp",
-  "seed": 42,
+  "eval_seed": 42,
+  "training_seed": 43,
   "num_episodes": 50,
   "timestamp": "2026-03-20T10:04:19.304590",
   "results": [

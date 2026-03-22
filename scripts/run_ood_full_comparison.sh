@@ -35,7 +35,7 @@ export PYTHON_CMD="$ISAAC_PYTHON"
 
 TASK="randomized"
 MODELS=(mlp lstm transformer dynamite)
-SEEDS=(42 43 44 45 46)
+SEEDS=(47 48 49 50 51)
 SWEEPS=(friction push_magnitude action_delay)
 NUM_EPISODES=50
 EVAL_SEED=42

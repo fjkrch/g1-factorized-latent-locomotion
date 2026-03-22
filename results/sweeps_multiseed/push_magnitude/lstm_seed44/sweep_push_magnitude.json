@@ -30,7 +30,8 @@
   "checkpoint": "outputs/randomized/lstm_full/seed_44/20260319_054156/checkpoints/best.pt",
   "task": "randomized",
   "model": "lstm",
-  "seed": 44,
+  "eval_seed": 44,
+  "training_seed": 44,
   "num_episodes": 50,
   "timestamp": "2026-03-19T19:22:43.919795",
   "results": [

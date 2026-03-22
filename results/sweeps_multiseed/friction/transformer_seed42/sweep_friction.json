@@ -26,7 +26,8 @@
   "checkpoint": "outputs/randomized/transformer_full/seed_42/20260319_062533/checkpoints/best.pt",
   "task": "randomized",
   "model": "transformer",
-  "seed": 42,
+  "eval_seed": 42,
+  "training_seed": 42,
   "num_episodes": 50,
   "timestamp": "2026-03-20T10:11:32.376237",
   "results": [

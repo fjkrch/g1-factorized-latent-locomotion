@@ -26,7 +26,8 @@
   "checkpoint": "outputs/randomized/lstm_full/seed_43/20260319_052725/checkpoints/best.pt",
   "task": "randomized",
   "model": "lstm",
-  "seed": 43,
+  "eval_seed": 43,
+  "training_seed": 43,
   "num_episodes": 50,
   "timestamp": "2026-03-19T19:24:54.778246",
   "results": [

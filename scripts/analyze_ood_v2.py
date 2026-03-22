@@ -33,7 +33,7 @@ MODEL_LABELS = {
     "transformer": "Transformer",
     "mlp": "MLP",
 }
-SEEDS = [42, 43, 44, 45, 46]
+SEEDS = [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
 
 # Sweep configs
 SWEEPS_RANDOMIZED = ["friction", "push_magnitude", "action_delay",

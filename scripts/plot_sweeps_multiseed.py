@@ -66,7 +66,7 @@ def main():
 
     sweep_order = ["friction", "action_delay", "push_magnitude"]
     models = ["dynamite", "lstm", "transformer", "mlp"]
-    seeds = [42, 43, 44, 45, 46]
+    seeds = [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 

@@ -61,6 +61,9 @@ figures/*.svg
 # Paper draft (generated, do not commit)
 paper_draft/
 
+# Workshop draft (anonymous submission, do not commit)
+workshop_draft/
+
 # Environment
 .env
 

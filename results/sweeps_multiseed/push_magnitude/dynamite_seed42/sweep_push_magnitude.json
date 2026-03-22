@@ -30,7 +30,8 @@
   "checkpoint": "outputs/randomized/dynamite_full/seed_42/20260319_074656/checkpoints/best.pt",
   "task": "randomized",
   "model": "dynamite",
-  "seed": 42,
+  "eval_seed": 42,
+  "training_seed": 42,
   "num_episodes": 50,
   "timestamp": "2026-03-19T19:20:30.579088",
   "results": [
